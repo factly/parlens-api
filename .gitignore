@@ -1,0 +1,6 @@
+.config
+.data
+.env
+.glitch-assets
+.node-gyp
+node_modules

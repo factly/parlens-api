@@ -15,7 +15,7 @@ app.use(express.static('public'));
 
 // init sqlite db
 var fs = require('fs');
-var ls_with_ministers = fs.readFileSync('./ls_with_ministers.json');
+var ls_with_ministers = fs.readFileSync('./ls_16_member_list.json');
 var data = JSON.parse(ls_with_ministers);
 
 // http://expressjs.com/en/starter/basic-routing.html

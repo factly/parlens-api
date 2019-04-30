@@ -1,0 +1,21 @@
+{
+  "name": "parliament-search-api",
+  "description": "APIs for Parliament Search Portal",
+  "main": "index.js",
+  "author": "Ishank",
+  "moduleType": [
+    "amd"
+  ],
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "requirejs": "^2.1.16"
+  }
+}

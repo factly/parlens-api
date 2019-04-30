@@ -1,2 +1,4 @@
-# parliament-search-app
-APIs and frontend for Parliament Search application
+Parliament-Search-API
+===========
+
+APIs for Parliament Search Portal

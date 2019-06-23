@@ -2,7 +2,7 @@
   "generator-kraken": {
     "taskModule": "grunt",
     "lintModule": "eslint",
-    "description": "APIs for Parliament Search Portal",
+    "description": "The REST APIs for Parliament Search",
     "author": "Ishank",
     "templateModule": "makara",
     "i18n": "i18n",

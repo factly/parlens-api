@@ -1,7 +1,7 @@
 {
-    "name": "parliament-search-api",
+    "name": "parliament-search-apis",
     "version": "0.1.0",
-    "description": "APIs for Parliament Search Portal",
+    "description": "The REST APIs for Parliament Search",
     "author": "Ishank",
     "main": "index.js",
     "scripts": {

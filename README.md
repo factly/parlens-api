@@ -1,4 +1,4 @@
-Parliament-Search-API
+parliament-search-apis
 ===========
 
-APIs for Parliament Search Portal
+The REST APIs for Parliament Search

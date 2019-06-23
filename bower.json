@@ -1,6 +1,6 @@
 {
-  "name": "parliament-search-api",
-  "description": "APIs for Parliament Search Portal",
+  "name": "parliament-search-apis",
+  "description": "The REST APIs for Parliament Search",
   "main": "index.js",
   "author": "Ishank",
   "moduleType": [

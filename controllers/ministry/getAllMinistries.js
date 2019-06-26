@@ -1,18 +1,22 @@
 'use strict';
 
-var GetAllMinistriesModel = require('../../models/getAllMinistries');
+const GetAllMinistriesModel = require('../../models/getAllMinistries');
+const Q = require('q');
 
+
+function getAllMinistries(req, res, next) {
+    const logger = req.logger;
+    var model = GetAllMinistriesModel;
+    Q(model.getAllMinistries()).
+        then((result) => {
+            if (result) {
+                res.status(200).json(result);
+            }
+            res.sendStatus(404);
+            res.end();
+        });
+}
 
 module.exports = function (router) {
-
-    var model = new GetAllMinistriesModel();
-
-    router.get('/', function (req, res) {
-        
-        
-        res.render('ministry/getAllMinistries', model);
-        
-        
-    });
-
+    router.get('/', getAllMinistries);
 };

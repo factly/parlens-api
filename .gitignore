@@ -1,2 +1,6 @@
+#Node Modules
 node_modules
+
+#Misc
 Scratchpad
+.env

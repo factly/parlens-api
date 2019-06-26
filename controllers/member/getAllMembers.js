@@ -1,18 +1,22 @@
 'use strict';
 
-var GetAllMembersModel = require('../../models/getAllMembers');
+const GetAllMembersModel = require('../../models/getAllMembers');
+const Q = require('q');
 
+
+function getAllMembers(req, res, next) {
+    const logger = req.logger;
+    var model = GetAllMembersModel;
+    Q(model.getAllMembers()).
+        then((result) => {
+            if (result) {
+                res.status(200).json(result);
+            }
+            res.sendStatus(404);
+            res.end();
+        });
+}
 
 module.exports = function (router) {
-
-    var model = new GetAllMembersModel();
-
-    router.get('/', function (req, res) {
-        
-        
-        res.render('member/getAllMembers', model);
-        
-        
-    });
-
+    router.get('/', getAllMembers);
 };

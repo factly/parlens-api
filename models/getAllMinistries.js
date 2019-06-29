@@ -1,62 +1,27 @@
-'use strict';
-// const MongoBase = require('../lib/MongoBase');
-const database = require('../lib/database');
+const MongoBase = require('../lib/MongoBase');
 const Q = require('q');
+// const MongoPaging = require('mongo-cursor-pagination');
+const utils = require('../lib/utils');
 
-class GetAllMinistriesModel {
-
-    constructor () {
-        this.response = null;
-        this.collection = "ministries";
+class MinistriesModel extends MongoBase {
+    /**
+     * Creates a new MinistriesModel.
+     * @param logger The logger to use.
+     * @param errorCode The errorCode to use when generating errors.
+     */
+    constructor(logger) {
+        super(logger, 'ministries');
+        this.logger = logger;
     }
-    
-    // /**
-    //  * Creates a new CategoryModel.
-    //  * @param logger The logger to use.
-    //  * @param errorCode The errorCode to use when generating errors.
-    //  */
-    // constructor(logger) {
-    //     super(logger, 'allMinistries');
-    //     this.logger = logger;
-    //     this.collectionName = "ministries";
-    // }
-
-    // getAllMinistries() {
-    //     const database = process.env.db;
-    //     return Q(mongodb.find(this.collection(database),{})).then(
-    //         (result) => {
-    //             this.logger.info('Retrieved the results');
-    //             const response = result;
-    //             return response;
-    //         }
-    //     );
-    // }
 
     getAllMinistries() {
-        if (!this.response) {
-            return Q(database.db.collection(this.collection))
-            .then((ret, err) => {
-                ret.find({}).toArray((err,result) => {
-                    this.response = result;
-                    return this.response;
-                })
+        return Q(this.collection().find({}).toArray())
+            .then((result) => {
+                // this.logger.info('Retrieved the results');
+                // console.log(result);
+                return result;
             });
-        }
-        else {
-            return this.response;
-        }
     }
 }
-// module.exports = function GetAllMinistriesModel() {
-//     // mongoClient = database.
-//     // return {
-//     //     name: 'getAllMinistries'
-//     // };
-//     return {
-//         "a":1,
-//         "n":2
-//     }
-// };
-var model = new GetAllMinistriesModel();
 
-module.exports = model;
+module.exports = MinistriesModel;

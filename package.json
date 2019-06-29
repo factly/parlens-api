@@ -23,7 +23,8 @@
         "makara": "^2.0.3",
         "mongodb": "^3.2.7",
         "q": "^1.5.1",
-        "requirejs": "^2.3.6"
+        "requirejs": "^2.3.6",
+        "winston": "^3.2.1"
     },
     "devDependencies": {
         "grunt": "^0.4.5",

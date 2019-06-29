@@ -1,38 +1,26 @@
-'use strict';
-const database = require('../lib/database');
+const MongoBase = require('../lib/MongoBase');
 const Q = require('q');
+const utils = require('../lib/utils');
 
-class GetAllConstituenciesModel {
-
-    constructor () {
-        this.response = null;
-        this.collection = "constituencies";
+class GetAllConstituenciesModel extends MongoBase {
+    /**
+     * Creates a new GetAllConstituenciesModel.
+     * @param logger The logger to use.
+     * @param errorCode The errorCode to use when generating errors.
+     */
+    constructor(logger) {
+        super(logger, 'constituencies');
+        this.logger = logger;
     }
 
     getAllConstituencies() {
-        if (!this.response) {
-            return Q(database.db.collection(this.collection))
-            .then((ret, err) => {
-                ret.find({}).toArray((err,result) => {
-                    this.response = result;
-                    return this.response;
-                })
+        return Q(this.collection().find({}).toArray())
+            .then((result) => {
+                // this.logger.info('Retrieved the results');
+                // console.log(result);
+                return result;
             });
-        }
-        else {
-            return this.response;
-        }
     }
 }
 
-var model = new GetAllConstituenciesModel();
-
-module.exports = model;
-
-// 'use strict';
-
-// module.exports = function GetAllConstituenciesModel() {
-//     return {
-//         name: 'getAllConstituencies'
-//     };
-// };
+module.exports = GetAllConstituenciesModel;

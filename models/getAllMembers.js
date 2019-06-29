@@ -1,30 +1,26 @@
-'use strict';
-const database = require('../lib/database');
+const MongoBase = require('../lib/MongoBase');
 const Q = require('q');
+const utils = require('../lib/utils');
 
-class GetAllMembersModel {
-
-    constructor () {
-        this.response = null;
-        this.collection = "current_ls_members";
+class GetAllMembersModel extends MongoBase {
+    /**
+     * Creates a new GetAllMembersModel.
+     * @param logger The logger to use.
+     * @param errorCode The errorCode to use when generating errors.
+     */
+    constructor(logger) {
+        super(logger, 'current_ls_members');
+        this.logger = logger;
     }
 
     getAllMembers() {
-        if (!this.response) {
-            return Q(database.db.collection(this.collection))
-            .then((ret, err) => {
-                ret.find({}).toArray((err,result) => {
-                    this.response = result;
-                    return this.response;
-                })
+        return Q(this.collection().find({}).toArray())
+            .then((result) => {
+                // this.logger.info('Retrieved the results');
+                // console.log(result);
+                return result;
             });
-        }
-        else {
-            return this.response;
-        }
     }
 }
 
-var model = new GetAllMembersModel();
-
-module.exports = model;
+module.exports = GetAllMembersModel;

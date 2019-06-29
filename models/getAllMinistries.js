@@ -1,11 +1,10 @@
 const MongoBase = require('../lib/MongoBase');
 const Q = require('q');
-// const MongoPaging = require('mongo-cursor-pagination');
 const utils = require('../lib/utils');
 
-class MinistriesModel extends MongoBase {
+class GetAllMinistriesModel extends MongoBase {
     /**
-     * Creates a new MinistriesModel.
+     * Creates a new GetAllMinistriesModel.
      * @param logger The logger to use.
      * @param errorCode The errorCode to use when generating errors.
      */
@@ -24,4 +23,4 @@ class MinistriesModel extends MongoBase {
     }
 }
 
-module.exports = MinistriesModel;
+module.exports = GetAllMinistriesModel;

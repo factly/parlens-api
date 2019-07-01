@@ -4,7 +4,6 @@ const utils = require('../../lib/utils');
 function getMemberById(req, res, next) {
     const logger = req.logger;
     const model = new GetMemberByIdModel(logger);
-    console.log(req.params);
     return model.getMemberById(req.params.id)
     .then((result) => {
         if (result) {

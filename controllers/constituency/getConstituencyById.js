@@ -1,10 +1,10 @@
-const GetMemberByIdModel = require('../../models/getMemberById');
+const GetConstituencyByIdModel = require('../../models/getConstituencyById');
 const utils = require('../../lib/utils');
 
-function getMemberById(req, res, next) {
+function getConstituencyById(req, res, next) {
     const logger = req.logger;
-    const model = new GetMemberByIdModel(logger);
-    return model.getMemberById(req.params.id)
+    const model = new GetConstituencyByIdModel(logger);
+    return model.getConstituencyById(req.params.id)
         .then((result) => {
             if (result) {
                 res.status(200).json(result);
@@ -15,5 +15,5 @@ function getMemberById(req, res, next) {
 }
 
 module.exports = function routes(router) {
-    router.get('/:id', getMemberById);
+    router.get('/:id', getConstituencyById);
 };

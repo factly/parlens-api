@@ -1,0 +1,17 @@
+# To Do:
+# Add working directory
+
+version: "3"
+
+services:
+    parliament-search-api:
+        build:
+            dockerfile: Dockerfile
+            context: .
+        container_name: parliament-search-api
+        restart: always
+        # environment:
+        #     - MONGODB_URI=192.168.43.173:27017
+        ports:
+            - "8000:8000"
+        command: "npm run start"

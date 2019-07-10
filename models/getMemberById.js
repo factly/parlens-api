@@ -1,6 +1,6 @@
-const MongoBase = require('../lib/MongoBase');
-const Q = require('q');
-const utils = require('../lib/utils');
+var MongoBase = require('../lib/MongoBase');
+var Q = require('q');
+var utils = require('../lib/utils');
 
 class GetMemberByIdModel extends MongoBase {
     /**

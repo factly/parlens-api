@@ -1,8 +1,8 @@
-var constituenciesModel = require('../../../models/constituencies');
-var model = new constituenciesModel();
+const ConstituenciesModel = require('../../../models/constituencies');
+const model = new ConstituenciesModel();
 function getAllConstituencies(req, res, next) {
     var logger = req.logger;
-    // var model = new constituenciesModel(logger);
+    // var model = new ConstituenciesModel(logger);
     return model.getAllConstituencies(logger)
     .then((result) => {
         if (result) {
@@ -15,7 +15,7 @@ function getAllConstituencies(req, res, next) {
 
 function getConstituencyById(req, res, next) {
     var logger = req.logger;
-    // var model = new constituenciesModel(logger);
+    // var model = new ConstituenciesModel(logger);
     return model.getConstituencyById(req.params.id, logger)
         .then((result) => {
             if (result) {
@@ -29,9 +29,8 @@ function getConstituencyById(req, res, next) {
 
 module.exports = function routes(router) {
     router.get('/', function(req, res) {
-        res.send("Constituencies APIs");
-        res.sendStatus(200);
+        res.end("Constituencies APIs");
     })
-    router.get('/getallconstituencies', getAllConstituencies);
-    router.get('/getConstituencyById/:id', getConstituencyById);
+    router.get('/all', getAllConstituencies);
+    router.get('/:id', getConstituencyById);
 };

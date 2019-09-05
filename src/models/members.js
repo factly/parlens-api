@@ -7,7 +7,7 @@ const WinnerSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'parties' 
   },
-  from: {
+  constituency: {
     type: Schema.Types.ObjectId,
     ref: 'constituencies'
   },
@@ -66,7 +66,7 @@ const MembersSchema = new Schema({
     type: [String],
     default: []
   },
-  wins: {
+  terms: {
     type: [WinnerSchema],
     minlength: 1
   }

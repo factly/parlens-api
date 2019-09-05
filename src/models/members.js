@@ -11,7 +11,7 @@ const WinnerSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'constituencies'
   },
-  type: {
+  house: {
     type: String,
     enum: ['loksabha', 'rajyasaba'],
     required: true

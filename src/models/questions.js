@@ -10,7 +10,7 @@ const QuestionsSchema = new Schema({
     max: 200
   },
   type: {
-    type: Boolean,
+    type: String,
     require: true 
   },
   question: {
@@ -22,7 +22,7 @@ const QuestionsSchema = new Schema({
   asked: {
     type: [{
       type: Schema.Types.ObjectId,
-      ref: 'Members'
+      ref: 'members'
     }],
     required: true,
     minlength: 1
@@ -44,4 +44,4 @@ const QuestionsSchema = new Schema({
   }
 })
 
-export const Questions = mongoose.model("Questions", QuestionsSchema);
+export const Questions = mongoose.model("questions", QuestionsSchema);

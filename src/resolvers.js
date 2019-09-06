@@ -5,7 +5,7 @@ import { Questions } from './models/Questions';
 
 export const resolvers = {
   Query: {
-    members: () => Members.find().populate('terms.party').populate('terms.constituency'),
+    members: () => Members.find().populate('terms.party terms.constituency'),
     member: (_, {
       name, gender, dob, marital_status, sons, daughters, education, profession, term, party, constituency, house, session,
     }) => {
@@ -36,32 +36,35 @@ export const resolvers = {
     question: (_, {
       subject, type, question, answer, askedBy, ministry, name, gender, dob, marital_status, sons, daughters, education, profession, term, party, constituency, house, session,
     }) => {
-      if (name || gender || dob || marital_status || sons || daughters || education || profession || term || party || constituency || house || session) {
-        const filterList = {};
-        if (name) filterList.name = { $regex: name, $options: 'i' };
-        if (gender) filterList.gender = gender;
-        if (dob) filterList.dob = dob;
-        if (marital_status) filterList.marital_status = marital_status;
-        if (sons) filterList.sons = sons;
-        if (daughters) filterList.daughters = daughters;
-        if (education) filterList.education = education;
-        if (profession) filterList.profession = { $in: [profession] };
-        if (term) filterList.terms = { $size: term };
-        if (party) filterList['terms.party'] = party;
-        if (constituency) filterList['terms.constituency'] = constituency;
-        if (house) filterList['terms.house'] = house;
-        if (session) filterList['terms.session'] = session;
+      const filterMemberList = {};
+      const filterList = {};
 
-        return Members.find(filterList, '_id')
+      if (name) filterMemberList.name = { $regex: name, $options: 'i' };
+      if (gender) filterMemberList.gender = gender;
+      if (dob) filterMemberList.dob = dob;
+      if (marital_status) filterMemberList.marital_status = marital_status;
+      if (sons) filterMemberList.sons = sons;
+      if (daughters) filterMemberList.daughters = daughters;
+      if (education) filterMemberList.education = education;
+      if (profession) filterMemberList.profession = { $in: [profession] };
+      if (term) filterMemberList.terms = { $size: term };
+      if (party) filterMemberList['terms.party'] = party;
+      if (constituency) filterMemberList['terms.constituency'] = constituency;
+      if (house) filterMemberList['terms.house'] = house;
+      if (session) filterMemberList['terms.session'] = session;
+
+      if (subject) filterList.subject = { $regex: subject, $options: 'i' };
+      if (type) filterList.type = type;
+      if (question) filterList.question = { $regex: question, $options: 'i' };
+      if (answer) filterList.answer = { $regex: answer, $options: 'i' };
+      if (ministry) filterList.ministry = { $regex: ministry, $options: 'i' };
+      if (askedBy) filterList.askedBy = { $in: [askedBy] };
+
+      if (Object.keys(filterMemberList).length > 0) {
+        return Members.find(filterMemberList, '_id')
           .then(members => members.map(member => member._id))
           .then((askList) => {
-            const filterList = {};
-            if (subject) filterList.subject = { $regex: subject, $options: 'i' };
-            if (type) filterList.type = type;
-            if (question) filterList.question = { $regex: question, $options: 'i' };
-            if (answer) filterList.answer = { $regex: answer, $options: 'i' };
-            if (ministry) filterList.ministry = { $regex: ministry, $options: 'i' };
-            if (askList.length > 0) filterList.askedBy = { $in: askList };
+            filterList.askedBy = { $in: askList.concat(askedBy || []) };
             return Questions.find(filterList).populate({
               path: 'askedBy',
               populate: {
@@ -70,14 +73,7 @@ export const resolvers = {
             });
           });
       }
-      const filterList = {};
 
-      if (subject) filterList.subject = { $regex: subject, $options: 'i' };
-      if (type) filterList.type = type;
-      if (question) filterList.question = { $regex: question, $options: 'i' };
-      if (answer) filterList.answer = { $regex: answer, $options: 'i' };
-      if (ministry) filterList.ministry = { $regex: ministry, $options: 'i' };
-      if (askedBy) filterList.askedBy = { $in: [askedBy] };
       return Questions.find(filterList).populate({
         path: 'askedBy',
         populate: {

@@ -13,16 +13,16 @@ export const resolvers = {
       if (name) filterList.name = { $regex: name, $options: 'i' };
       if (gender) filterList.gender = gender;
       if (dob) filterList.dob = dob;
-      if (marital_status) filterList.marital_status = marital_status;
+      if (marital_status) filterList.marital_status = { $in : marital_status };
       if (sons) filterList.sons = sons;
       if (daughters) filterList.daughters = daughters;
-      if (education) filterList.education = education;
-      if (profession) filterList.profession = { $in: [profession] };
+      if (education) filterList.education = { $in : education };
+      if (profession) filterList.profession = { $in: profession };
       if (term) filterList.terms = { $size: term };
-      if (party) filterList['terms.party'] = party;
-      if (constituency) filterList['terms.constituency'] = constituency;
+      if (party) filterList['terms.party'] = { $in: party };
+      if (constituency) filterList['terms.constituency'] = { $in: constituency };
       if (house) filterList['terms.house'] = house;
-      if (session) filterList['terms.session'] = session;
+      if (session) filterList['terms.session'] = { $in: session };
       return Members.find(filterList).populate('terms.party terms.constituency');
     },
     parties: () => Parties.find(),

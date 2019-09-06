@@ -3,7 +3,7 @@ import { gql } from "apollo-server";
 export const typeDefs = gql`
   type Query {
     members: [Member!]!  
-    member(name: String, gender: String, dob: String, marital_status: String, sons: Int, daughters: Int, education: String, profession: String, term: Int, party: String, constituency: String, house: String, session: Int): [Member]!
+    member(name: String, gender: String, dob: String, marital_status: [String], sons: Int, daughters: Int, education: [String], profession: [String], term: Int, party: [ID], constituency: [ID], house: String, session: [Int]): [Member]!
     parties: [Party!]!
     constituencies: [Constituency!]!
     questions: [Question!]!

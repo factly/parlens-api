@@ -63,24 +63,6 @@ export const resolvers = {
       if (ministry) filterList.ministry = { $regex: ministry, $options: 'i' };
       if (askedBy) filterList.askedBy = { $in: askedBy };
 
-      /*if (Object.keys(filterMemberList).length > 0) {
-        return Members.find(filterMemberList, '_id')
-          .then(members => members.map(member => member._id))
-          .then((askList) => {
-            filterList.askedBy = { $in: askList.concat(askedBy || []) };
-            return Questions.find(filterList).populate({
-              path: 'askedBy',
-              populate: {
-                path: 'terms.party terms.constituency',
-              },
-              match: filterMemberList
-            });
-          })
-          .then((latest) => {
-            return latest.filter(each => each.askedBy.length > 0)
-          });
-      }*/
-
       return Questions.find(filterList).populate({
         path: 'askedBy',
         populate: {
@@ -109,7 +91,8 @@ export const resolvers = {
       return constituency;
     },
     createMember: async (_, {
-      name, gender, dob, birth_place, marital_status, sons, daughters, education, profession, party, constituency, house, session,
+      name, gender, dob, birth_place, marital_status, sons, daughters, education, profession, 
+      party, constituency, house, session,
     }) => {
       const temp = [];
       temp.push(profession);

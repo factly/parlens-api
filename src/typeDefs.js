@@ -7,7 +7,7 @@ export const typeDefs = gql`
     parties: [Party!]!
     constituencies: [Constituency!]!
     questions: [Question!]!
-    question(subject: String, type: String, question: String, askedBy: String, answer: String, ministry: String, name: String, gender: String, dob: String, marital_status: String, sons: Int, daughters: Int, education: String, profession: String, term: Int, party: String, constituency: String, house: String, session: Int): [Question!]!
+    question(subject: String, type: String, question: String, askedBy: [ID], answer: String, ministry: String, name: String, gender: String, dob: String, marital_status: [String], sons: Int, daughters: Int, education: [String], profession: [String], term: Int, party: [ID], constituency: [ID], house: String, session: [Int]): [Question!]!
   }
   type Mutation {
     createParty(name: String!, abbr: String!): Party!

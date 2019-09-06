@@ -7,7 +7,8 @@ export const resolvers = {
   Query: {
     members: () => Members.find().populate('terms.party terms.constituency'),
     member: (_, {
-      name, gender, dob, marital_status, sons, daughters, education, profession, term, party, constituency, house, session,
+      name, gender, dob, marital_status, sons, daughters, education, profession, 
+      term, party, constituency, house, session,
     }) => {
       const filterList = {};
       if (name) filterList.name = { $regex: name, $options: 'i' };
@@ -34,7 +35,9 @@ export const resolvers = {
       },
     }),
     question: (_, {
-      subject, type, question, answer, askedBy, ministry, name, gender, dob, marital_status, sons, daughters, education, profession, term, party, constituency, house, session,
+      subject, type, question, answer, askedBy, ministry, 
+      name, gender, dob, marital_status, sons, daughters, education, profession, 
+      term, party, constituency, house, session,
     }) => {
       const filterMemberList = {};
       const filterList = {};
@@ -42,25 +45,25 @@ export const resolvers = {
       if (name) filterMemberList.name = { $regex: name, $options: 'i' };
       if (gender) filterMemberList.gender = gender;
       if (dob) filterMemberList.dob = dob;
-      if (marital_status) filterMemberList.marital_status = marital_status;
+      if (marital_status) filterMemberList.marital_status = { $in : marital_status };
       if (sons) filterMemberList.sons = sons;
       if (daughters) filterMemberList.daughters = daughters;
-      if (education) filterMemberList.education = education;
-      if (profession) filterMemberList.profession = { $in: [profession] };
+      if (education) filterMemberList.education = { $in : education };
+      if (profession) filterMemberList.profession = { $in: profession };
       if (term) filterMemberList.terms = { $size: term };
-      if (party) filterMemberList['terms.party'] = party;
-      if (constituency) filterMemberList['terms.constituency'] = constituency;
+      if (party) filterMemberList['terms.party'] = { $in : party };
+      if (constituency) filterMemberList['terms.constituency'] = { $in : constituency };
       if (house) filterMemberList['terms.house'] = house;
-      if (session) filterMemberList['terms.session'] = session;
+      if (session) filterMemberList['terms.session'] = { $in : session };
 
       if (subject) filterList.subject = { $regex: subject, $options: 'i' };
       if (type) filterList.type = type;
       if (question) filterList.question = { $regex: question, $options: 'i' };
       if (answer) filterList.answer = { $regex: answer, $options: 'i' };
       if (ministry) filterList.ministry = { $regex: ministry, $options: 'i' };
-      if (askedBy) filterList.askedBy = { $in: [askedBy] };
+      if (askedBy) filterList.askedBy = { $in: askedBy };
 
-      if (Object.keys(filterMemberList).length > 0) {
+      /*if (Object.keys(filterMemberList).length > 0) {
         return Members.find(filterMemberList, '_id')
           .then(members => members.map(member => member._id))
           .then((askList) => {
@@ -70,15 +73,23 @@ export const resolvers = {
               populate: {
                 path: 'terms.party terms.constituency',
               },
+              match: filterMemberList
             });
+          })
+          .then((latest) => {
+            return latest.filter(each => each.askedBy.length > 0)
           });
-      }
+      }*/
 
       return Questions.find(filterList).populate({
         path: 'askedBy',
         populate: {
           path: 'terms.party terms.constituency',
         },
+        match: filterMemberList
+      })
+      .then((latest) => {
+        return latest.filter(each => each.askedBy.length > 0)
       });
     },
   },

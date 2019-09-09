@@ -29,13 +29,13 @@ export const resolvers = {
     parties: () => Parties.find(),
     constituencies: () => Constituencies.find(),
     questions: () => Questions.find().populate({
-      path: 'questionedBy',
+      path: 'questionBy',
       populate: {
         path: 'terms.party terms.constituency',
       },
     }),
     question: (_, {
-      subject, type, question, answer, questionedBy, ministry, 
+      subject, type, question, answer, questionBy, ministry, 
       name, gender, dob, marital_status, sons, daughters, education, profession, 
       term, party, constituency, house, session,
     }) => {
@@ -61,17 +61,17 @@ export const resolvers = {
       if (question) filterList.question = { $regex: question, $options: 'i' };
       if (answer) filterList.answer = { $regex: answer, $options: 'i' };
       if (ministry) filterList.ministry = { $regex: ministry, $options: 'i' };
-      if (questionedBy) filterList.questionedBy = { $in: questionedBy };
+      if (questionBy) filterList.questionBy = { $in: questionBy };
 
       return Questions.find(filterList).populate({
-        path: 'questionedBy',
+        path: 'questionBy',
         populate: {
           path: 'terms.party terms.constituency',
         },
         match: filterMemberList
       })
       .then((latest) => {
-        return latest.filter(each => each.questionedBy.length > 0)
+        return latest.filter(each => each.questionBy.length > 0)
       });
     },
   },
@@ -91,7 +91,7 @@ export const resolvers = {
       return constituency;
     },
     createMember: async (_, {
-      name, gender, dob, birth_place, marital_status, sons, daughters, education, profession, 
+      name, gender, dob, birth_place, marital_status, sons, daughters, education, profession, expertise, 
       party, constituency, house, session,
     }) => {
       const temp = [];
@@ -104,16 +104,16 @@ export const resolvers = {
         session,
       });
       const member = new Members({
-        name, gender, dob, birth_place, marital_status, sons, daughters, education, profession: temp, terms: temp2,
+        name, gender, dob, birth_place, marital_status, sons, daughters, education, expertise: [expertise], profession: temp, terms: temp2,
       });
       await member.save();
       return member;
     },
     createQuestion: async (_, {
-      subject, type, question, questionedBy, answer, ministry, date,
+      subject, type, question, questionBy, answer, ministry, date,
     }) => {
       const questions = new Questions({
-        subject, type, question, questionedBy: [questionedBy], answer, ministry, date,
+        subject, type, question, questionBy: [questionBy], answer, ministry, date,
       });
       await questions.save();
       return questions;

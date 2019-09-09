@@ -7,20 +7,20 @@ export const typeDefs = gql`
     parties: [Party!]!
     constituencies: [Constituency!]!
     questions: [Question!]!
-    question(subject: String, type: String, question: String, questionedBy: [ID], answer: String, ministry: String, name: String, gender: String, dob: String, marital_status: [String], sons: Int, daughters: Int, education: [String], profession: [String], term: Int, party: [ID], constituency: [ID], house: String, session: [Int]): [Question!]!
+    question(subject: String, type: String, question: String, questionBy: [ID], answer: String, ministry: String, name: String, gender: String, dob: String, marital_status: [String], sons: Int, daughters: Int, education: [String], profession: [String], term: Int, party: [ID], constituency: [ID], house: String, session: [Int]): [Question!]!
   }
   type Mutation {
     createParty(name: String!, abbr: String!): Party!
     createConstituency(name: String, state: String!, from: String!, to: String): Constituency!
-    createMember(name: String!, gender: String!, dob: String, birth_place: String, marital_status: String, sons: Int, daughters: Int, education: String, profession: String, party: String, constituency: String, house: String, session: Int): Member!
-    createQuestion(subject: String!, type: String!, question: String!, questionedBy: String!, answer: String!, ministry: String!, date: String): Question!
+    createMember(name: String!, gender: String!, dob: String, birth_place: String, marital_status: String, sons: Int, daughters: Int, education: String, expertise: String, profession: String, party: String, constituency: String, house: String, session: Int): Member!
+    createQuestion(subject: String!, type: String!, question: String!, questionBy: String!, answer: String!, ministry: String!, date: String): Question!
   }
   type Question {
     id: ID!
     subject: String!
     type: String!
     question: String!
-    questionedBy: [Member!]!
+    questionBy: [Member!]!
     answer: String!
     ministry: String!
     date: String!
@@ -34,6 +34,7 @@ export const typeDefs = gql`
     id: ID!
     name: String
     state: String!
+    pincodes: [Int]
     from: String
     to: String
   }
@@ -53,6 +54,7 @@ export const typeDefs = gql`
     sons: Int
     daughters: Int
     education: String
+    expertise: [String]
     profession: [String]
     terms: [Terms]
   }

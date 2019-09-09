@@ -22,6 +22,10 @@ const ConstituenciesSchema = new Schema({
   to: {
     type: String,
     default: null
+  },
+  pincodes: {
+    type: [Number],
+    default: []
   }
 })
 

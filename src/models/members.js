@@ -62,6 +62,10 @@ const MembersSchema = new Schema({
     trim: true,
     max: 20
   },
+  expertise: {
+    type: [String],
+    default: []
+  },
   profession: {
     type: [String],
     default: []

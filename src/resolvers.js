@@ -29,13 +29,13 @@ export const resolvers = {
     parties: () => Parties.find(),
     constituencies: () => Constituencies.find(),
     questions: () => Questions.find().populate({
-      path: 'askedBy',
+      path: 'questionedBy',
       populate: {
         path: 'terms.party terms.constituency',
       },
     }),
     question: (_, {
-      subject, type, question, answer, askedBy, ministry, 
+      subject, type, question, answer, questionedBy, ministry, 
       name, gender, dob, marital_status, sons, daughters, education, profession, 
       term, party, constituency, house, session,
     }) => {
@@ -61,17 +61,17 @@ export const resolvers = {
       if (question) filterList.question = { $regex: question, $options: 'i' };
       if (answer) filterList.answer = { $regex: answer, $options: 'i' };
       if (ministry) filterList.ministry = { $regex: ministry, $options: 'i' };
-      if (askedBy) filterList.askedBy = { $in: askedBy };
+      if (questionedBy) filterList.questionedBy = { $in: questionedBy };
 
       return Questions.find(filterList).populate({
-        path: 'askedBy',
+        path: 'questionedBy',
         populate: {
           path: 'terms.party terms.constituency',
         },
         match: filterMemberList
       })
       .then((latest) => {
-        return latest.filter(each => each.askedBy.length > 0)
+        return latest.filter(each => each.questionedBy.length > 0)
       });
     },
   },
@@ -110,10 +110,10 @@ export const resolvers = {
       return member;
     },
     createQuestion: async (_, {
-      subject, type, question, askedBy, answer, ministry, date,
+      subject, type, question, questionedBy, answer, ministry, date,
     }) => {
       const questions = new Questions({
-        subject, type, question, askedBy: [askedBy], answer, ministry, date,
+        subject, type, question, questionedBy: [questionedBy], answer, ministry, date,
       });
       await questions.save();
       return questions;

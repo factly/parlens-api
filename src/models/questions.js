@@ -19,7 +19,7 @@ const QuestionsSchema = new Schema({
     trim: true,
     max: 2000
   },
-  askedBy: {
+  questionedBy: {
     type: [{
       type: Schema.Types.ObjectId,
       ref: 'members'

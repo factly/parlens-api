@@ -7,7 +7,7 @@ export const resolvers = {
   Query: {
     members: () => Members.find().populate('terms.party terms.constituency'),
     member: (_, {
-      name, gender, dob, marital_status, sons, daughters, education, profession, 
+      name, gender, dob, marital_status, sons, daughters, education, profession, expertise,
       term, party, constituency, house, session,
     }) => {
       const filterList = {};
@@ -19,6 +19,7 @@ export const resolvers = {
       if (daughters) filterList.daughters = daughters;
       if (education) filterList.education = { $in : education };
       if (profession) filterList.profession = { $in: profession };
+      if (expertise) filterList.expertise = { $in : expertise };
       if (term) filterList.terms = { $size: term };
       if (party) filterList['terms.party'] = { $in: party };
       if (constituency) filterList['terms.constituency'] = { $in: constituency };
@@ -36,7 +37,7 @@ export const resolvers = {
     }),
     question: (_, {
       subject, type, question, answer, questionBy, ministry, 
-      name, gender, dob, marital_status, sons, daughters, education, profession, 
+      name, gender, dob, marital_status, sons, daughters, education, profession, expertise,
       term, party, constituency, house, session,
     }) => {
       const filterMemberList = {};
@@ -50,6 +51,7 @@ export const resolvers = {
       if (daughters) filterMemberList.daughters = daughters;
       if (education) filterMemberList.education = { $in : education };
       if (profession) filterMemberList.profession = { $in: profession };
+      if (expertise) filterMemberList.expertise = { $in: expertise };
       if (term) filterMemberList.terms = { $size: term };
       if (party) filterMemberList['terms.party'] = { $in : party };
       if (constituency) filterMemberList['terms.constituency'] = { $in : constituency };

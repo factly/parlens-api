@@ -53,6 +53,8 @@ export const typeDefs = gql`
     marital_status: String
     sons: Int
     daughters: Int
+    email: [String]
+    phone: [String]
     education: String
     expertise: [String]
     profession: [String]

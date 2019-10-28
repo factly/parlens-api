@@ -19,7 +19,7 @@ export const typeDefs = gql`
     id: ID!
     subject: String!
     type: String!
-    question: String!
+    question: [String!]!
     questionBy: [Member!]!
     answer: String!
     ministry: String!

@@ -14,7 +14,7 @@ const ConstituencyType = new GraphQL.GraphQLObjectType({
 	description: 'All constituency of india.',
 
 	fields: () => ({
-		id: {
+		_id: {
 			type: GraphQLID,
 			description: 'ID of the address, Generated automatically by MongoDB',
 		},

@@ -16,7 +16,7 @@ const QuestionType = new GraphQL.GraphQLObjectType({
 	description: 'All questions which has been asked in both house.',
 
 	fields: () => ({
-		id: {
+		_id: {
 			type: GraphQLID,
 			description: 'ID of the address, Generated automatically by MongoDB',
 		},

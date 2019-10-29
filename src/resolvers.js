@@ -1,7 +1,7 @@
-import { Members } from './models/Members';
-import { Parties } from './models/parties';
-import { Constituencies } from './models/Constituencies';
-import { Questions } from './models/Questions';
+import Members from './models/Members';
+import Parties from './models/parties';
+import Constituencies from './models/Constituencies';
+import Questions from './models/Questions';
 
 export const resolvers = {
   Query: {

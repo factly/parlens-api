@@ -17,4 +17,4 @@ const PartiesSchema = new Schema({
   },
 })
 
-export const Parties = mongoose.model("parties", PartiesSchema);
+export default mongoose.model("parties", PartiesSchema);

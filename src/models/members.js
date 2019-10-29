@@ -76,4 +76,4 @@ const MembersSchema = new Schema({
   }
 })
 
-export const Members = mongoose.model("members", MembersSchema);
+export default members = mongoose.model("members", MembersSchema);

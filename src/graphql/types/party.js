@@ -1,15 +1,6 @@
-import GraphQL from 'graphql';
+import {GraphQLObjectType, GraphQLString, GraphQLID } from 'graphql';
 
-const {
-	GraphQLObjectType,
-	GraphQLString,
-    GraphQLBoolean,
-	GraphQLID,
-	GraphQLInt,
-    GraphQLList,
-} = GraphQL;
-
-const PartyType = new GraphQL.GraphQLObjectType({
+export default new GraphQLObjectType({
 	name: 'party',
 	description: 'All political parties of india.',
 
@@ -27,8 +18,4 @@ const PartyType = new GraphQL.GraphQLObjectType({
 			description: 'Party abbr',
 		},
 	})
-
 });
-
-
-module.exports = PartyType;

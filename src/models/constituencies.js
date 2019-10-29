@@ -29,4 +29,4 @@ const ConstituenciesSchema = new Schema({
   }
 })
 
-export const Constituencies = mongoose.model("constituencies", ConstituenciesSchema);
+export default constituencies = mongoose.model("constituencies", ConstituenciesSchema);

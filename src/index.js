@@ -1,10 +1,13 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import mongoose from "mongoose";
+import expressGraphQL from 'express-graphql';
+
+import GraphQLSchema from './graphql';
 
 const app = express();
 
-mongoose.connect(process.env.MONGODB, {
+mongoose.connect('mongodb+srv://dbroot:g7gwA4vdlPmwJdV5@cluster0-z1nlv.mongodb.net/test?retryWrites=true&w=majority', {
     useNewUrlParser: true
 });
 mongoose.connection.on('error', function () {
@@ -18,12 +21,12 @@ app.use(bodyParser.json({limit: '50mb'}));
 app.use('/graphql', expressGraphQL(req => ({
     schema: GraphQLSchema,
     context: req.context,
-    graphiql: process.env.NODE_ENV === 'development',
+    graphiql: true,
   })
 ));
 
-app.listen(process.env.PORT, function () {
-  console.log(`🚀 Server ready at ${process.env.PORT}`);
+app.listen(3000, function () {
+  console.log(`🚀 Server ready at 3000`);
 });
 
 module.exports = app;

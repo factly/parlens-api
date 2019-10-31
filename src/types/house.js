@@ -17,5 +17,4 @@ export default new GraphQLObjectType({
 			description: 'House name',
 		},
 	})
-
 });

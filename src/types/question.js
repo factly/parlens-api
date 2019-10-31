@@ -46,6 +46,3 @@ export default new GraphQLObjectType({
 	})
 
 });
-
-
-module.exports = QuestionType;

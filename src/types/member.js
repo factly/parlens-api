@@ -89,5 +89,4 @@ export default new GraphQLObjectType({
             description: 'Member term list'
         }
 	})
-
 });

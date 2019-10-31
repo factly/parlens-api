@@ -30,5 +30,4 @@ export default new GraphQLObjectType({
 			description: 'Constituency delimitation date',
 		}
 	})
-
 });

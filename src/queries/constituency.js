@@ -1,10 +1,4 @@
-import GraphQL from 'graphql';
-const {
-	GraphQLList,
-	GraphQLID,
-    GraphQLString,
-	GraphQLNonNull,
-} = GraphQL;
+import { GraphQLList } from 'graphql';
 
 // import the user type we created
 import ConstituencyType from '../types/constituency';

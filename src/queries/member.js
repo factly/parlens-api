@@ -1,25 +1,33 @@
-import GraphQL from 'graphql';
-const {
-	GraphQLList,
-	GraphQLID,
-    GraphQLString,
-	GraphQLNonNull,
-} = GraphQL;
+import { GraphQLList, GraphQLString } from 'graphql';
 
-// import the user type we created
+// import the type 
 import MemberType from '../types/member';
 
-// import the user resolver we created
-import MemberResolver from '../resolvers/member';
+// import the resolver
+import { index, single } from '../resolvers/member';
 
-module.exports = {
-	index() {
-		return {
-			type: new GraphQLList(MemberType),
-			description: 'This will return all the party present in the database',
-			resolve(parent, args, context, info) {
-				return MemberResolver.index({});
-			}
+export function	MemberIndex() {
+	return {
+		type: new GraphQLList(MemberType),
+		description: 'This will return all the member present in the database',
+		resolve(parent, args, context, info) {
+			return index();
 		}
-	},
-};
+	}
+}
+
+export function	MemberSingle(){
+	return {
+		type: MemberType,
+		description: 'This will return member details by ID',
+		args: {
+			id: {
+				type: GraphQLString,
+				description: 'Member ID',
+			}
+		},
+		resolve(parent, args, context, info) {
+			return single(args);
+		}
+	}
+}

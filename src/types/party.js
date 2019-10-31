@@ -1,4 +1,4 @@
-import {GraphQLObjectType, GraphQLString, GraphQLID } from 'graphql';
+import { GraphQLObjectType, GraphQLString, GraphQLID } from 'graphql';
 
 export default new GraphQLObjectType({
 	name: 'party',

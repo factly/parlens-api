@@ -1,7 +1,8 @@
 import {GraphQLObjectType, GraphQLSchema } from 'graphql';
 
-// import the user query file we created
-import PartyQuery from './queries/party';
+// import the query file
+import { PartyIndex, PartySingle, PartySearch } from './queries/party';
+import { MemberIndex, MemberSingle } from './queries/member';
 
 // lets define our root query
 const RootQuery = new GraphQLObjectType({
@@ -9,7 +10,11 @@ const RootQuery = new GraphQLObjectType({
 	description: 'This is the default root query provided by the backend',
 	fields: {
         //party
-		parties: PartyQuery.index()
+		parties: PartyIndex(),
+		party: PartySingle(),
+		search: PartySearch(),
+		members: MemberIndex(),
+		member: MemberSingle()
 	},
 });
 

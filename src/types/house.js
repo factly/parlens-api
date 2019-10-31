@@ -1,18 +1,9 @@
 /*
     TODO: Add house in other collections.
 */
-import GraphQL from 'graphql';
+import { GraphQLObjectType, GraphQLString, GraphQLID} from 'graphql';
 
-const {
-	GraphQLObjectType,
-	GraphQLString,
-    GraphQLBoolean,
-	GraphQLID,
-	GraphQLInt,
-    GraphQLList,
-} = GraphQL;
-
-const HouseType = new GraphQL.GraphQLObjectType({
+export default new GraphQLObjectType({
 	name: 'house',
 	description: 'All houses of india.',
 
@@ -28,6 +19,3 @@ const HouseType = new GraphQL.GraphQLObjectType({
 	})
 
 });
-
-
-module.exports = ConstituencyType;

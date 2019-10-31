@@ -1,17 +1,8 @@
-import GraphQL from 'graphql';
-
-const {
-	GraphQLObjectType,
-	GraphQLString,
-    GraphQLBoolean,
-	GraphQLID,
-	GraphQLInt,
-    GraphQLList,
-} = GraphQL;
+import { GraphQLObjectType, GraphQLString, GraphQLID, GraphQLList } from 'graphql';
 
 import MemberType from './member';
 
-const QuestionType = new GraphQL.GraphQLObjectType({
+export default new GraphQLObjectType({
 	name: 'question',
 	description: 'All questions which has been asked in both house.',
 

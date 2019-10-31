@@ -1,18 +1,9 @@
-import GraphQL from 'graphql';
-
-const {
-	GraphQLObjectType,
-	GraphQLString,
-    GraphQLBoolean,
-	GraphQLID,
-	GraphQLInt,
-    GraphQLList,
-} = GraphQL;
+import { GraphQLObjectType, GraphQLString, GraphQLID, GraphQLInt, GraphQLList } from 'graphql';
 
 import ConstituencyType from './constituency';
 import PartyType from './party';
 
-const TermType = new GraphQL.GraphQLObjectType({
+const TermType = new GraphQLObjectType({
     name: 'term',
 	description: 'All term of MP.',
 
@@ -36,7 +27,7 @@ const TermType = new GraphQL.GraphQLObjectType({
     })
 })
 
-const ConstituencyType = new GraphQL.GraphQLObjectType({
+export default new GraphQLObjectType({
 	name: 'member',
 	description: 'All MPs of india.',
 
@@ -100,6 +91,3 @@ const ConstituencyType = new GraphQL.GraphQLObjectType({
 	})
 
 });
-
-
-module.exports = ConstituencyType;

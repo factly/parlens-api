@@ -1,15 +1,6 @@
-import GraphQL from 'graphql';
+import { GraphQLObjectType, GraphQLString, GraphQLID, GraphQLInt, GraphQLList } from 'graphql';
 
-const {
-	GraphQLObjectType,
-	GraphQLString,
-    GraphQLBoolean,
-	GraphQLID,
-	GraphQLInt,
-    GraphQLList,
-} = GraphQL;
-
-const ConstituencyType = new GraphQL.GraphQLObjectType({
+export default new GraphQLObjectType({
 	name: 'constituency',
 	description: 'All constituency of india.',
 
@@ -41,6 +32,3 @@ const ConstituencyType = new GraphQL.GraphQLObjectType({
 	})
 
 });
-
-
-module.exports = ConstituencyType;

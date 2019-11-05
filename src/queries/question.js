@@ -1,23 +1,33 @@
-import GraphQL from 'graphql';
-const {
-	GraphQLList,
-	GraphQLID,
-    GraphQLString,
-	GraphQLNonNull,
-} = GraphQL;
+import { GraphQLList, GraphQLString } from 'graphql';
 
-// import the user type we created
+// import the question type
 import QuestionType from '../types/question';
 
-// import the user resolver we created
-import QuestionResolver from '../resolvers/question';
+// import the question resolver
+import { index, single } from '../resolvers/question';
 
 export function QuestionIndex() {
 	return {
 		type: new GraphQLList(QuestionType),
-		description: 'This will return all the party present in the database',
+		description: 'This will return all the question present in the database',
 		resolve(parent, args, context, info) {
-			return QuestionResolver.index({});
+			return index(context);
+		}
+	}
+}
+
+export function QuestionSingle() {
+	return {
+		type: QuestionType,
+		description: 'This will return question details by ID',
+		args: {
+			id: {
+				type: GraphQLString,
+				description: 'Question ID',
+			}
+		},
+		resolve(parent, args, context, info) {
+			return single(context, args);
 		}
 	}
 }

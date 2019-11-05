@@ -1,17 +1,33 @@
-import { GraphQLList } from 'graphql';
+import { GraphQLList, GraphQLString } from 'graphql';
 
-// import the user type we created
+// import the constituency type
 import ConstituencyType from '../types/constituency';
 
-// import the user resolver we created
-import ConstituencyResolver from '../resolvers/constituency';
+// import the constituency resolver
+import { index, single } from '../resolvers/constituency';
 
 export function ConstituencyIndex() {
 	return {
 		type: new GraphQLList(ConstituencyType),
 		description: 'This will return all the constituency present in the database',
 		resolve(parent, args, context, info) {
-			return ConstituencyResolver.index({});
+			return index(context);
+		}
+	}
+}
+
+export function ConstituencySingle() {
+	return {
+		type: ConstituencyType,
+		description: 'This will constituency party details by ID',
+		args: {
+			id: {
+				type: GraphQLString,
+				description: 'Constituency ID',
+			}
+		},
+		resolve(parent, args, context, info) {
+			return single(context, args);
 		}
 	}
 }

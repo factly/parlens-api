@@ -11,7 +11,7 @@ export function PartyIndex() {
 		type: new GraphQLList(PartyType),
 		description: 'This will return all the party present in the database',
 		resolve(parent, args, context, info) {
-			return index();
+			return index(context);
 		}
 	}
 }
@@ -27,7 +27,7 @@ export function PartySingle() {
 			}
 		},
 		resolve(parent, args, context, info) {
-			return single(args);
+			return single(context, args);
 		}
 	}
 }
@@ -43,7 +43,7 @@ export function	PartySearch() {
 			}
 		},
 		resolve(parent, args, context, info) {
-			return search(args);
+			return search(context, args);
 		}
 	}
 }

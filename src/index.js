@@ -1,6 +1,9 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import expressGraphQL from 'express-graphql';
+import {MongoClient} from 'mongodb'
+
+const context = () => MongoClient.connect('mongodb+srv://dbroot:g7gwA4vdlPmwJdV5@cluster0-z1nlv.mongodb.net/test', { useNewUrlParser: true, useUnifiedTopology: true }).then(client => client.db('test'));
 
 import GraphQLSchema from './graphql';
 
@@ -11,7 +14,7 @@ app.use(bodyParser.json({limit: '50mb'}));
 
 app.use('/graphql', expressGraphQL(req => ({
     schema: GraphQLSchema,
-    context: req.context,
+    context,
     graphiql: true,
   })
 ));

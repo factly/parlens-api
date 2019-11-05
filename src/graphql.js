@@ -3,8 +3,10 @@ import {GraphQLObjectType, GraphQLSchema } from 'graphql';
 // import the query file
 import { PartyIndex, PartySingle, PartySearch } from './queries/party';
 import { MemberIndex, MemberSingle } from './queries/member';
+import { ConstituencyIndex, ConstituencySingle} from './queries/constituency';
+import { QuestionIndex, QuestionSingle } from './queries/question';
 
-// lets define our root query
+// define root query
 const RootQuery = new GraphQLObjectType({
 	name: 'RootQueryType',
 	description: 'This is the default root query provided by the backend',
@@ -13,8 +15,15 @@ const RootQuery = new GraphQLObjectType({
 		parties: PartyIndex(),
 		party: PartySingle(),
 		search: PartySearch(),
+		//member
 		members: MemberIndex(),
-		member: MemberSingle()
+		member: MemberSingle(),
+		//constituency
+		constituencies: ConstituencyIndex(),
+		constituency: ConstituencySingle(),
+		//question
+		questions: QuestionIndex(),
+		question: QuestionSingle(),
 	},
 });
 

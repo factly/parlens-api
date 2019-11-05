@@ -11,7 +11,7 @@ export function	MemberIndex() {
 		type: new GraphQLList(MemberType),
 		description: 'This will return all the member present in the database',
 		resolve(parent, args, context, info) {
-			return index();
+			return index(context);
 		}
 	}
 }
@@ -27,7 +27,7 @@ export function	MemberSingle(){
 			}
 		},
 		resolve(parent, args, context, info) {
-			return single(args);
+			return single(context, args);
 		}
 	}
 }

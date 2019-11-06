@@ -1,9 +1,9 @@
 import { GraphQLList, GraphQLString } from 'graphql';
 
-// import the user type we created
+// import the type
 import PartyType from '../types/party';
 
-// import the user resolver we created
+// import the resolver
 import { index, single, search } from '../resolvers/party';
 
 export function PartyIndex() {

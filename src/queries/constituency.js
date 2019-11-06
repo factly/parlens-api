@@ -1,10 +1,10 @@
 import { GraphQLList, GraphQLString, GraphQLObjectType } from 'graphql';
 
-// import the constituency type
+// import the type
 import ConstituencyType from '../types/constituency';
 import PagingType from '../types/paging';
 
-// import the constituency resolver
+// import the resolver
 import { index, single } from '../resolvers/constituency';
 
 export function ConstituencyIndex() {

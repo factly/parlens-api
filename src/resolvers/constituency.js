@@ -1,6 +1,5 @@
 import { ObjectID } from 'mongodb';
 
-//Promise way of data filter
 export function index(context) {
     return context()
         .then(db => 

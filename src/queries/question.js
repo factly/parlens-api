@@ -1,9 +1,9 @@
 import { GraphQLList, GraphQLString } from 'graphql';
 
-// import the question type
+// import the type
 import QuestionType from '../types/question';
 
-// import the question resolver
+// import the resolver
 import { index, single } from '../resolvers/question';
 
 export function QuestionIndex() {

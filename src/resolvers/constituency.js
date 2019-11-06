@@ -1,14 +1,9 @@
 import { ObjectID } from 'mongodb';
 
-export function index(context) {
-    return context()
-        .then(db => 
-            db.collection('constituencies').find({}).toArray()
-        ).then( final => { 
-            return { nodes: final, edges: { next: 'next', prev: 'prev', hasNext: true, hasPrev: true } };
-        });
+export function index({db}) {
+    return db.collection('constituencies').find({}).toArray();
 }
 
-export function single(context, { id }) {
-    return context().then(db => db.collection('constituencies').findOne({ _id: new ObjectID(id) }));
+export function single({db}, { id }) {
+    return db.collection('constituencies').findOne({ _id: new ObjectID(id) });
 }

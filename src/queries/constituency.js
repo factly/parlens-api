@@ -9,7 +9,8 @@ import { index, single } from '../resolvers/constituency';
 
 export function ConstituencyIndex() {
     return {
-        type: new GraphQLObjectType({
+        type: new GraphQLList(ConstituencyType)
+        /*new GraphQLObjectType({
             name: 'PagingCon',
             fields: () => ({
                 nodes: {
@@ -19,7 +20,7 @@ export function ConstituencyIndex() {
                     type: PagingType
                 }
             })
-        }),
+        })*/,
         description: 'This will return all the constituency present in the database',
         resolve(parent, args, context, info) {
             return index(context);

@@ -2,10 +2,10 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import expressGraphQL from 'express-graphql';
 import { MongoClient } from 'mongodb';
-import dotenv from 'dotenv'
-dotenv.config()
+import dotenv from 'dotenv';
+dotenv.config();
 
-const MONGO_URI = 'mongodb+srv://dbroot:g7gwA4vdlPmwJdV5@cluster0-z1nlv.mongodb.net/test'
+const MONGO_URI = 'mongodb+srv://dbroot:g7gwA4vdlPmwJdV5@cluster0-z1nlv.mongodb.net/test';
 const PORT = process.env.PORT || 4000;
 
 const mongo = MongoClient.connect(encodeURI(MONGO_URI), { useNewUrlParser: true, useUnifiedTopology: true }).then(client => client.db('test'));

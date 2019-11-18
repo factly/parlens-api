@@ -10,8 +10,14 @@ export function PartyIndex() {
     return {
         type: new GraphQLList(PartyType),
         description: 'This will return all the party present in the database',
+        args: {
+            q: {
+                type: GraphQLString,
+                description: 'Party search keyword'
+            }
+        },
         resolve(parent, args, context, info) {
-            return index(context);
+            return index(context, args);
         }
     };
 }
@@ -28,22 +34,6 @@ export function PartySingle() {
         },
         resolve(parent, args, context, info) {
             return single(context, args);
-        }
-    };
-}
-
-export function	PartySearch() {
-    return {
-        type: new GraphQLList(PartyType),
-        description: 'This will return party search result',
-        args: {
-            q: {
-                type: GraphQLString,
-                description: 'Party search keyword'
-            }
-        },
-        resolve(parent, args, context, info) {
-            return search(context, args);
         }
     };
 }

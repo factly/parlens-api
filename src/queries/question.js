@@ -10,8 +10,14 @@ export function QuestionIndex() {
     return {
         type: new GraphQLList(QuestionType),
         description: 'This will return all the question present in the database',
+        args: {
+            q: {
+                type: GraphQLString,
+                description: 'Question Search Word'
+            }
+        },
         resolve(parent, args, context, info) {
-            return index(context);
+            return index(context, args);
         }
     };
 }

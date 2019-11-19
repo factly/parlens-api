@@ -4,7 +4,7 @@ export function	index({ db }, { name, gender, dob, marital_status, sons, daughte
     let filter = {};
     if(name) filter.name = { $regex: name, $options: 'i' };
     if(gender) filter.gender = gender;
-    if(dob) filter.gender = dob;
+    if(dob) filter.dob = dob;
     if(marital_status) filter.marital_status = { $in: marital_status };
     if(education) filter.education = { $in: education };
     if(profession) filter.profession = { $in : profession };
@@ -26,24 +26,16 @@ export function	index({ db }, { name, gender, dob, marital_status, sons, daughte
         {
             '$lookup': {
                 'from': 'parties', 
-                'let': { 'party_id': '$terms.party' }, 
-                'pipeline': [
-                    {
-                        '$match': { '$expr': { '$eq': [ '$_id', '$$party_id' ] } }
-                    },   
-                ], 
+                'localField': 'terms.party',
+                'foreignField': '_id',
                 'as': 'terms.party'
             }
         }, 
         {
             '$lookup': {
                 'from': 'constituencies', 
-                'let': { 'constituency_id': '$terms.constituency' }, 
-                'pipeline': [
-                    {
-                        '$match': { '$expr': { '$eq': [ '$_id', '$$constituency_id' ] } }
-                    },
-                ], 
+                'localField': 'terms.constituency',
+                'foreignField': '_id',
                 'as': 'terms.constituency'
             }
         }, 

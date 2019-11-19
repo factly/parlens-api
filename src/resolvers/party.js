@@ -2,7 +2,7 @@ import { ObjectID } from 'mongodb';
 
 export function index({ db }, { q }) {
     let filter = {};
-    if(q) filter.$or = [{ 'name': { $regex: q, $options: 'i' } }, { 'abbr': { $regex: q, $options: 'i' } }]
+    if(q) filter.$or = [{ 'name': { $regex: q, $options: 'i' } }, { 'abbr': { $regex: q, $options: 'i' } }];
     
     return db.collection('parties').find(filter).toArray();
 }

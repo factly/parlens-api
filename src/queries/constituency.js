@@ -1,29 +1,23 @@
-import { GraphQLList, GraphQLString, GraphQLObjectType } from 'graphql';
+import { GraphQLList, GraphQLString } from 'graphql';
 
 // import the type
 import ConstituencyType from '../types/constituency';
-import PagingType from '../types/paging';
 
 // import the resolver
 import { index, single } from '../resolvers/constituency';
 
 export function ConstituencyIndex() {
     return {
-        type: new GraphQLList(ConstituencyType)
-        /*new GraphQLObjectType({
-            name: 'PagingCon',
-            fields: () => ({
-                nodes: {
-                    type: new GraphQLList(ConstituencyType)
-                },
-                edges: {
-                    type: PagingType
-                }
-            })
-        })*/,
+        type: new GraphQLList(ConstituencyType),
         description: 'This will return all the constituency present in the database',
+        args: {
+            q: {
+                type: GraphQLString,
+                description: 'Constituency search keyword'
+            }
+        },
         resolve(parent, args, context, info) {
-            return index(context);
+            return index(context, args);
         }
     };
 }

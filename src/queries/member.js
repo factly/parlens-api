@@ -61,11 +61,11 @@ export function	MemberIndex() {
             },
             house: {
                 type: new GraphQLList(GraphQLString),
-                description: 'House ID'
+                description: 'House'
             },
             session: {
                 type: new GraphQLList(GraphQLString),
-                description: 'Session ID'
+                description: 'Session'
             }
         },
         resolve(parent, args, context, info) {

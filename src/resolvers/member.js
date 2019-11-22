@@ -19,12 +19,12 @@ export function	index({ db }, { name, gender, dob, marital_status, sons, daughte
     
     return db.collection('members').aggregate([
         {
-            '$unwind': {
+            $unwind: {
                 'path': '$terms'
             }
         }, 
         {
-            '$lookup': {
+            $lookup: {
                 'from': 'parties', 
                 'localField': 'terms.party',
                 'foreignField': '_id',
@@ -32,17 +32,21 @@ export function	index({ db }, { name, gender, dob, marital_status, sons, daughte
             }
         }, 
         {
-            '$lookup': {
+            $lookup: {
                 'from': 'constituencies', 
                 'localField': 'terms.constituency',
                 'foreignField': '_id',
                 'as': 'terms.constituency'
             }
         }, 
-        { '$unwind': '$terms.constituency' }, 
-        { '$unwind': '$terms.party' }, 
+        { 
+            $unwind: '$terms.constituency' 
+        }, 
         {
-            '$group': {
+            $unwind: '$terms.party' 
+        }, 
+        {
+            $group: {
                 '_id': '$_id', 
                 'terms': { '$push': '$terms' }, 
                 'gender': { '$first': '$gender' },
@@ -60,7 +64,7 @@ export function	index({ db }, { name, gender, dob, marital_status, sons, daughte
             }
         },
         {
-            '$match': filter
+            $match: filter
         },
     ]).toArray();
 }
@@ -123,8 +127,4 @@ export async function single({ db }, { id }) {
         },
     ]).toArray();
     if(result.length === 1) return result[0];
-}
-
-export function search({ db }, { q }){
-    return db.collection('members').find({ 'name': { $regex: q, $options: 'i' } }).toArray();
 }

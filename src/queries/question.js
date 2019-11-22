@@ -54,6 +54,14 @@ export function QuestionIndex() {
             term: {
                 type: GraphQLInt,
                 description: 'no of term'
+            },
+            house: {
+                type: new GraphQLList(GraphQLString),
+                description: 'House'
+            },
+            session: {
+                type: new GraphQLList(GraphQLString),
+                description: 'Session'
             }
         },
         resolve(parent, args, context, info) {

@@ -15,6 +15,18 @@ export function QuestionIndex() {
                 type: GraphQLString,
                 description: 'Question Search Word'
             },
+            house: {
+                type: GraphQLString,
+                description: 'House'
+            },
+            type: {
+                type: GraphQLString,
+                description: 'Type'
+            },
+            ministry: {
+                type: GraphQLString,
+                description: 'Ministry'
+            },
             questionBy: {
                 type: new GraphQLList(GraphQLString),
                 description: 'Member ID'
@@ -55,13 +67,13 @@ export function QuestionIndex() {
                 type: GraphQLInt,
                 description: 'no of term'
             },
-            house: {
+            party: {
                 type: new GraphQLList(GraphQLString),
-                description: 'House'
+                description: 'List of party ID'
             },
-            session: {
+            constituency: {
                 type: new GraphQLList(GraphQLString),
-                description: 'Session'
+                description: 'List of constituency ID'
             }
         },
         resolve(parent, args, context, info) {

@@ -4,7 +4,7 @@ import { GraphQLList, GraphQLString } from 'graphql';
 import PartyType from '../types/party';
 
 // import the resolver
-import { index, single, search } from '../resolvers/party';
+import { index, single } from '../resolvers/party';
 
 export function PartyIndex() {
     return {

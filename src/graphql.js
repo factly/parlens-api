@@ -1,7 +1,7 @@
 import { GraphQLObjectType, GraphQLSchema } from 'graphql';
 
 // import the query file
-import { PartyIndex, PartySingle, PartySearch } from './queries/party';
+import { PartyIndex, PartySingle } from './queries/party';
 import { MemberIndex, MemberSingle } from './queries/member';
 import { ConstituencyIndex, ConstituencySingle } from './queries/constituency';
 import { QuestionIndex, QuestionSingle } from './queries/question';

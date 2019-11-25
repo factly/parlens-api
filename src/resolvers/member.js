@@ -12,12 +12,15 @@ export function	index({ db }, { name, gender, dob, marital_status, sons, daughte
     if(sons) filter.sons = { $in: sons };
     if(daughters) filter.daughters = { $in: daughters };
     if(term) filter.terms = { $size: term };
-    if(party) filter['terms.party._id'] = { $in: party.map(id => new ObjectID(id)) };
-    if(constituency) filter['terms.constituency._id'] = { $in: constituency.map(id => new ObjectID(id)) };
+    if(party) filter['terms.party'] = { $in: party.map(id => new ObjectID(id)) };
+    if(constituency) filter['terms.constituency'] = { $in: constituency.map(id => new ObjectID(id)) };
     if(house) filter['terms.house'] = { $in: house };
     if(session) filter['terms.session'] = { $in: session };
     
     return db.collection('members').aggregate([
+        {
+            $match: filter
+        },
         {
             $unwind: {
                 'path': '$terms'
@@ -62,9 +65,6 @@ export function	index({ db }, { name, gender, dob, marital_status, sons, daughte
                 'expertise': { '$first': '$expertise' },
                 'profession': { '$first': '$profession' }
             }
-        },
-        {
-            $match: filter
         },
     ]).toArray();
 }

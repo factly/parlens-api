@@ -64,7 +64,7 @@ export function	MemberIndex() {
                 description: 'House'
             },
             session: {
-                type: new GraphQLList(GraphQLString),
+                type: new GraphQLList(GraphQLInt),
                 description: 'Session'
             }
         },

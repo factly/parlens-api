@@ -1,4 +1,4 @@
-import { GraphQLList, GraphQLString } from 'graphql';
+import { GraphQLList, GraphQLString, GraphQLInt } from 'graphql';
 
 // import the type
 import PartyType from '../types/party';
@@ -11,6 +11,14 @@ export function PartyIndex() {
         type: new GraphQLList(PartyType),
         description: 'This will return all the party present in the database',
         args: {
+            limit: {
+                type: GraphQLInt,
+                description: 'limit of paging'
+            },
+            page: {
+                type: GraphQLInt,
+                description: 'page no'
+            },
             q: {
                 type: GraphQLString,
                 description: 'Party search keyword'

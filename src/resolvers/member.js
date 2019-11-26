@@ -1,6 +1,6 @@
 import { ObjectID } from 'mongodb';
 
-export function	index({ db }, { name, gender, dob, marital_status, sons, daughters, education, profession, expertise, term, party, constituency, house, session }) {
+export function	index({ db }, { limit, page, name, gender, dob, marital_status, sons, daughters, education, profession, expertise, term, party, constituency, house, session }) {
     let filter = {};
     if(name) filter.name = { $regex: name, $options: 'i' };
     if(gender) filter.gender = gender;
@@ -16,6 +16,9 @@ export function	index({ db }, { name, gender, dob, marital_status, sons, daughte
     if(constituency) filter['terms.constituency'] = { $in: constituency.map(id => new ObjectID(id)) };
     if(house) filter['terms.house'] = { $in: house };
     if(session) filter['terms.session'] = { $in: session };
+
+    const pageLimit = limit && limit > 0 && limit < 20 ? limit : 10;
+    const pageSkip = page ? (page - 1) * pageLimit : 0;
     
     return db.collection('members').aggregate([
         {
@@ -65,6 +68,15 @@ export function	index({ db }, { name, gender, dob, marital_status, sons, daughte
                 'expertise': { '$first': '$expertise' },
                 'profession': { '$first': '$profession' }
             }
+        },
+        {
+            $sort: { _id: -1 }
+        },
+        {
+            $skip: pageSkip
+        },
+        {
+            $limit: pageLimit
         },
     ]).toArray();
 }

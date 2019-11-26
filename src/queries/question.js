@@ -11,6 +11,14 @@ export function QuestionIndex() {
         type: new GraphQLList(QuestionType),
         description: 'This will return all the question present in the database',
         args: {
+            limit: {
+                type: GraphQLInt,
+                description: 'limit of paging'
+            },
+            page: {
+                type: GraphQLInt,
+                description: 'page no'
+            },
             q: {
                 type: GraphQLString,
                 description: 'Question Search Word'

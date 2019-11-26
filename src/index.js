@@ -6,10 +6,10 @@ import 'dotenv/config';
 
 import GraphQLSchema from './graphql';
 
-const MONGO_URI = 'mongodb+srv://dbroot:g7gwA4vdlPmwJdV5@cluster0-z1nlv.mongodb.net/test';
+const MONGO_URI = process.env.MONGODB_URI;
 const PORT = process.env.PORT || 4000;
 
-const mongo = MongoClient.connect(encodeURI(MONGO_URI), { useNewUrlParser: true, useUnifiedTopology: true }).then(client => client.db('test'));
+const mongo = MongoClient.connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true }).then(client => client.db('test'));
 
 const app = express();
 
@@ -21,7 +21,7 @@ app.use('/graphql', expressGraphQL( async () => ({
     context: {
         db: await mongo
     },
-    graphiql: true
+    graphiql: process.env.NODE_ENV === 'development'
 })
 ));
 

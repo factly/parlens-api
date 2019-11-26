@@ -11,6 +11,14 @@ export function	MemberIndex() {
         type: new GraphQLList(MemberType),
         description: 'This will return all the member present in the database',
         args: {
+            limit: {
+                type: GraphQLInt,
+                description: 'limit of paging'
+            },
+            page: {
+                type: GraphQLInt,
+                description: 'page no'
+            },
             name: {
                 type: GraphQLString,
                 description: 'Member ID'

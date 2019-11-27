@@ -1,5 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
+import cors from 'cors';
 import expressGraphQL from 'express-graphql';
 import { MongoClient } from 'mongodb';
 import { createLogger, format, transports } from 'winston';
@@ -56,17 +57,19 @@ const logger = createLogger({
 
 const app = express();
 
+app.use(cors())
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true, parameterLimit: 5000 }));
 app.use(bodyParser.json({ limit: '50mb' }));
 
-app.use('/graphql', expressGraphQL( async () => ({
+app.use('/graphql', expressGraphQL( async (req) => ({
     schema: GraphQLSchema,
     context: {
         db: await mongo,
-        logger
+        logger,
+        ip: req.ip
     },
     graphiql: env === 'development'
-})
+    })
 ));
 
 app.listen(PORT, function () {

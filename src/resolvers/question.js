@@ -1,6 +1,14 @@
 import { ObjectID } from 'mongodb';
 
-export function index({ db }, { limit, page, q, house, type, ministry, questionBy, gender, dob, marital_status, sons, daughters, education, profession, expertise, term, party, constituency }) {
+export function index(
+    { db, logger }, 
+    { 
+        limit, page, 
+        q, house, type, ministry, questionBy, 
+        gender, dob, marital_status, sons, daughters, education, profession, expertise, 
+        term, party, constituency 
+    }
+) {
     let filter = {}; 
     if(q) filter.subject = { $regex: q, $options: 'i' };
     if(house) filter.house = house;
@@ -21,6 +29,8 @@ export function index({ db }, { limit, page, q, house, type, ministry, questionB
     
     const pageLimit = limit && limit > 0 && limit < 20 ? limit : 10;
     const pageSkip = page ? (page - 1) * pageLimit : 0;
+
+    logger.info('fetching questions for query ' + JSON.stringify(filter));
 
     return db.collection('questions').aggregate([
         {
@@ -96,6 +106,9 @@ export function index({ db }, { limit, page, q, house, type, ministry, questionB
 }
 
 export async function single({ db }, { id }) {
+
+    logger.info('fetching question for ' + id);
+    
     const result = await db.collection('questions').aggregate([
         {
             $lookup: {

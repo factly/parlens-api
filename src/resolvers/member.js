@@ -1,6 +1,13 @@
 import { ObjectID } from 'mongodb';
 
-export function	index({ db }, { limit, page, name, gender, dob, marital_status, sons, daughters, education, profession, expertise, term, party, constituency, house, session }) {
+export function	index(
+    { db, logger }, 
+    { 
+        limit, page, 
+        name, gender, dob, marital_status, sons, daughters, education, profession, expertise, 
+        term, party, constituency, house, session 
+    }
+) {
     let filter = {};
     if(name) filter.name = { $regex: name, $options: 'i' };
     if(gender) filter.gender = gender;
@@ -20,6 +27,8 @@ export function	index({ db }, { limit, page, name, gender, dob, marital_status, 
     const pageLimit = limit && limit > 0 && limit < 20 ? limit : 10;
     const pageSkip = page ? (page - 1) * pageLimit : 0;
     
+    logger.info('fetching members for query ' + JSON.stringify(filter));
+
     return db.collection('members').aggregate([
         {
             $match: filter
@@ -81,8 +90,16 @@ export function	index({ db }, { limit, page, name, gender, dob, marital_status, 
     ]).toArray();
 }
 
-export async function single({ db }, { id }) {
+export async function single({ db, logger }, { id }) {
+
+    logger.info('fetching member for ' + id);
+
     const result = await db.collection('members').aggregate([
+        {
+            '$match': {
+                '_id': new ObjectID(id)
+            }
+        },
         {
             '$unwind': {
                 'path': '$terms'
@@ -91,24 +108,16 @@ export async function single({ db }, { id }) {
         {
             '$lookup': {
                 'from': 'parties', 
-                'let': { 'party_id': '$terms.party' }, 
-                'pipeline': [
-                    {
-                        '$match': { '$expr': { '$eq': [ '$_id', '$$party_id' ] } }
-                    },   
-                ], 
+                'localField': 'terms.party',
+                'foreignField': '_id',
                 'as': 'terms.party'
             }
         }, 
         {
             '$lookup': {
                 'from': 'constituencies', 
-                'let': { 'constituency_id': '$terms.constituency' }, 
-                'pipeline': [
-                    {
-                        '$match': { '$expr': { '$eq': [ '$_id', '$$constituency_id' ] } }
-                    },
-                ], 
+                'localField': 'terms.constituency',
+                'foreignField': '_id',
                 'as': 'terms.constituency'
             }
         }, 
@@ -130,11 +139,6 @@ export async function single({ db }, { id }) {
                 'education': { '$first': '$education' },
                 'expertise': { '$first': '$expertise' },
                 'profession': { '$first': '$profession' }
-            }
-        },
-        { 
-            '$match': {
-                '_id': new ObjectID(id)
             }
         },
     ]).toArray();

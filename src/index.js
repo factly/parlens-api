@@ -13,10 +13,11 @@ import GraphQLSchema from './graphql';
 const env = process.env.NODE_ENV || 'development';
 const MONGO_URI = process.env.MONGODB_URI;
 const PORT = process.env.PORT || 4000;
+const MONGO_NAME = process.env.MONGODB_NAME || 'factly_parliament_search';
 
 /* DB connection starts */
 
-const mongo = MongoClient.connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true }).then(client => client.db('test'));
+const mongo = MongoClient.connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true }).then(client => client.db(MONGO_NAME));
 
 /*DB connection ends */
 
@@ -57,7 +58,7 @@ const logger = createLogger({
 
 const app = express();
 
-app.use(cors())
+app.use(cors());
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true, parameterLimit: 5000 }));
 app.use(bodyParser.json({ limit: '50mb' }));
 
@@ -69,7 +70,7 @@ app.use('/graphql', expressGraphQL( async (req) => ({
         ip: req.ip
     },
     graphiql: env === 'development'
-    })
+})
 ));
 
 app.listen(PORT, function () {

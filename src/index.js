@@ -6,6 +6,7 @@ import { MongoClient } from 'mongodb';
 import { createLogger, format, transports } from 'winston';
 import 'winston-daily-rotate-file';
 import fs from 'fs';
+import uuidv1 from 'uuid/v1';
 import 'dotenv/config';
 
 import GraphQLSchema from './graphql';
@@ -62,12 +63,18 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true, parameterLimit: 5000 }));
 app.use(bodyParser.json({ limit: '50mb' }));
 
+/* unique request ID starts */
+app.use(function(req, res, next) {
+    req.headers['request-id'] = uuidv1();
+    next();
+});
+/* unique request ID ends */
+
 app.use('/graphql', expressGraphQL( async (req) => ({
     schema: GraphQLSchema,
     context: {
         db: await mongo,
-        logger,
-        ip: req.ip
+        logger: (level, msg) => logger.log(level, `${req.ip} ${req.headers['request-id']} ${msg}`)
     },
     graphiql: env === 'development'
 })

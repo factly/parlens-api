@@ -30,7 +30,7 @@ export function index(
     const pageLimit = limit && limit > 0 && limit < 20 ? limit : 10;
     const pageSkip = page ? (page - 1) * pageLimit : 0;
 
-    logger.info('fetching questions for query ' + JSON.stringify(filter));
+    logger('info', 'fetching questions for query ' + JSON.stringify(filter));
 
     return db.collection('questions').aggregate([
         {
@@ -107,7 +107,7 @@ export function index(
 
 export async function single({ db }, { id }) {
 
-    logger.info('fetching question for ' + id);
+    logger('info', 'fetching question for ' + id);
     
     const result = await db.collection('questions').aggregate([
         {

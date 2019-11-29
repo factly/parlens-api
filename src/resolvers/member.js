@@ -4,12 +4,12 @@ export function	index(
     { db, logger }, 
     { 
         limit, page, 
-        name, gender, dob, marital_status, sons, daughters, education, profession, expertise, 
+        q, gender, dob, marital_status, sons, daughters, education, profession, expertise, 
         term, party, constituency, house, session 
     }
 ) {
     let filter = {};
-    if(name) filter.name = { $regex: name, $options: 'i' };
+    if(q) filter.name = { $regex: q, $options: 'i' };
     if(gender) filter.gender = gender;
     if(dob) filter.dob = dob;
     if(marital_status) filter.marital_status = { $in: marital_status };
@@ -27,7 +27,7 @@ export function	index(
     const pageLimit = limit && limit > 0 && limit < 20 ? limit : 10;
     const pageSkip = page ? (page - 1) * pageLimit : 0;
     
-    logger.info('fetching members for query ' + JSON.stringify(filter));
+    logger('info', 'fetching members for query ' + JSON.stringify(filter));
 
     return db.collection('members').aggregate([
         {
@@ -92,7 +92,7 @@ export function	index(
 
 export async function single({ db, logger }, { id }) {
 
-    logger.info('fetching member for ' + id);
+    logger('info', 'fetching member for ' + id);
 
     const result = await db.collection('members').aggregate([
         {

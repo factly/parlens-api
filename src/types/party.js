@@ -1,4 +1,4 @@
-import { GraphQLObjectType, GraphQLString, GraphQLID } from 'graphql';
+import { GraphQLObjectType, GraphQLString, GraphQLID, GraphQLInt } from 'graphql';
 
 export default new GraphQLObjectType({
     name: 'party',
@@ -8,6 +8,10 @@ export default new GraphQLObjectType({
         _id: {
             type: GraphQLID,
             description: 'ID of the address, Generated automatically by MongoDB'
+        },
+        PID: {
+            type: GraphQLInt,
+            description: 'Internal party ID'
         },
         name: {
             type: GraphQLString,

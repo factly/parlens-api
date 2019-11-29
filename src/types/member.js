@@ -34,7 +34,7 @@ export default new GraphQLObjectType({
     fields: () => ({
         _id: {
             type: GraphQLID,
-            description: 'ID of the address, Generated automatically by MongoDB'
+            description: 'ID of the member, Generated automatically by MongoDB'
         },
         name: {
             type: GraphQLString,

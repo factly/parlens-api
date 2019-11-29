@@ -9,7 +9,7 @@ export default new GraphQLObjectType({
     fields: () => ({
         _id: {
             type: GraphQLID,
-            description: 'ID of the address, Generated automatically by MongoDB'
+            description: 'ID of the question, Generated automatically by MongoDB'
         },
         subject: {
             type: GraphQLString,

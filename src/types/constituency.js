@@ -7,7 +7,11 @@ export default new GraphQLObjectType({
     fields: () => ({
         _id: {
             type: GraphQLID,
-            description: 'ID of the address, Generated automatically by MongoDB'
+            description: 'ID of the constituency, Generated automatically by MongoDB'
+        },
+        CID: {
+            type: GraphQLInt,
+            description: 'Internal constituency ID'
         },
         name: {
             type: GraphQLString,

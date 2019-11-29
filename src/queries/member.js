@@ -19,9 +19,9 @@ export function	MemberIndex() {
                 type: GraphQLInt,
                 description: 'page no'
             },
-            name: {
+            q: {
                 type: GraphQLString,
-                description: 'Member ID'
+                description: 'Member Name'
             },
             gender: {
                 type: GraphQLString,

@@ -36,7 +36,7 @@ export function ConstituencySingle() {
         description: 'This will constituency party details by ID',
         args: {
             id: {
-                type: GraphQLString,
+                type: GraphQLInt,
                 description: 'Constituency ID'
             }
         },

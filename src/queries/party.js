@@ -36,7 +36,7 @@ export function PartySingle() {
         description: 'This will return party details by ID',
         args: {
             id: {
-                type: GraphQLString,
+                type: GraphQLInt,
                 description: 'Party ID'
             }
         },

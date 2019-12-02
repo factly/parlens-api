@@ -10,7 +10,7 @@ export default new GraphQLObjectType({
             description: 'ID of the constituency, Generated automatically by MongoDB'
         },
         CID: {
-            type: GraphQLInt,
+            type: GraphQLID,
             description: 'Internal constituency ID'
         },
         name: {

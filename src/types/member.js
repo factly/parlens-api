@@ -36,6 +36,10 @@ export default new GraphQLObjectType({
             type: GraphQLID,
             description: 'ID of the member, Generated automatically by MongoDB'
         },
+        MID: {
+            type: GraphQLID,
+            description: 'MID'
+        },
         name: {
             type: GraphQLString,
             description: 'Member name'

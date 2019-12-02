@@ -74,7 +74,14 @@ app.use('/graphql', expressGraphQL( async (req) => ({
     schema: GraphQLSchema,
     context: {
         db: await mongo,
-        logger: (level, msg) => logger.log(level, `${req.ip} ${req.headers['request-id']} ${msg}`)
+        logger: (level, msg) => logger.log(level, `${req.ip} ${req.headers['request-id']} ${msg}`),
+        config: {
+            db: {
+                constituencies: "constituency",
+                parties: "politicalPartiesUnique",
+                members: "cleanedMembers"
+            }
+        }
     },
     graphiql: env === 'development'
 })

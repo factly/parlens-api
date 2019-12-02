@@ -1,7 +1,5 @@
-import { ObjectID } from 'mongodb';
-
 export function	index(
-    { db, logger }, 
+    { db, logger, config }, 
     { 
         limit, page, 
         q, gender, dob, marital_status, sons, daughters, education, profession, expertise, 
@@ -19,8 +17,8 @@ export function	index(
     if(sons) filter.sons = { $in: sons };
     if(daughters) filter.daughters = { $in: daughters };
     if(term) filter.terms = { $size: term };
-    if(party) filter['terms.party'] = { $in: party.map(id => new ObjectID(id)) };
-    if(constituency) filter['terms.constituency'] = { $in: constituency.map(id => new ObjectID(id)) };
+    if(party) filter['terms.party'] = { $in: party };
+    if(constituency) filter['terms.constituency'] = { $in: constituency };
     if(house) filter['terms.house'] = { $in: house };
     if(session) filter['terms.session'] = { $in: session };
 
@@ -29,7 +27,8 @@ export function	index(
     
     logger('info', 'fetching members for query ' + JSON.stringify(filter));
 
-    return db.collection('members').aggregate([
+    console.log(config.db.members)
+    return db.collection(config.db.members).aggregate([
         {
             $match: filter
         },
@@ -40,17 +39,17 @@ export function	index(
         }, 
         {
             $lookup: {
-                'from': 'parties', 
+                'from': config.db.parties, 
                 'localField': 'terms.party',
-                'foreignField': '_id',
+                'foreignField': 'PID',
                 'as': 'terms.party'
             }
         }, 
         {
             $lookup: {
-                'from': 'constituencies', 
+                'from': config.db.constituencies, 
                 'localField': 'terms.constituency',
-                'foreignField': '_id',
+                'foreignField': 'CID',
                 'as': 'terms.constituency'
             }
         }, 
@@ -62,9 +61,10 @@ export function	index(
         }, 
         {
             $group: {
-                '_id': '$_id', 
-                'terms': { '$push': '$terms' }, 
+                '_id': '$_id',  
+                'terms': { '$push': '$terms' },
                 'gender': { '$first': '$gender' },
+                'MID': { '$first': '$MID' },
                 'name': { '$first': '$name' },
                 'dob': { '$first': '$dob' },
                 'birth_place': { '$first': '$birth_place' },
@@ -79,7 +79,7 @@ export function	index(
             }
         },
         {
-            $sort: { _id: -1 }
+            $sort: { MID: -1 }
         },
         {
             $skip: pageSkip
@@ -90,14 +90,14 @@ export function	index(
     ]).toArray();
 }
 
-export async function single({ db, logger }, { id }) {
+export async function single({ db, logger, config }, { id }) {
 
     logger('info', 'fetching member for ' + id);
 
-    const result = await db.collection('members').aggregate([
+    const result = await db.collection(config.db.members).aggregate([
         {
             '$match': {
-                '_id': new ObjectID(id)
+                'MID': id
             }
         },
         {
@@ -107,17 +107,17 @@ export async function single({ db, logger }, { id }) {
         }, 
         {
             '$lookup': {
-                'from': 'parties', 
+                'from': config.db.parties, 
                 'localField': 'terms.party',
-                'foreignField': '_id',
+                'foreignField': 'PID',
                 'as': 'terms.party'
             }
         }, 
         {
             '$lookup': {
-                'from': 'constituencies', 
+                'from': config.db.constituencies, 
                 'localField': 'terms.constituency',
-                'foreignField': '_id',
+                'foreignField': 'CID',
                 'as': 'terms.constituency'
             }
         }, 
@@ -125,10 +125,11 @@ export async function single({ db, logger }, { id }) {
         { '$unwind': '$terms.party' }, 
         {
             '$group': {
-                '_id': '$_id', 
+                '_id': '$_id',
                 'terms': { '$push': '$terms' }, 
                 'gender': { '$first': '$gender' },
                 'name': { '$first': '$name' },
+                'MID': { '$first': '$MID' },
                 'dob': { '$first': '$dob' },
                 'birth_place': { '$first': '$birth_place' },
                 'marital_status': { '$first': '$marital_status' },

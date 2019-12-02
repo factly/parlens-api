@@ -10,7 +10,7 @@ export default new GraphQLObjectType({
             description: 'ID of the address, Generated automatically by MongoDB'
         },
         PID: {
-            type: GraphQLInt,
+            type: GraphQLID,
             description: 'Internal party ID'
         },
         name: {

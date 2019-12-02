@@ -60,11 +60,11 @@ export function	MemberIndex() {
                 description: 'no of term'
             },
             party: {
-                type: new GraphQLList(GraphQLString),
+                type: new GraphQLList(GraphQLInt),
                 description: 'List of party ID'
             },
             constituency: {
-                type: new GraphQLList(GraphQLString),
+                type: new GraphQLList(GraphQLInt),
                 description: 'List of constituency ID'
             },
             house: {
@@ -88,7 +88,7 @@ export function	MemberSingle(){
         description: 'This will return member details by ID',
         args: {
             id: {
-                type: GraphQLString,
+                type: GraphQLInt,
                 description: 'Member ID'
             }
         },

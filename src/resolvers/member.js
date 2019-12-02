@@ -10,17 +10,17 @@ export function	index(
     if(q) filter.name = { $regex: q, $options: 'i' };
     if(gender) filter.gender = gender;
     if(dob) filter.dob = dob;
-    if(marital_status) filter.marital_status = { $in: marital_status };
-    if(education) filter.education = { $in: education };
-    if(profession) filter.profession = { $in : profession };
-    if(expertise) filter.expertise = { $in : expertise };
-    if(sons) filter.sons = { $in: sons };
-    if(daughters) filter.daughters = { $in: daughters };
+    if(marital_status && marital_status.length > 0) filter.marital_status = { $in: marital_status };
+    if(education && education.length > 0) filter.education = { $in: education };
+    if(profession && profession.length > 0) filter.profession = { $in : profession };
+    if(expertise && expertise.length > 0) filter.expertise = { $in : expertise };
+    if(sons && sons.length > 0) filter.sons = { $in: sons };
+    if(daughters && daughters.length > 0) filter.daughters = { $in: daughters };
     if(term) filter.terms = { $size: term };
-    if(party) filter['terms.party'] = { $in: party };
-    if(constituency) filter['terms.constituency'] = { $in: constituency };
-    if(house) filter['terms.house'] = { $in: house };
-    if(session) filter['terms.session'] = { $in: session };
+    if(party && party.length > 0) filter['terms.party'] = { $in: party };
+    if(constituency && constituency.length > 0) filter['terms.constituency'] = { $in: constituency };
+    if(house && house.length > 0 ) filter['terms.house'] = { $in: house };
+    if(session && session.length > 0 ) filter['terms.session'] = { $in: session };
 
     const pageLimit = limit && limit > 0 && limit < 20 ? limit : 10;
     const pageSkip = page ? (page - 1) * pageLimit : 0;
@@ -90,7 +90,8 @@ export function	index(
 }
 
 export async function single({ db, logger, config }, { id }) {
-
+    if(!id) return null;
+    
     logger('info', 'fetching member for ' + id);
 
     const result = await db.collection(config.db.members).aggregate([

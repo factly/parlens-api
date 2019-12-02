@@ -13,19 +13,19 @@ export function index(
     if(q) filter.subject = { $regex: q, $options: 'i' };
     if(house) filter.house = house;
     if(type) filter.type = type;
-    if(ministry) filter.ministry = { $in: ministry };
-    if(questionBy) filter['questionBy.MID'] = { $in: questionBy };
+    if(ministry && ministry.length > 0) filter.ministry = { $in: ministry };
+    if(questionBy && questionBy.length > 0) filter['questionBy.MID'] = { $in: questionBy };
     if(gender) filter['questionBy.gender'] = gender;
     if(dob) filter['questionBy.dob'] = dob;
-    if(marital_status) filter['questionBy.marital_status'] = { $in: marital_status };
-    if(education) filter['questionBy.education'] = { $in: education };
-    if(profession) filter['questionBy.profession'] = { $in : profession };
-    if(expertise) filter['questionBy.expertise'] = { $in : expertise };
-    if(sons) filter['questionBy.sons'] = { $in: sons };
-    if(daughters) filter['questionBy.daughters'] = { $in: daughters };
+    if(marital_status && marital_status.length > 0) filter['questionBy.marital_status'] = { $in: marital_status };
+    if(education && education.length > 0) filter['questionBy.education'] = { $in: education };
+    if(profession && profession.length > 0) filter['questionBy.profession'] = { $in : profession };
+    if(expertise && expertise.length > 0) filter['questionBy.expertise'] = { $in : expertise };
+    if(sons && sons.length > 0) filter['questionBy.sons'] = { $in: sons };
+    if(daughters && daughters.length > 0) filter['questionBy.daughters'] = { $in: daughters };
     if(term) filter['questionBy.terms'] = { $size: term };
-    if(party) filter['questionBy.terms.party.PID'] = { $in: party }; 
-    if(constituency) filter['questionBy.terms.constituency.CID'] = { $in: constituency }; 
+    if(party && party.length > 0) filter['questionBy.terms.party.PID'] = { $in: party }; 
+    if(constituency && constituency.length > 0) filter['questionBy.terms.constituency.CID'] = { $in: constituency }; 
     
     const pageLimit = limit && limit > 0 && limit < 20 ? limit : 10;
     const pageSkip = page ? (page - 1) * pageLimit : 0;
@@ -107,7 +107,8 @@ export function index(
 }
 
 export async function single({ db, logger, config }, { id }) {
-
+    if(!id) return null;
+    
     logger('info', 'fetching question for ' + id);
     
     const result = await db.collection(config.db.questions).aggregate([

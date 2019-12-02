@@ -6,7 +6,7 @@ export default new GraphQLObjectType({
 
     fields: () => ({
         CID: {
-            type: GraphQLID,
+            type: GraphQLInt,
             description: 'Internal constituency ID'
         },
         name: {

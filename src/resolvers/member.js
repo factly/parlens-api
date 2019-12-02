@@ -27,7 +27,6 @@ export function	index(
     
     logger('info', 'fetching members for query ' + JSON.stringify(filter));
 
-    console.log(config.db.members)
     return db.collection(config.db.members).aggregate([
         {
             $match: filter

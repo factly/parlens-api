@@ -32,11 +32,11 @@ export function QuestionIndex() {
                 description: 'Type'
             },
             ministry: {
-                type: GraphQLString,
+                type: new GraphQLList(GraphQLString),
                 description: 'Ministry'
             },
             questionBy: {
-                type: new GraphQLList(GraphQLString),
+                type: new GraphQLList(GraphQLInt),
                 description: 'Member ID'
             },
             gender: {
@@ -76,11 +76,11 @@ export function QuestionIndex() {
                 description: 'no of term'
             },
             party: {
-                type: new GraphQLList(GraphQLString),
+                type: new GraphQLList(GraphQLInt),
                 description: 'List of party ID'
             },
             constituency: {
-                type: new GraphQLList(GraphQLString),
+                type: new GraphQLList(GraphQLInt),
                 description: 'List of constituency ID'
             }
         },
@@ -96,7 +96,7 @@ export function QuestionSingle() {
         description: 'This will return question details by ID',
         args: {
             id: {
-                type: GraphQLString,
+                type: GraphQLInt,
                 description: 'Question ID'
             }
         },

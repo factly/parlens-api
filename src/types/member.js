@@ -33,7 +33,7 @@ export default new GraphQLObjectType({
 
     fields: () => ({
         MID: {
-            type: GraphQLID,
+            type: GraphQLInt,
             description: 'MID'
         },
         name: {

@@ -77,10 +77,10 @@ app.use('/graphql', expressGraphQL( async (req) => ({
         logger: (level, msg) => logger.log(level, `${req.ip} ${req.headers['request-id']} ${msg}`),
         config: {
             db: {
-                constituencies: "constituency",
-                parties: "politicalPartiesUnique",
-                members: "cleanedMembers",
-                questions: "cleanedQuestions"
+                constituencies: 'constituency',
+                parties: 'politicalPartiesUnique',
+                members: 'cleanedMembers',
+                questions: 'cleanedQuestions'
             }
         }
     },

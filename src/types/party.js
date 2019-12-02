@@ -6,7 +6,7 @@ export default new GraphQLObjectType({
 
     fields: () => ({
         PID: {
-            type: GraphQLID,
+            type: GraphQLInt,
             description: 'Internal party ID'
         },
         name: {

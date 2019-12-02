@@ -1,4 +1,4 @@
-import { GraphQLObjectType, GraphQLString, GraphQLID, GraphQLList } from 'graphql';
+import { GraphQLObjectType, GraphQLString, GraphQLID, GraphQLList, GraphQLInt } from 'graphql';
 
 import MemberType from './member';
 
@@ -7,6 +7,10 @@ export default new GraphQLObjectType({
     description: 'All questions which has been asked in both house.',
 
     fields: () => ({
+        QID: {
+            type: GraphQLInt,
+            description: 'Internal question ID'
+        },
         subject: {
             type: GraphQLString,
             description: 'Question subject'

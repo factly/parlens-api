@@ -13,7 +13,7 @@ export function index(
     if(q) filter.subject = { $regex: q, $options: 'i' };
     if(house) filter.house = house;
     if(type) filter.type = type;
-    if(ministry) filter.ministry = ministry;
+    if(ministry) filter.ministry = { $in: ministry };
     if(questionBy) filter['questionBy.MID'] = { $in: questionBy };
     if(gender) filter['questionBy.gender'] = gender;
     if(dob) filter['questionBy.dob'] = dob;

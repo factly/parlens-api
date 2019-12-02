@@ -79,7 +79,8 @@ app.use('/graphql', expressGraphQL( async (req) => ({
             db: {
                 constituencies: "constituency",
                 parties: "politicalPartiesUnique",
-                members: "cleanedMembers"
+                members: "cleanedMembers",
+                questions: "cleanedQuestions"
             }
         }
     },

@@ -5,10 +5,6 @@ export default new GraphQLObjectType({
     description: 'All political parties of india.',
 
     fields: () => ({
-        _id: {
-            type: GraphQLID,
-            description: 'ID of the address, Generated automatically by MongoDB'
-        },
         PID: {
             type: GraphQLID,
             description: 'Internal party ID'

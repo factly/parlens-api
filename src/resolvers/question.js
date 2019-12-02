@@ -1,7 +1,7 @@
 import { ObjectID } from 'mongodb';
 
 export function index(
-    { db, logger }, 
+    { db, logger, config }, 
     { 
         limit, page, 
         q, house, type, ministry, questionBy, 
@@ -14,7 +14,7 @@ export function index(
     if(house) filter.house = house;
     if(type) filter.type = type;
     if(ministry) filter.ministry = ministry;
-    if(questionBy) filter['questionBy._id'] = { $in: questionBy.map(id => new ObjectID(id)) };
+    if(questionBy) filter['questionBy.MID'] = { $in: questionBy };
     if(gender) filter['questionBy.gender'] = gender;
     if(dob) filter['questionBy.dob'] = dob;
     if(marital_status) filter['questionBy.marital_status'] = { $in: marital_status };
@@ -24,23 +24,23 @@ export function index(
     if(sons) filter['questionBy.sons'] = { $in: sons };
     if(daughters) filter['questionBy.daughters'] = { $in: daughters };
     if(term) filter['questionBy.terms'] = { $size: term };
-    if(party) filter['questionBy.terms.party._id'] = { $in: party.map(id => new ObjectID(id)) }; 
-    if(constituency) filter['questionBy.terms.constituency._id'] = { $in: constituency.map(id => new ObjectID(id)) }; 
+    if(party) filter['questionBy.terms.party.PID'] = { $in: party }; 
+    if(constituency) filter['questionBy.terms.constituency.CID'] = { $in: constituency }; 
     
     const pageLimit = limit && limit > 0 && limit < 20 ? limit : 10;
     const pageSkip = page ? (page - 1) * pageLimit : 0;
 
     logger('info', 'fetching questions for query ' + JSON.stringify(filter));
 
-    return db.collection('questions').aggregate([
+    return db.collection(config.db.questions).aggregate([
         {
             $lookup: {
-                from: 'members',
+                from: config.db.members,
                 let: { questionBy: '$questionBy' },
                 pipeline: [
                     {
                         $match: {
-                            $expr: { $in: ['$_id', '$$questionBy'] }
+                            $expr: { $in: ['$MID', '$$questionBy'] }
                         } 
                     },
                     {
@@ -48,17 +48,17 @@ export function index(
                     },
                     {
                         $lookup: {
-                            'from': 'parties', 
+                            'from': config.db.parties, 
                             'localField': 'terms.party',
-                            'foreignField': '_id',
+                            'foreignField': 'PID',
                             'as': 'terms.party'
                         }
                     }, 
                     {
                         $lookup: {
-                            'from': 'constituencies', 
+                            'from': config.db.constituencies, 
                             'localField': 'terms.constituency',
-                            'foreignField': '_id',
+                            'foreignField': 'CID',
                             'as': 'terms.constituency'
                         }
                     }, 
@@ -73,6 +73,7 @@ export function index(
                             '_id': '$_id', 
                             'terms': { '$push': '$terms' }, 
                             'gender': { '$first': '$gender' },
+                            'MID': { '$first': '$MID' },
                             'name': { '$first': '$name' },
                             'dob': { '$first': '$dob' },
                             'birth_place': { '$first': '$birth_place' },
@@ -94,7 +95,7 @@ export function index(
             $match: filter
         },
         {
-            $sort: { _id: -1 }
+            $sort: { QID: -1 }
         },
         {
             $skip: pageSkip
@@ -105,19 +106,19 @@ export function index(
     ]).toArray();
 }
 
-export async function single({ db }, { id }) {
+export async function single({ db, logger, config }, { id }) {
 
     logger('info', 'fetching question for ' + id);
     
-    const result = await db.collection('questions').aggregate([
+    const result = await db.collection(config.db.questions).aggregate([
         {
             $lookup: {
-                from: 'members',
+                from: config.db.members,
                 let: { questionBy: '$questionBy' },
                 pipeline: [
                     {
                         $match: {
-                            $expr: { $in: ['$_id', '$$questionBy'] }
+                            $expr: { $in: ['$MID', '$$questionBy'] }
                         } 
                     },
                     {
@@ -125,17 +126,17 @@ export async function single({ db }, { id }) {
                     },
                     {
                         $lookup: {
-                            'from': 'parties', 
+                            'from': config.db.parties, 
                             'localField': 'terms.party',
-                            'foreignField': '_id',
+                            'foreignField': 'PID',
                             'as': 'terms.party'
                         }
                     }, 
                     {
                         $lookup: {
-                            'from': 'constituencies', 
+                            'from': config.db.constituencies, 
                             'localField': 'terms.constituency',
-                            'foreignField': '_id',
+                            'foreignField': 'CID',
                             'as': 'terms.constituency'
                         }
                     }, 
@@ -150,6 +151,7 @@ export async function single({ db }, { id }) {
                             '_id': '$_id', 
                             'terms': { '$push': '$terms' }, 
                             'gender': { '$first': '$gender' },
+                            'MID': { '$first': '$MID' },
                             'name': { '$first': '$name' },
                             'dob': { '$first': '$dob' },
                             'birth_place': { '$first': '$birth_place' },
@@ -169,7 +171,7 @@ export async function single({ db }, { id }) {
         },
         {
             $match: {
-                _id: new ObjectID(id)
+                QID: id
             }
         },
     ]).toArray();

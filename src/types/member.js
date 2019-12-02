@@ -32,10 +32,6 @@ export default new GraphQLObjectType({
     description: 'All MPs of india.',
 
     fields: () => ({
-        _id: {
-            type: GraphQLID,
-            description: 'ID of the member, Generated automatically by MongoDB'
-        },
         MID: {
             type: GraphQLID,
             description: 'MID'

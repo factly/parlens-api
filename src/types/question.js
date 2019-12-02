@@ -7,10 +7,6 @@ export default new GraphQLObjectType({
     description: 'All questions which has been asked in both house.',
 
     fields: () => ({
-        _id: {
-            type: GraphQLID,
-            description: 'ID of the question, Generated automatically by MongoDB'
-        },
         subject: {
             type: GraphQLString,
             description: 'Question subject'

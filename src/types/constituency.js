@@ -5,10 +5,6 @@ export default new GraphQLObjectType({
     description: 'All constituency of india.',
 
     fields: () => ({
-        _id: {
-            type: GraphQLID,
-            description: 'ID of the constituency, Generated automatically by MongoDB'
-        },
         CID: {
             type: GraphQLID,
             description: 'Internal constituency ID'

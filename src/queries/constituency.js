@@ -1,10 +1,8 @@
-import { GraphQLList, GraphQLString, GraphQLInt } from 'graphql';
-
-// import the type
-import ConstituencyType from '../types/constituency';
-
+import { GraphQLInt, GraphQLList, GraphQLString } from 'graphql';
 // import the resolver
 import { index, single } from '../resolvers/constituency';
+// import the type
+import ConstituencyType from '../types/constituency';
 
 export function ConstituencyIndex() {
     return {

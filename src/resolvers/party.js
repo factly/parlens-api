@@ -1,7 +1,7 @@
 export function index({ db, logger, config }, { limit, page, q }) {
     let filter = {};
-    if(q) filter.$or = [{ 'name': { $regex: q, $options: 'i' } }, { 'abbr': { $regex: q, $options: 'i' } }];
-    
+    if (q) filter.$or = [{ 'name': { $regex: q, $options: 'i' } }, { 'abbr': { $regex: q, $options: 'i' } }];
+
     const pageLimit = limit && limit > 0 && limit < 20 ? limit : 10;
     const pageSkip = page ? (page - 1) * pageLimit : 0;
 
@@ -11,7 +11,7 @@ export function index({ db, logger, config }, { limit, page, q }) {
 }
 
 export function single({ db, logger, config }, { id }) {
-    if(!id) return null;
+    if (!id) return null;
 
     logger('info', 'fetching party for ' + id);
 

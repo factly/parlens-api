@@ -1,10 +1,8 @@
-import { GraphQLList, GraphQLString, GraphQLInt } from 'graphql';
-
-// import the type
-import PartyType from '../types/party';
-
+import { GraphQLInt, GraphQLList, GraphQLString } from 'graphql';
 // import the resolver
 import { index, single } from '../resolvers/party';
+// import the type
+import PartyType from '../types/party';
 
 export function PartyIndex() {
     return {

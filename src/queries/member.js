@@ -1,10 +1,8 @@
-import { GraphQLList, GraphQLString, GraphQLInt } from 'graphql';
-
-// import the type 
-import MemberType from '../types/member';
-
+import { GraphQLInt, GraphQLList, GraphQLString } from 'graphql';
 // import the resolver
 import { index, single } from '../resolvers/member';
+// import the type 
+import MemberType from '../types/member';
 
 export function	MemberIndex() {
     return {

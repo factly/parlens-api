@@ -18,7 +18,7 @@ export default new GraphQLObjectType({
             description: 'Constituency state'
         },
         pincodes: {
-            type:new GraphQLList(GraphQLInt),
+            type: new GraphQLList(GraphQLInt),
             description: 'Constituency pincodes'
         },
         from: {

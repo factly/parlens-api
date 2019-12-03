@@ -33,7 +33,7 @@ const dailyRotateFileTransport = new transports.DailyRotateFile({
     filename: `${logDir}/%DATE%-results.log`,
     datePattern: 'YYYY-MM-DD'
 });
-  
+
 const logger = createLogger({
     level: env === 'development' ? 'verbose' : 'info',
     format: format.combine(
@@ -64,13 +64,13 @@ app.use(bodyParser.urlencoded({ limit: '50mb', extended: true, parameterLimit: 5
 app.use(bodyParser.json({ limit: '50mb' }));
 
 /* unique request ID starts */
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
     req.headers['request-id'] = uuidv1();
     next();
 });
 /* unique request ID ends */
 
-app.use('/graphql', expressGraphQL( async (req) => ({
+app.use('/graphql', expressGraphQL(async (req) => ({
     schema: GraphQLSchema,
     context: {
         db: await mongo,

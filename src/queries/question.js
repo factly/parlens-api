@@ -1,10 +1,8 @@
-import { GraphQLList, GraphQLString, GraphQLInt } from 'graphql';
-
-// import the type
-import QuestionType from '../types/question';
-
+import { GraphQLInt, GraphQLList, GraphQLString, GraphQLNonNull } from 'graphql';
 // import the resolver
 import { index, single } from '../resolvers/question';
+// import the type
+import QuestionType from '../types/question';
 
 export function QuestionIndex() {
     return {
@@ -96,7 +94,7 @@ export function QuestionSingle() {
         description: 'This will return question details by ID',
         args: {
             id: {
-                type: GraphQLInt,
+                type: new GraphQLNonNull(GraphQLInt),
                 description: 'Question ID'
             }
         },

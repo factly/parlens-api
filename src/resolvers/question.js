@@ -1,4 +1,4 @@
-export function index(
+export async function index(
     { db, logger, config },
     {
         limit, page,
@@ -22,71 +22,27 @@ export function index(
     if (sons && sons.length > 0) filter['questionBy.sons'] = { $in: sons };
     if (daughters && daughters.length > 0) filter['questionBy.daughters'] = { $in: daughters };
     if (term) filter['questionBy.terms'] = { $size: term };
-    if (party && party.length > 0) filter['questionBy.terms.party.PID'] = { $in: party };
-    if (constituency && constituency.length > 0) filter['questionBy.terms.constituency.CID'] = { $in: constituency };
+    if (party && party.length > 0) filter['questionBy.terms.party'] = { $in: party };
+    if (constituency && constituency.length > 0) filter['questionBy.terms.constituency'] = { $in: constituency };
     
     const pageLimit = limit && limit > 0 && limit < 20 ? limit : 10;
     const pageSkip = page ? (page - 1) * pageLimit : 0;
 
     logger('info', 'fetching questions for query ' + JSON.stringify(filter));
 
-    return db.collection(config.db.questions).aggregate([
+    console.time('que')
+    const res = await db.collection(config.db.questions).aggregate([
+        {
+            $unwind: {
+                'path': '$questionBy'
+            }
+        },
         {
             $lookup: {
-                from: config.db.members,
-                let: { questionBy: '$questionBy' },
-                pipeline: [
-                    {
-                        $match: {
-                            $expr: { $in: ['$MID', '$$questionBy'] }
-                        }
-                    },
-                    {
-                        $unwind: { path: '$terms', preserveNullAndEmptyArrays: true }
-                    },
-                    {
-                        $lookup: {
-                            'from': config.db.parties,
-                            'localField': 'terms.party',
-                            'foreignField': 'PID',
-                            'as': 'terms.party'
-                        }
-                    },
-                    {
-                        $lookup: {
-                            'from': config.db.constituencies,
-                            'localField': 'terms.constituency',
-                            'foreignField': 'CID',
-                            'as': 'terms.constituency'
-                        }
-                    },
-                    {
-                        $unwind: '$terms.constituency'
-                    },
-                    {
-                        $unwind: '$terms.party'
-                    },
-                    {
-                        $group: {
-                            '_id': '$_id',
-                            'terms': { '$push': '$terms' },
-                            'gender': { '$first': '$gender' },
-                            'MID': { '$first': '$MID' },
-                            'name': { '$first': '$name' },
-                            'dob': { '$first': '$dob' },
-                            'birth_place': { '$first': '$birth_place' },
-                            'marital_status': { '$first': '$marital_status' },
-                            'sons': { '$first': '$sons' },
-                            'daughters': { '$first': '$daughters' },
-                            'email': { '$first': '$email' },
-                            'phone': { '$first': '$phone' },
-                            'education': { '$first': '$education' },
-                            'expertise': { '$first': '$expertise' },
-                            'profession': { '$first': '$profession' }
-                        }
-                    },
-                ],
-                as: 'questionBy'
+                'from': config.db.members,
+                'localField': 'questionBy',
+                'foreignField': 'MID',
+                'as': 'questionBy'
             }
         },
         {
@@ -102,6 +58,8 @@ export function index(
             $limit: pageLimit  
         },
     ]).toArray();
+    console.timeEnd('que')
+    return res;
 }
 
 export async function single({ db, logger, config }, { id }) {

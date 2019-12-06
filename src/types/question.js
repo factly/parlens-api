@@ -1,6 +1,6 @@
 import { GraphQLObjectType, GraphQLString, GraphQLID, GraphQLList, GraphQLInt } from 'graphql';
 
-import MemberType from './member';
+import MemberWithoutTermType from './memberwithoutterms';
 
 export default new GraphQLObjectType({
     name: 'question',
@@ -24,7 +24,7 @@ export default new GraphQLObjectType({
             description: 'Question questions'
         },
         questionBy: {
-            type: new GraphQLList(MemberType),
+            type: new GraphQLList(MemberWithoutTermType),
             description: 'Question asked by'
         },
         answer: {

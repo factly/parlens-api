@@ -43,17 +43,17 @@ export async function index(
     logger('info', 'fetching questions for query ' + JSON.stringify(filter));
 
 
-    let questionWithoutMembers = await db.collection(config.db.questions).find(filter).skip(pageSkip).limit(pageLimit).toArray();
+    let questionsWithoutMembers = await db.collection(config.db.questions).find(filter).skip(pageSkip).limit(pageLimit).toArray();
 
     let fetchMemberIDs = [];
 
-    questionWithoutMembers.map( question => fetchMemberIDs = fetchMemberIDs.concat(question.questionBy));
+    questionsWithoutMembers.map( question => fetchMemberIDs = fetchMemberIDs.concat(question.questionBy));
     
     const allMembers = await db.collection(config.db.members).find({ 'MID': { '$in': fetchMemberIDs } }).toArray();
 
     const membersObject = allMembers.reduce((obj, item) => Object.assign(obj, { [item.MID]: item }), {});
 
-    return questionWithoutMembers.map( each => {
+    return questionsWithoutMembers.map( each => {
         return {
             ...each,
             questionBy: each.questionBy.map(questioner => membersObject[questioner])
@@ -66,44 +66,18 @@ export async function single({ db, logger, config }, { id }) {
 
     logger('info', 'fetching question for ' + id);
 
-    const result = await db.collection(config.db.questions).aggregate([
-        {
-            $match: {
-                QID: id
-            }
-        },
-        {
-            $unwind: {
-                'path': '$questionBy'
-            }
-        },
-        {
-            $lookup: {
-                from: config.db.members,
-                localField: 'questionBy',
-                foreignField: 'MID',
-                as: 'questionBy'
-            }
-        },
-        {
-            $unwind: {
-                'path': '$questionBy'
-            }
-        },
-        {
-            $group: {
-                '_id': '$_id',
-                'questionBy': { '$push': '$questionBy' },
-                'QID': { '$first': '$QID' },
-                'subject': { '$first': '$subject' },
-                'type': { '$first': '$type' },
-                'question': { '$first': '$question' },
-                'answer': { '$first': '$answer' },
-                'house': { '$first': '$house' },
-                'ministry': { '$first': '$ministry' },
-                'date': { '$first': '$date' }
-            }
-        },
-    ]).toArray();
-    if (result.length === 1) return result[0];
+    let questionWithoutMembers = await db.collection(config.db.questions).find({ QID: id }).toArray();
+
+    if(questionWithoutMembers.length !== 1) return null;
+
+    questionWithoutMembers = questionWithoutMembers[0];
+
+    const allQuestioner = await db.collection(config.db.members).find({ 'MID': { '$in' : questionWithoutMembers.questionBy } }).toArray();
+
+    const allQuestionerObject = allQuestioner.reduce((obj, item) => Object.assign(obj, { [item.MID]: item }), {});
+   
+    return {
+        ...questionWithoutMembers,
+        questionBy: questionWithoutMembers.questionBy.map(questioner => allQuestionerObject[questioner])
+    };
 }

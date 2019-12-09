@@ -1,5 +1,5 @@
 {
-  "name": "parliament-search-web",
+  "name": "parliament-search-api",
   "version": "0.0.5",
   "description": "",
   "author": "Factly Media &amp; Research LLC",
@@ -14,12 +14,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/factly/parliament-search-web"
+    "url": "git+https://github.com/factly/parliament-search-api"
   },
   "bugs": {
-    "url": "https://github.com/factly/parliament-search-web/issues"
+    "url": "https://github.com/factly/parliament-search-api/issues"
   },
-  "homepage": "https://github.com/factly/parliament-search-web#readme",
+  "homepage": "https://github.com/factly/parliament-search-api#readme",
   "keywords": [],
   "license": "ISC",
   "dependencies": {

@@ -11,8 +11,6 @@ export function index({ db, logger, config }, { limit, page, q }) {
 }
 
 export function single({ db, logger, config }, { id }) {
-    if (!id) return null;
-
     logger('info', 'fetching party for ' + id);
 
     return db.collection(config.db.parties).findOne({ PID: id });

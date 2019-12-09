@@ -62,8 +62,6 @@ export async function index(
 }
 
 export async function single({ db, logger, config }, { id }) {
-    if (!id) return null;
-
     logger('info', 'fetching question for ' + id);
 
     let questionWithoutMembers = await db.collection(config.db.questions).findOne({ QID: id });

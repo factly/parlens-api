@@ -1,4 +1,4 @@
-import { GraphQLInt, GraphQLList, GraphQLString } from 'graphql';
+import { GraphQLInt, GraphQLList, GraphQLString, GraphQLNonNull } from 'graphql';
 // import the resolver
 import { index, single } from '../resolvers/member';
 // import the type 
@@ -86,7 +86,7 @@ export function	MemberSingle(){
         description: 'This will return member details by ID',
         args: {
             id: {
-                type: GraphQLInt,
+                type: new GraphQLNonNull(GraphQLInt),
                 description: 'Member ID'
             }
         },

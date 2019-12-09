@@ -20,7 +20,7 @@ export default new GraphQLObjectType({
             description: 'Question type'
         },
         question: {
-            type: new GraphQLList(GraphQLString),
+            type: GraphQLString,
             description: 'Question questions'
         },
         questionBy: {

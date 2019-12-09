@@ -90,8 +90,6 @@ export function index(
 }
 
 export async function single({ db, logger, config }, { id }) {
-    if (!id) return null;
-
     logger('info', 'fetching member for ' + id);
 
     const result = await db.collection(config.db.members).aggregate([

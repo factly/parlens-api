@@ -11,8 +11,6 @@ export function index({ db, logger, config }, { limit, page, q }) {
 }
 
 export function single({ db, logger, config }, { id }) {
-    if (!id) return null;
-
     logger('info', 'fetching constituency for ' + id);
 
     return db.collection(config.db.constituencies).findOne({ CID: id });

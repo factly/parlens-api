@@ -66,11 +66,9 @@ export async function single({ db, logger, config }, { id }) {
 
     logger('info', 'fetching question for ' + id);
 
-    let questionWithoutMembers = await db.collection(config.db.questions).find({ QID: id }).toArray();
-
-    if(questionWithoutMembers.length !== 1) return null;
-
-    questionWithoutMembers = questionWithoutMembers[0];
+    let questionWithoutMembers = await db.collection(config.db.questions).findOne({ QID: id });
+    
+    if(!questionWithoutMembers) return null;
 
     const allQuestioner = await db.collection(config.db.members).find({ 'MID': { '$in' : questionWithoutMembers.questionBy } }).toArray();
 

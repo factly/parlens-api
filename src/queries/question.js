@@ -1,4 +1,4 @@
-import { GraphQLInt, GraphQLList, GraphQLString, GraphQLNonNull } from 'graphql';
+import { GraphQLInt, GraphQLList, GraphQLString, GraphQLNonNull, GraphQLObjectType } from 'graphql';
 // import the resolver
 import { index, single } from '../resolvers/question';
 // import the type
@@ -6,7 +6,21 @@ import QuestionType from '../types/question';
 
 export function QuestionIndex() {
     return {
-        type: new GraphQLList(QuestionType),
+        type: new GraphQLObjectType({
+            name: 'QuestionPaging',
+            description: '',
+        
+            fields: () => ({
+                nodes: {
+                    type: new GraphQLList(QuestionType),
+                    description: 'List of question'
+                },
+                total: {
+                    type: GraphQLInt,
+                    description: 'total question'
+                }
+            })         
+        }),
         description: 'This will return all the question present in the database',
         args: {
             limit: {

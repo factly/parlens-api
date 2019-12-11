@@ -1,4 +1,4 @@
-export function index(
+export async function index(
     { db, logger, config },
     {
         limit, page,
@@ -22,12 +22,12 @@ export function index(
     if (house && house.length > 0) filter['terms.house'] = { $in: house };
     if (session && session.length > 0) filter['terms.session'] = { $in: session };
 
-    const pageLimit = limit && limit > 0 && limit < 20 ? limit : 10;
+    const pageLimit = limit && limit > 0 && limit <= 20 ? limit : 10;
     const pageSkip = page ? (page - 1) * pageLimit : 0;
 
     logger('info', 'fetching members for query ' + JSON.stringify(filter));
 
-    return db.collection(config.db.members).aggregate([
+    const nodes = await db.collection(config.db.members).aggregate([
         {
             $match: filter
         },
@@ -87,6 +87,13 @@ export function index(
             $limit: pageLimit
         },
     ]).toArray();
+
+    const total = await db.collection(config.db.members).find(filter).count()
+
+    return {
+        nodes,
+        total
+    }
 }
 
 export async function single({ db, logger, config }, { id }) {

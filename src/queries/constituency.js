@@ -1,4 +1,4 @@
-import { GraphQLInt, GraphQLList, GraphQLString, GraphQLNonNull } from 'graphql';
+import { GraphQLInt, GraphQLList, GraphQLString, GraphQLNonNull, GraphQLObjectType } from 'graphql';
 // import the resolver
 import { index, single } from '../resolvers/constituency';
 // import the type
@@ -6,7 +6,21 @@ import ConstituencyType from '../types/constituency';
 
 export function ConstituencyIndex() {
     return {
-        type: new GraphQLList(ConstituencyType),
+        type: new GraphQLObjectType({
+            name: 'ConstituencyPaging',
+            description: '',
+        
+            fields: () => ({
+                nodes: {
+                    type: new GraphQLList(ConstituencyType),
+                    description: 'List of constituency'
+                },
+                total: {
+                    type: GraphQLInt,
+                    description: 'total constituency'
+                }
+            })         
+        }),
         description: 'This will return all the constituency present in the database',
         args: {
             limit: {

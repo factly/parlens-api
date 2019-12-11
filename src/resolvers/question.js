@@ -14,12 +14,12 @@ export async function index(
     if (type) filter.type = type;
     if (ministry && ministry.length > 0) filter.ministry = { $in: ministry };
     
-    const pageLimit = limit && limit > 0 && limit < 20 ? limit : 10;
+    const pageLimit = limit && limit > 0 && limit <= 20 ? limit : 10;
     const pageSkip = page ? (page - 1) * pageLimit : 0;
     
     if (questionBy && questionBy.length > 0) nestedFilter.MID = { $in: questionBy };
     if (gender) nestedFilter['gender'] = gender;
-    if (dob) nestedFilter['dob'] = dob;
+    //if (dob) nestedFilter['dob'] = dob;
     if (marital_status && marital_status.length > 0) nestedFilter['marital_status'] = { $in: marital_status };
     if (education && education.length > 0) nestedFilter['education'] = { $in: education };
     if (profession && profession.length > 0) nestedFilter['profession'] = { $in: profession };
@@ -45,6 +45,8 @@ export async function index(
 
     let questionsWithoutMembers = await db.collection(config.db.questions).find(filter).skip(pageSkip).limit(pageLimit).toArray();
 
+    const totalQuestions = await db.collection(config.db.questions).find(filter).count()
+
     let fetchMemberIDs = [];
 
     questionsWithoutMembers.map( question => fetchMemberIDs = fetchMemberIDs.concat(question.questionBy));
@@ -53,12 +55,14 @@ export async function index(
 
     const membersObject = allMembers.reduce((obj, item) => Object.assign(obj, { [item.MID]: item }), {});
 
-    return questionsWithoutMembers.map( each => {
-        return {
-            ...each,
-            questionBy: each.questionBy.map(questioner => membersObject[questioner])
-        };
-    });
+    return  { 
+        nodes: questionsWithoutMembers.map( each => ({
+                ...each,
+                questionBy: each.questionBy.map(questioner => membersObject[questioner])
+            }
+        )),
+        total: totalQuestions
+    }
 }
 
 export async function single({ db, logger, config }, { id }) {

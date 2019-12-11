@@ -1,4 +1,4 @@
-import { GraphQLInt, GraphQLList, GraphQLString, GraphQLNonNull } from 'graphql';
+import { GraphQLInt, GraphQLList, GraphQLString, GraphQLNonNull, GraphQLObjectType } from 'graphql';
 // import the resolver
 import { index, single } from '../resolvers/member';
 // import the type 
@@ -6,7 +6,21 @@ import MemberType from '../types/member';
 
 export function	MemberIndex() {
     return {
-        type: new GraphQLList(MemberType),
+        type: new GraphQLObjectType({
+            name: 'MembersPaging',
+            description: '',
+        
+            fields: () => ({
+                nodes: {
+                    type: new GraphQLList(MemberType),
+                    description: 'List of members'
+                },
+                total: {
+                    type: GraphQLInt,
+                    description: 'total members'
+                }
+            })         
+        }),
         description: 'This will return all the member present in the database',
         args: {
             limit: {

@@ -1,4 +1,4 @@
-import { GraphQLInt, GraphQLList, GraphQLString, GraphQLNonNull } from 'graphql';
+import { GraphQLInt, GraphQLList, GraphQLString, GraphQLNonNull, GraphQLObjectType } from 'graphql';
 // import the resolver
 import { index, single } from '../resolvers/party';
 // import the type
@@ -6,8 +6,22 @@ import PartyType from '../types/party';
 
 export function PartyIndex() {
     return {
-        type: new GraphQLList(PartyType),
-        description: 'This will return all the party present in the database',
+        type: new GraphQLObjectType({
+            name: 'PartyPaging',
+            description: '',
+        
+            fields: () => ({
+                nodes: {
+                    type: new GraphQLList(PartyType),
+                    description: 'List of party'
+                },
+                total: {
+                    type: GraphQLInt,
+                    description: 'total party'
+                }
+            })         
+        }),
+        description: 'This will return present list',
         args: {
             limit: {
                 type: GraphQLInt,

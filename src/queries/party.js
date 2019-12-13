@@ -29,14 +29,6 @@ export function PartyIndex() {
     }),
     description: "This will return present list",
     args: {
-      limit: {
-        type: GraphQLInt,
-        description: "limit of paging"
-      },
-      page: {
-        type: GraphQLInt,
-        description: "page no"
-      },
       q: {
         type: GraphQLString,
         description: "Party search keyword"

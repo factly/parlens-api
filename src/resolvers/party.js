@@ -1,4 +1,4 @@
-export async function index({ db, logger, config }, { limit, page, q }) {
+export async function index({ db, logger, config }, { q }) {
   let filter = {};
   if (q)
     filter.$or = [
@@ -6,27 +6,17 @@ export async function index({ db, logger, config }, { limit, page, q }) {
       { abbr: { $regex: q, $options: "i" } }
     ];
 
-  const pageLimit = limit && limit > 0 && limit <= 20 ? limit : 10;
-  const pageSkip = page ? (page - 1) * pageLimit : 0;
-
   logger("info", "fetching parties for query " + JSON.stringify(filter));
 
   const nodes = await db
     .collection(config.db.parties)
     .find(filter)
     .sort({ PID: 1 })
-    .skip(pageSkip)
-    .limit(pageLimit)
     .toArray();
-
-  const total = await db
-    .collection(config.db.parties)
-    .find(filter)
-    .count();
 
   return {
     nodes,
-    total
+    total: nodes.length
   };
 }
 

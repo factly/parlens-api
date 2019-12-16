@@ -3,6 +3,7 @@ export async function index(
   {
     limit,
     page,
+    sort,
     q,
     house,
     type,
@@ -50,6 +51,12 @@ export async function index(
   if (constituency && constituency.length > 0)
     nestedFilter["terms.constituency"] = { $in: constituency };
 
+  let sorting = {
+    date: 1
+  };
+  
+  if(sort === 'oldest') sorting.date = -1
+
   if (Object.keys(nestedFilter).length > 0) {
     
     logger("info", "fetching members for question query " + JSON.stringify(nestedFilter));
@@ -70,6 +77,7 @@ export async function index(
   let questionsWithoutMembers = await db
     .collection(config.db.questions)
     .find(filter)
+    .sort(sorting)
     .skip(pageSkip)
     .limit(pageLimit)
     .toArray();

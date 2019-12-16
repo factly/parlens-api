@@ -37,6 +37,10 @@ export function QuestionIndex() {
         type: GraphQLInt,
         description: "page no"
       },
+      sort: {
+        type: GraphQLString,
+        description: 'Sorting'
+      },
       q: {
         type: GraphQLString,
         description: "Question Search Word"
@@ -100,7 +104,7 @@ export function QuestionIndex() {
       constituency: {
         type: new GraphQLList(GraphQLInt),
         description: "List of constituency ID"
-      }
+      },
     },
     resolve(parent, args, context, info) {
       return index(context, args);

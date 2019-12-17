@@ -36,7 +36,7 @@ export async function index(
     nestedFilter.MID = { $in: questionBy };
   if (gender) nestedFilter["gender"] = gender;
   if (marital_status && marital_status.length > 0)
-    nestedFilter["marital_status"] = { $in: marital_status };
+    nestedFilter["maritalStatus"] = { $in: marital_status };
   if (education && education.length > 0)
     nestedFilter["education"] = { $in: education };
   if (profession && profession.length > 0)
@@ -52,10 +52,10 @@ export async function index(
     nestedFilter["terms.constituency"] = { $in: constituency };
 
   let sorting = {
-    date: 1
+    date: -1
   };
   
-  if(sort === 'oldest') sorting.date = -1
+  if(sort === 'oldest') sorting.date = 1
 
   if (Object.keys(nestedFilter).length > 0) {
     

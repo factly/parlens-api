@@ -50,11 +50,11 @@ export default new GraphQLObjectType({
       type: GraphQLString,
       description: "Member dob"
     },
-    birth_place: {
+    birthPlace: {
       type: GraphQLString,
       description: "Member birth place"
     },
-    marital_status: {
+    maritalStatus: {
       type: GraphQLString,
       description: "Member marital status"
     },

@@ -24,7 +24,7 @@ export async function index(
   if (gender) filter.gender = gender;
   if (dob) filter.dob = dob;
   if (marital_status && marital_status.length > 0)
-    filter.marital_status = { $in: marital_status };
+    filter.maritalStatus = { $in: marital_status };
   if (education && education.length > 0) filter.education = { $in: education };
   if (profession && profession.length > 0)
     filter.profession = { $in: profession };
@@ -85,8 +85,8 @@ export async function index(
           MID: { $first: "$MID" },
           name: { $first: "$name" },
           dob: { $first: "$dob" },
-          birth_place: { $first: "$birth_place" },
-          marital_status: { $first: "$marital_status" },
+          birthPlace: { $first: "$birth_place" },
+          maritalStatus: { $first: "$maritalStatus" },
           sons: { $first: "$sons" },
           daughters: { $first: "$daughters" },
           email: { $first: "$email" },
@@ -161,8 +161,8 @@ export async function single({ db, logger, config }, { id }) {
           name: { $first: "$name" },
           MID: { $first: "$MID" },
           dob: { $first: "$dob" },
-          birth_place: { $first: "$birth_place" },
-          marital_status: { $first: "$marital_status" },
+          birthPlace: { $first: "$birth_place" },
+          maritalStatus: { $first: "$maritalStatus" },
           sons: { $first: "$sons" },
           daughters: { $first: "$daughters" },
           email: { $first: "$email" },

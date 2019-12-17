@@ -93,7 +93,7 @@ export function QuestionIndex() {
         type: new GraphQLList(GraphQLString),
         description: "expertise"
       },
-      term: {
+      terms: {
         type: GraphQLInt,
         description: "no of term"
       },

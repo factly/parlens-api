@@ -12,7 +12,7 @@ export async function index(
     education,
     profession,
     expertise,
-    term,
+    terms,
     party,
     constituency,
     house,
@@ -31,7 +31,7 @@ export async function index(
   if (expertise && expertise.length > 0) filter.expertise = { $in: expertise };
   if (sons && sons.length > 0) filter.sons = { $in: sons };
   if (daughters && daughters.length > 0) filter.daughters = { $in: daughters };
-  if (term) filter.terms = { $size: term };
+  if (terms) filter.terms = { $size: terms };
   if (party && party.length > 0) filter["terms.party"] = { $in: party };
   if (constituency && constituency.length > 0)
     filter["terms.constituency"] = { $in: constituency };

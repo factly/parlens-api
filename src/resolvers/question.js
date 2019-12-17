@@ -17,7 +17,7 @@ export async function index(
     education,
     profession,
     expertise,
-    term,
+    terms,
     party,
     constituency
   }
@@ -46,7 +46,7 @@ export async function index(
   if (sons && sons.length > 0) nestedFilter["sons"] = { $in: sons };
   if (daughters && daughters.length > 0)
     nestedFilter["daughters"] = { $in: daughters };
-  if (term) nestedFilter["terms"] = { $size: term };
+  if (terms) nestedFilter["terms"] = { $size: terms };
   if (party && party.length > 0) nestedFilter["terms.party"] = { $in: party };
   if (constituency && constituency.length > 0)
     nestedFilter["terms.constituency"] = { $in: constituency };

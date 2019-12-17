@@ -5,7 +5,7 @@ import { PartyIndex, PartySingle } from "./queries/party";
 import { MemberIndex, MemberSingle } from "./queries/member";
 import { GeographyIndex, GeographySingle } from "./queries/geography";
 import { QuestionIndex, QuestionSingle } from "./queries/question";
-
+import { HouseIndex } from "./queries/house";
 // define root query
 const query = new GraphQLObjectType({
   name: "query",
@@ -22,7 +22,9 @@ const query = new GraphQLObjectType({
     geography: GeographySingle(),
     //question
     questions: QuestionIndex(),
-    question: QuestionSingle()
+    question: QuestionSingle(),
+    //houses
+    houses: HouseIndex()
   }
 });
 

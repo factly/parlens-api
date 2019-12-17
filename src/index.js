@@ -85,6 +85,7 @@ app.use(
         logger.log(level, `${req.ip} ${req.headers["request-id"]} ${msg}`),
       config: {
         db: {
+          houses: "houses",
           geographies: "geography",
           parties: "politicalPartiesUnique",
           members: "cleanedMembers",

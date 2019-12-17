@@ -20,11 +20,11 @@ const TermType = new GraphQLObjectType({
     },
     house: {
       type: GraphQLString,
-      description: "Term house type"
+      description: "Term house"
     },
     session: {
       type: GraphQLInt,
-      description: "Term house session"
+      description: "Term session"
     }
   })
 });

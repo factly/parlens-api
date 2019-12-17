@@ -7,6 +7,7 @@ import {
 
 import GeographyType from "./geography";
 import PartyType from "./party";
+import HouseType from "./house";
 
 const TermType = new GraphQLObjectType({
   name: "term",
@@ -22,7 +23,7 @@ const TermType = new GraphQLObjectType({
       description: "Term geography"
     },
     house: {
-      type: GraphQLString,
+      type: HouseType,
       description: "Term house type"
     },
     session: {

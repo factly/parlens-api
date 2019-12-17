@@ -71,8 +71,17 @@ export async function index(
         }
       },
       {
+        $lookup: {
+          from: config.db.houses,
+          localField: "terms.house",
+          foreignField: "HID",
+          as: "terms.house"
+        }
+      },
+      {
         $unwind: "$terms.geography"
       },
+      { $unwind: "$terms.house" },
       {
         $unwind: "$terms.party"
       },
@@ -151,7 +160,16 @@ export async function single({ db, logger, config }, { id }) {
           as: "terms.geography"
         }
       },
+      {
+        $lookup: {
+          from: config.db.houses,
+          localField: "terms.house",
+          foreignField: "HID",
+          as: "terms.house"
+        }
+      },
       { $unwind: "$terms.geography" },
+      { $unwind: "$terms.house" },
       { $unwind: "$terms.party" },
       {
         $group: {

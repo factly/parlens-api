@@ -14,9 +14,9 @@ const TermType = new GraphQLObjectType({
       type: GraphQLString,
       description: "Term party"
     },
-    constituency: {
+    geography: {
       type: GraphQLString,
-      description: "Term constituency"
+      description: "Term geography"
     },
     house: {
       type: GraphQLString,

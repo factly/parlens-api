@@ -14,7 +14,7 @@ export async function index(
     expertise,
     terms,
     party,
-    constituency,
+    geography,
     house,
     session
   }
@@ -33,8 +33,8 @@ export async function index(
   if (daughters && daughters.length > 0) filter.daughters = { $in: daughters };
   if (terms) filter.terms = { $size: terms };
   if (party && party.length > 0) filter["terms.party"] = { $in: party };
-  if (constituency && constituency.length > 0)
-    filter["terms.constituency"] = { $in: constituency };
+  if (geography && geography.length > 0)
+    filter["terms.geography"] = { $in: geography };
   if (house && house.length > 0) filter["terms.house"] = { $in: house };
   if (session && session.length > 0) filter["terms.session"] = { $in: session };
 
@@ -64,14 +64,14 @@ export async function index(
       },
       {
         $lookup: {
-          from: config.db.constituencies,
-          localField: "terms.constituency",
-          foreignField: "CID",
-          as: "terms.constituency"
+          from: config.db.geographies,
+          localField: "terms.geography",
+          foreignField: "GID",
+          as: "terms.geography"
         }
       },
       {
-        $unwind: "$terms.constituency"
+        $unwind: "$terms.geography"
       },
       {
         $unwind: "$terms.party"
@@ -145,13 +145,13 @@ export async function single({ db, logger, config }, { id }) {
       },
       {
         $lookup: {
-          from: config.db.constituencies,
-          localField: "terms.constituency",
-          foreignField: "CID",
-          as: "terms.constituency"
+          from: config.db.geographies,
+          localField: "terms.geography",
+          foreignField: "GID",
+          as: "terms.geography"
         }
       },
-      { $unwind: "$terms.constituency" },
+      { $unwind: "$terms.geography" },
       { $unwind: "$terms.party" },
       {
         $group: {

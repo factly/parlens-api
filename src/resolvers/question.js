@@ -19,7 +19,7 @@ export async function index(
     expertise,
     terms,
     party,
-    constituency
+    geography
   }
 ) {
   let filter = {};
@@ -48,8 +48,8 @@ export async function index(
     nestedFilter["daughters"] = { $in: daughters };
   if (terms) nestedFilter["terms"] = { $size: terms };
   if (party && party.length > 0) nestedFilter["terms.party"] = { $in: party };
-  if (constituency && constituency.length > 0)
-    nestedFilter["terms.constituency"] = { $in: constituency };
+  if (geography && geography.length > 0)
+    nestedFilter["terms.geography"] = { $in: geography };
 
   let sorting = {
     date: -1

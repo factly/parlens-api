@@ -5,18 +5,18 @@ export async function index({ db, logger, config }, { limit, page, q }) {
   const pageLimit = limit && limit > 0 && limit <= 20 ? limit : 10;
   const pageSkip = page ? (page - 1) * pageLimit : 0;
 
-  logger("info", "fetching constituencies for query " + JSON.stringify(filter));
+  logger("info", "fetching geographies for query " + JSON.stringify(filter));
 
   const nodes = await db
-    .collection(config.db.constituencies)
+    .collection(config.db.geographies)
     .find(filter)
-    .sort({ CID: 1 })
+    .sort({ GID: 1 })
     .skip(pageSkip)
     .limit(pageLimit)
     .toArray();
 
   const total = await db
-    .collection(config.db.constituencies)
+    .collection(config.db.geographies)
     .find(filter)
     .count();
 
@@ -27,7 +27,7 @@ export async function index({ db, logger, config }, { limit, page, q }) {
 }
 
 export function single({ db, logger, config }, { id }) {
-  logger("info", "fetching constituency for " + id);
+  logger("info", "fetching geographies for " + id);
 
-  return db.collection(config.db.constituencies).findOne({ CID: id });
+  return db.collection(config.db.geographies).findOne({ GID: id });
 }

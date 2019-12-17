@@ -5,7 +5,7 @@ import {
   GraphQLList
 } from "graphql";
 
-import ConstituencyType from "./constituency";
+import GeographyType from "./geography";
 import PartyType from "./party";
 
 const TermType = new GraphQLObjectType({
@@ -17,9 +17,9 @@ const TermType = new GraphQLObjectType({
       type: PartyType,
       description: "Term party"
     },
-    constituency: {
-      type: ConstituencyType,
-      description: "Term constituency"
+    geography: {
+      type: GeographyType,
+      description: "Term geography"
     },
     house: {
       type: GraphQLString,

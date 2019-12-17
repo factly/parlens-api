@@ -6,29 +6,29 @@ import {
   GraphQLObjectType
 } from "graphql";
 // import the resolver
-import { index, single } from "../resolvers/constituency";
+import { index, single } from "../resolvers/geography";
 // import the type
-import ConstituencyType from "../types/constituency";
+import GeographyType from "../types/geography";
 
-export function ConstituencyIndex() {
+export function GeographyIndex() {
   return {
     type: new GraphQLObjectType({
-      name: "ConstituencyPaging",
+      name: "GeographyPaging",
       description: "",
 
       fields: () => ({
         nodes: {
-          type: new GraphQLList(ConstituencyType),
-          description: "List of constituency"
+          type: new GraphQLList(GeographyType),
+          description: "List of geography"
         },
         total: {
           type: GraphQLInt,
-          description: "total constituency"
+          description: "total geography"
         }
       })
     }),
     description:
-      "This will return all the constituency present in the database",
+      "This will return all the geography present in the database",
     args: {
       limit: {
         type: GraphQLInt,
@@ -40,7 +40,7 @@ export function ConstituencyIndex() {
       },
       q: {
         type: GraphQLString,
-        description: "Constituency search keyword"
+        description: "geography search keyword"
       }
     },
     resolve(parent, args, context, info) {
@@ -49,14 +49,14 @@ export function ConstituencyIndex() {
   };
 }
 
-export function ConstituencySingle() {
+export function GeographySingle() {
   return {
-    type: ConstituencyType,
-    description: "This will constituency party details by ID",
+    type: GeographyType,
+    description: "This will geography party details by ID",
     args: {
       id: {
         type: new GraphQLNonNull(GraphQLInt),
-        description: "Constituency ID"
+        description: "geography ID"
       }
     },
     resolve(parent, args, context, info) {

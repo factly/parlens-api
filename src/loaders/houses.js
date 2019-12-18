@@ -1,12 +1,8 @@
 export default async (keys, { db, config }) => {
     
-  
-    /*const houseIDs = keys.map(term => term.house);
-    
-    
     const allHouses = await db
         .collection(config.db.houses)
-        .find({ HID: { $in: houseIDs } })
+        .find({ HID: { $in: keys } })
         .toArray();
     
 
@@ -15,13 +11,6 @@ export default async (keys, { db, config }) => {
         {}
     );
 
-    return keys.map( term => housesObject[term.house]);*/
+    return keys.map( house => housesObject[house]);
 
-    return await db
-    .collection(config.db.houses)
-    .find({ HID: { $in: keys } })
-    .toArray();
 };
-  
-    
-  

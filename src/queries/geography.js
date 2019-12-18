@@ -6,7 +6,7 @@ import {
     GraphQLObjectType,
 } from 'graphql';
 // import the resolver
-import { index, single } from '../resolvers/geography';
+import { index, single, states } from '../resolvers/geography';
 // import the type
 import GeographyType from '../types/geography';
 
@@ -27,8 +27,7 @@ export function GeographyIndex() {
                 }
             })
         }),
-        description:
-      'This will return all the geography present in the database',
+        description: 'all the geography',
         args: {
             limit: {
                 type: GraphQLInt,
@@ -61,6 +60,30 @@ export function GeographySingle() {
         },
         resolve(parent, args, context, info) {
             return single(context, args);
+        }
+    };
+}
+
+export function GeographyStates() {
+    return {
+        type: new GraphQLObjectType({
+            name: 'GeographyPagingForState',
+            description: '',
+
+            fields: () => ({
+                nodes: {
+                    type: new GraphQLList(GeographyType),
+                    description: 'List of geography'
+                },
+                total: {
+                    type: GraphQLInt,
+                    description: 'total geography'
+                }
+            })
+        }),
+        description: 'This will give all states details',
+        resolve(parent, args, context, info) {
+            return states(context);
         }
     };
 }

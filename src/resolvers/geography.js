@@ -26,6 +26,21 @@ export async function index({ db, logger, config }, { limit, page, q }) {
     };
 }
 
+export async function states({ db, logger, config }) {
+    logger('info', 'fetching states');
+
+    const nodes = await db
+        .collection(config.db.geographies)
+        .find({type: 'state'})
+        .sort({ GID: 1 })
+        .toArray();
+
+    return {
+        nodes,
+        total: nodes.length
+    };
+}
+
 export function single({ db, logger, config }, { id }) {
     logger('info', 'fetching geographies for ' + id);
 

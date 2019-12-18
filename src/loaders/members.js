@@ -13,5 +13,3 @@ export default async (keys, { db, config }) => {
   
     return keys.map( question => question.map( each => membersObject[each] ));
 };
-
-  

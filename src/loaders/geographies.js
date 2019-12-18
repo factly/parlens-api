@@ -13,6 +13,3 @@ export default async (keys, { db, config }) => {
 
     return keys.map( geography => geographiesObject[geography]);
 };
-  
-    
-  

@@ -93,13 +93,10 @@ const config = {
 
 const loaders =  {
     members: new DataLoader(async keys => batchMembers(keys, { db: await mongo, config })),
-    parties: new DataLoader(async keys =>{ 
-        console.log(keys)
-        return batchParties(keys, { db: await mongo, config })
-    }),
-    geographies: new  DataLoader(async keys => batchGeographies(keys, { db: await mongo, config })),
-    houses: new  DataLoader(async keys => batchHouses(keys, { db: await mongo, config })),
-    parents: new  DataLoader(async keys => batchParents(keys, { db: await mongo, config })) 
+    parties: new DataLoader(async keys => batchParties(keys, { db: await mongo, config })),
+    geographies: new DataLoader(async keys => batchGeographies(keys, { db: await mongo, config })),
+    houses: new DataLoader(async keys => batchHouses(keys, { db: await mongo, config })),
+    parents: new DataLoader(async keys => batchParents(keys, { db: await mongo, config })) 
 };
 
 app.use(

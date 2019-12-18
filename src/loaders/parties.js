@@ -14,6 +14,3 @@ export default async (keys, { db, config }) => {
     return keys.map( party => partiesObject[party]);
     
 };
-  
-    
-  

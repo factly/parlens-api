@@ -3,7 +3,7 @@ import { GraphQLObjectType, GraphQLSchema } from 'graphql';
 // import the query file
 import { PartyIndex, PartySingle } from './queries/party';
 import { MemberIndex, MemberSingle } from './queries/member';
-import { GeographyIndex, GeographySingle } from './queries/geography';
+import { GeographyIndex, GeographySingle, GeographyStates } from './queries/geography';
 import { QuestionIndex, QuestionSingle } from './queries/question';
 import { HouseIndex } from './queries/house';
 // define root query
@@ -20,6 +20,7 @@ const query = new GraphQLObjectType({
         //geography
         geographies: GeographyIndex(),
         geography: GeographySingle(),
+        states: GeographyStates(),
         //question
         questions: QuestionIndex(),
         question: QuestionSingle(),

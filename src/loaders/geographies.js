@@ -1,22 +1,18 @@
-export default async (keys, { db, config}) => {
-    
-  
-    const geographyIDs = keys.map(term => term.geography)
-    
+export default async (keys, { db, config }) => {
     
     const allGeographies = await db
-      .collection(config.db.geographies)
-      .find({ GID: { $in: geographyIDs } })
-      .toArray();
+        .collection(config.db.geographies)
+        .find({ GID: { $in: keys } })
+        .toArray();
     
 
     const geographiesObject = allGeographies.reduce(
-      (obj, item) => Object.assign(obj, { [item.GID]: item }),
-      {}
+        (obj, item) => Object.assign(obj, { [item.GID]: item }),
+        {}
     );
 
-    return keys.map( term => geographiesObject[term.geography])
-}
+    return keys.map( geography => geographiesObject[geography]);
+};
   
     
   

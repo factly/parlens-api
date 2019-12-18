@@ -7,7 +7,7 @@ export default new GraphQLObjectType({
     fields: () => ({
         HID: {
             type: GraphQLInt,
-            description: "Internal house ID"
+            description: 'Internal house ID'
         },
         name: {
             type: GraphQLString,

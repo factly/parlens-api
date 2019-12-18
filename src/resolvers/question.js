@@ -1,102 +1,102 @@
 export async function index(
-  { db, logger, config },
-  {
-    limit,
-    page,
-    sort,
-    q,
-    house,
-    type,
-    ministry,
-    questionBy,
-    gender,
-    dob,
-    marital_status,
-    sons,
-    daughters,
-    education,
-    profession,
-    expertise,
-    terms,
-    party,
-    geography
-  }
+    { db, logger, config },
+    {
+        limit,
+        page,
+        sort,
+        q,
+        house,
+        type,
+        ministry,
+        questionBy,
+        gender,
+        dob,
+        marital_status,
+        sons,
+        daughters,
+        education,
+        profession,
+        expertise,
+        terms,
+        party,
+        geography
+    }
 ) {
-  let filter = {};
-  let nestedFilter = {};
-  if (q) filter.subject = { $regex: q, $options: "i" };
-  if (house) filter.house = house;
-  if (type) filter.type = type;
-  if (ministry && ministry.length > 0) filter.ministry = { $in: ministry };
+    let filter = {};
+    let nestedFilter = {};
+    if (q) filter.subject = { $regex: q, $options: 'i' };
+    if (house) filter.house = house;
+    if (type) filter.type = type;
+    if (ministry && ministry.length > 0) filter.ministry = { $in: ministry };
 
-  const pageLimit = limit && limit > 0 && limit <= 20 ? limit : 10;
-  const pageSkip = page ? (page - 1) * pageLimit : 0;
+    const pageLimit = limit && limit > 0 && limit <= 20 ? limit : 10;
+    const pageSkip = page ? (page - 1) * pageLimit : 0;
 
-  if (questionBy && questionBy.length > 0)
-    nestedFilter.MID = { $in: questionBy };
-  if (gender) nestedFilter["gender"] = gender;
-  if (marital_status && marital_status.length > 0)
-    nestedFilter["maritalStatus"] = { $in: marital_status };
-  if (education && education.length > 0)
-    nestedFilter["education"] = { $in: education };
-  if (profession && profession.length > 0)
-    nestedFilter["profession"] = { $in: profession };
-  if (expertise && expertise.length > 0)
-    nestedFilter["expertise"] = { $in: expertise };
-  if (sons && sons.length > 0) nestedFilter["sons"] = { $in: sons };
-  if (daughters && daughters.length > 0)
-    nestedFilter["daughters"] = { $in: daughters };
-  if (terms) nestedFilter["terms"] = { $size: terms };
-  if (party && party.length > 0) nestedFilter["terms.party"] = { $in: party };
-  if (geography && geography.length > 0)
-    nestedFilter["terms.geography"] = { $in: geography };
+    if (questionBy && questionBy.length > 0)
+        nestedFilter.MID = { $in: questionBy };
+    if (gender) nestedFilter['gender'] = gender;
+    if (marital_status && marital_status.length > 0)
+        nestedFilter['maritalStatus'] = { $in: marital_status };
+    if (education && education.length > 0)
+        nestedFilter['education'] = { $in: education };
+    if (profession && profession.length > 0)
+        nestedFilter['profession'] = { $in: profession };
+    if (expertise && expertise.length > 0)
+        nestedFilter['expertise'] = { $in: expertise };
+    if (sons && sons.length > 0) nestedFilter['sons'] = { $in: sons };
+    if (daughters && daughters.length > 0)
+        nestedFilter['daughters'] = { $in: daughters };
+    if (terms) nestedFilter['terms'] = { $size: terms };
+    if (party && party.length > 0) nestedFilter['terms.party'] = { $in: party };
+    if (geography && geography.length > 0)
+        nestedFilter['terms.geography'] = { $in: geography };
 
-  let sorting = {
-    date: -1
-  };
+    let sorting = {
+        date: -1
+    };
   
-  if(sort === 'oldest') sorting.date = 1
+    if(sort === 'oldest') sorting.date = 1;
 
-  if (Object.keys(nestedFilter).length > 0) {
+    if (Object.keys(nestedFilter).length > 0) {
     
-    logger("info", "fetching members for question query " + JSON.stringify(nestedFilter));
+        logger('info', 'fetching members for question query ' + JSON.stringify(nestedFilter));
 
-    const membersEligible = await db
-      .collection(config.db.members)
-      .find(nestedFilter)
-      .project({ MID: 1 })
-      .toArray();
+        const membersEligible = await db
+            .collection(config.db.members)
+            .find(nestedFilter)
+            .project({ MID: 1 })
+            .toArray();
 
-    const memberIDs = membersEligible.map(each => each.MID);
+        const memberIDs = membersEligible.map(each => each.MID);
 
-    if (memberIDs) filter.questionBy = { $in: memberIDs };
-  }
+        if (memberIDs) filter.questionBy = { $in: memberIDs };
+    }
 
-  logger("info", "fetching questions for query " + JSON.stringify(filter));
+    logger('info', 'fetching questions for query ' + JSON.stringify(filter));
 
-  let questionsWithoutMembers = await db
-    .collection(config.db.questions)
-    .find(filter)
-    .sort(sorting)
-    .skip(pageSkip)
-    .limit(pageLimit)
-    .toArray();
+    let questionsWithoutMembers = await db
+        .collection(config.db.questions)
+        .find(filter)
+        .sort(sorting)
+        .skip(pageSkip)
+        .limit(pageLimit)
+        .toArray();
 
-  const totalQuestions = await db
-    .collection(config.db.questions)
-    .find(filter)
-    .count();
+    const totalQuestions = await db
+        .collection(config.db.questions)
+        .find(filter)
+        .count();
 
-  return {
-    nodes: questionsWithoutMembers,
-    total: totalQuestions
-  };
+    return {
+        nodes: questionsWithoutMembers,
+        total: totalQuestions
+    };
 }
 
 export async function single({ db, logger, config }, { id }) {
-  logger("info", "fetching question for " + id);
+    logger('info', 'fetching question for ' + id);
 
-  return await db
-    .collection(config.db.questions)
-    .findOne({ QID: id });
+    return await db
+        .collection(config.db.questions)
+        .findOne({ QID: id });
 }

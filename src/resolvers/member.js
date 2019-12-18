@@ -45,76 +45,10 @@ export async function index(
 
   const nodes = await db
     .collection(config.db.members)
-    .aggregate([
-      {
-        $match: filter
-      },
-      {
-        $unwind: {
-          path: "$terms"
-        }
-      },
-      {
-        $lookup: {
-          from: config.db.parties,
-          localField: "terms.party",
-          foreignField: "PID",
-          as: "terms.party"
-        }
-      },
-      {
-        $lookup: {
-          from: config.db.geographies,
-          localField: "terms.geography",
-          foreignField: "GID",
-          as: "terms.geography"
-        }
-      },
-      {
-        $lookup: {
-          from: config.db.houses,
-          localField: "terms.house",
-          foreignField: "HID",
-          as: "terms.house"
-        }
-      },
-      {
-        $unwind: "$terms.geography"
-      },
-      { $unwind: "$terms.house" },
-      {
-        $unwind: "$terms.party"
-      },
-      {
-        $group: {
-          _id: "$_id",
-          terms: { $push: "$terms" },
-          term_size: { $sum: 1 },
-          gender: { $first: "$gender" },
-          MID: { $first: "$MID" },
-          name: { $first: "$name" },
-          dob: { $first: "$dob" },
-          birthPlace: { $first: "$birth_place" },
-          maritalStatus: { $first: "$maritalStatus" },
-          sons: { $first: "$sons" },
-          daughters: { $first: "$daughters" },
-          email: { $first: "$email" },
-          phone: { $first: "$phone" },
-          education: { $first: "$education" },
-          expertise: { $first: "$expertise" },
-          profession: { $first: "$profession" }
-        }
-      },
-      {
-        $sort: { MID: -1 }
-      },
-      {
-        $skip: pageSkip
-      },
-      {
-        $limit: pageLimit
-      }
-    ])
+    .find(filter)
+    .sort({MID: -1})
+    .skip(pageSkip)
+    .limit(pageLimit)
     .toArray();
 
   const total = await db
@@ -131,66 +65,7 @@ export async function index(
 export async function single({ db, logger, config }, { id }) {
   logger("info", "fetching member for " + id);
 
-  const result = await db
+  return await db
     .collection(config.db.members)
-    .aggregate([
-      {
-        $match: {
-          MID: id
-        }
-      },
-      {
-        $unwind: {
-          path: "$terms"
-        }
-      },
-      {
-        $lookup: {
-          from: config.db.parties,
-          localField: "terms.party",
-          foreignField: "PID",
-          as: "terms.party"
-        }
-      },
-      {
-        $lookup: {
-          from: config.db.geographies,
-          localField: "terms.geography",
-          foreignField: "GID",
-          as: "terms.geography"
-        }
-      },
-      {
-        $lookup: {
-          from: config.db.houses,
-          localField: "terms.house",
-          foreignField: "HID",
-          as: "terms.house"
-        }
-      },
-      { $unwind: "$terms.geography" },
-      { $unwind: "$terms.house" },
-      { $unwind: "$terms.party" },
-      {
-        $group: {
-          _id: "$_id",
-          terms: { $push: "$terms" },
-          gender: { $first: "$gender" },
-          name: { $first: "$name" },
-          MID: { $first: "$MID" },
-          dob: { $first: "$dob" },
-          birthPlace: { $first: "$birth_place" },
-          maritalStatus: { $first: "$maritalStatus" },
-          sons: { $first: "$sons" },
-          daughters: { $first: "$daughters" },
-          email: { $first: "$email" },
-          phone: { $first: "$phone" },
-          education: { $first: "$education" },
-          expertise: { $first: "$expertise" },
-          profession: { $first: "$profession" }
-        }
-      }
-    ])
-    .toArray();
-  if (result.length === 1) return result[0];
+    .findOne({MID: id})
 }

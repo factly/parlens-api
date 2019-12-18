@@ -8,8 +8,13 @@ import "winston-daily-rotate-file";
 import fs from "fs";
 import uuidv1 from "uuid/v1";
 import "dotenv/config";
+import DataLoader from "dataloader";
 
 import GraphQLSchema from "./graphql";
+import batchMembers from "./loaders/members";
+import batchParties from './loaders/parties';
+import batchGeographies from "./loaders/geographies";
+import batchHouses from "./loaders/houses";
 
 const env = process.env.NODE_ENV || "development";
 const MONGO_URI = process.env.MONGODB_URI;
@@ -75,6 +80,23 @@ app.use(function(req, res, next) {
 });
 /* unique request ID ends */
 
+const config = {
+  db: {
+    houses: "houses",
+    geographies: "geography",
+    parties: "politicalPartiesUnique",
+    members: "cleanedMembers",
+    questions: "cleanedQuestions"
+  }
+}
+
+const loaders =  {
+  members: new DataLoader(async keys => batchMembers(keys, {db: await mongo, config})),
+  parties: new DataLoader(async keys => batchParties(keys, {db: await mongo, config})),
+  geographies: new  DataLoader(async keys => batchGeographies(keys, {db: await mongo, config})),
+  houses: new  DataLoader(async keys => batchHouses(keys, {db: await mongo, config})),
+}
+
 app.use(
   "/graphql",
   expressGraphQL(async req => ({
@@ -83,15 +105,8 @@ app.use(
       db: await mongo,
       logger: (level, msg) =>
         logger.log(level, `${req.ip} ${req.headers["request-id"]} ${msg}`),
-      config: {
-        db: {
-          houses: "houses",
-          geographies: "geography",
-          parties: "politicalPartiesUnique",
-          members: "cleanedMembers",
-          questions: "cleanedQuestions"
-        }
-      }
+      config,
+      loaders
     },
     graphiql: env === "development"
   }))

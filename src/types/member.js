@@ -16,15 +16,24 @@ const TermType = new GraphQLObjectType({
   fields: () => ({
     party: {
       type: PartyType,
-      description: "Term party"
+      description: "Term party",
+      resolve(parent, args, context, info) {
+        return context.loaders.parties.load(parent);
+      }
     },
     geography: {
       type: GeographyType,
-      description: "Term geography"
+      description: "Term geography",
+      resolve(parent, args, context, info) {
+        return context.loaders.geographies.load(parent);
+      }
     },
     house: {
       type: HouseType,
-      description: "Term house type"
+      description: "Term house type",
+      resolve(parent, args, context, info) {
+        return context.loaders.houses.load(parent);
+      }
     },
     session: {
       type: GraphQLInt,
@@ -92,7 +101,7 @@ export default new GraphQLObjectType({
     },
     terms: {
       type: new GraphQLList(TermType),
-      description: "Member term list"
+      description: "Member term list", 
     }
   })
 });

@@ -5,7 +5,8 @@ import {
   GraphQLInt
 } from "graphql";
 
-import MemberWithoutTermType from "./memberwithoutterms";
+import MemberType from "./member";
+import MemberLoader from "../loaders/members";
 
 export default new GraphQLObjectType({
   name: "question",
@@ -29,8 +30,11 @@ export default new GraphQLObjectType({
       description: "Question questions"
     },
     questionBy: {
-      type: new GraphQLList(MemberWithoutTermType),
-      description: "Question asked by"
+      type: new GraphQLList(MemberType),
+      description: "Question asked by",
+      resolve(parent, args, context, info) {
+        return context.loaders.members.load(parent.questionBy);
+      }
     },
     answer: {
       type: GraphQLString,

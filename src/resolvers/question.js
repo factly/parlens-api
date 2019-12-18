@@ -87,27 +87,8 @@ export async function index(
     .find(filter)
     .count();
 
-  let fetchMemberIDs = [];
-
-  questionsWithoutMembers.map(
-    question => (fetchMemberIDs = fetchMemberIDs.concat(question.questionBy))
-  );
-
-  const allMembers = await db
-    .collection(config.db.members)
-    .find({ MID: { $in: fetchMemberIDs } })
-    .toArray();
-
-  const membersObject = allMembers.reduce(
-    (obj, item) => Object.assign(obj, { [item.MID]: item }),
-    {}
-  );
-
   return {
-    nodes: questionsWithoutMembers.map(each => ({
-      ...each,
-      questionBy: each.questionBy.map(questioner => membersObject[questioner])
-    })),
+    nodes: questionsWithoutMembers,
     total: totalQuestions
   };
 }
@@ -115,26 +96,7 @@ export async function index(
 export async function single({ db, logger, config }, { id }) {
   logger("info", "fetching question for " + id);
 
-  let questionWithoutMembers = await db
+  return await db
     .collection(config.db.questions)
     .findOne({ QID: id });
-
-  if (!questionWithoutMembers) return null;
-
-  const allQuestioner = await db
-    .collection(config.db.members)
-    .find({ MID: { $in: questionWithoutMembers.questionBy } })
-    .toArray();
-
-  const allQuestionerObject = allQuestioner.reduce(
-    (obj, item) => Object.assign(obj, { [item.MID]: item }),
-    {}
-  );
-
-  return {
-    ...questionWithoutMembers,
-    questionBy: questionWithoutMembers.questionBy.map(
-      questioner => allQuestionerObject[questioner]
-    )
-  };
 }

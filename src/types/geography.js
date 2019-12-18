@@ -5,7 +5,7 @@ import {
   GraphQLList
 } from "graphql";
 
-const geography = new GraphQLObjectType({
+const GeographyType = new GraphQLObjectType({
   name: "geography",
   description: "All geography of india.",
 
@@ -19,8 +19,11 @@ const geography = new GraphQLObjectType({
       description: "geography name"
     },
     parent: {
-      type: GraphQLInt,
-      description: "geography state"
+      type: GeographyType,
+      description: "geography state",
+      resolve(p, args, context, info) {
+        return context.loaders.parents.load(p);
+      }
     },
     type: {
       type: GraphQLString,
@@ -41,4 +44,4 @@ const geography = new GraphQLObjectType({
   })
 });
 
-export default geography
+export default GeographyType;

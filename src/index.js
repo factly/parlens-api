@@ -15,6 +15,7 @@ import batchMembers from "./loaders/members";
 import batchParties from './loaders/parties';
 import batchGeographies from "./loaders/geographies";
 import batchHouses from "./loaders/houses";
+import batchParents from "./loaders/parents";
 
 const env = process.env.NODE_ENV || "development";
 const MONGO_URI = process.env.MONGODB_URI;
@@ -95,6 +96,7 @@ const loaders =  {
   parties: new DataLoader(async keys => batchParties(keys, {db: await mongo, config})),
   geographies: new  DataLoader(async keys => batchGeographies(keys, {db: await mongo, config})),
   houses: new  DataLoader(async keys => batchHouses(keys, {db: await mongo, config})),
+  parents: new  DataLoader(async keys => batchParents(keys, {db: await mongo, config})), 
 }
 
 app.use(

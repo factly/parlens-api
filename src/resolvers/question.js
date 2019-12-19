@@ -46,7 +46,7 @@ export async function index(
         geography = geography.concat(constituenciesEligible.map(constituency => constituency.GID))
     }
     
-    if (gender) nestedFilter['gender'] = gender;
+    if (gender) nestedFilter['gender'] = { $in: gender };
     if (marital_status && marital_status.length > 0)
         nestedFilter['maritalStatus'] = { $in: marital_status };
     if (education && education.length > 0)

@@ -62,7 +62,7 @@ export function QuestionIndex() {
                 description: 'Member ID'
             },
             gender: {
-                type: GraphQLString,
+                type: new GraphQLList(GraphQLInt),
                 description: 'Gender'
             },
             dob: {
@@ -70,7 +70,7 @@ export function QuestionIndex() {
                 description: 'dob'
             },
             marital_status: {
-                type: new GraphQLList(GraphQLString),
+                type: new GraphQLList(GraphQLInt),
                 description: 'merital status'
             },
             sons: {
@@ -82,7 +82,7 @@ export function QuestionIndex() {
                 description: 'daughters'
             },
             education: {
-                type: new GraphQLList(GraphQLString),
+                type: new GraphQLList(GraphQLInt),
                 description: 'education'
             },
             profession: {

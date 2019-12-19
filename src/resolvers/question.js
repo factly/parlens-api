@@ -19,7 +19,8 @@ export async function index(
         expertise,
         terms,
         party,
-        geography
+        constituency,
+        state
     }
 ) {
     let filter = {};
@@ -29,11 +30,7 @@ export async function index(
     if (type) filter.type = type;
     if (ministry && ministry.length > 0) filter.ministry = { $in: ministry };
 
-    const pageLimit = limit && limit > 0 && limit <= 20 ? limit : 10;
-    const pageSkip = page ? (page - 1) * pageLimit : 0;
-
-    if (questionBy && questionBy.length > 0)
-        nestedFilter.MID = { $in: questionBy };
+    
     if (gender) nestedFilter['gender'] = gender;
     if (marital_status && marital_status.length > 0)
         nestedFilter['maritalStatus'] = { $in: marital_status };
@@ -48,16 +45,13 @@ export async function index(
         nestedFilter['daughters'] = { $in: daughters };
     if (terms) nestedFilter['terms'] = { $size: terms };
     if (party && party.length > 0) nestedFilter['terms.party'] = { $in: party };
-    if (geography && geography.length > 0)
-        nestedFilter['terms.geography'] = { $in: geography };
-
-    let sorting = {
-        date: -1
-    };
-  
-    if(sort === 'oldest') sorting.date = 1;
-
+    if (constituency && constituency.length > 0)
+        nestedFilter['terms.geography'] = { $in: constituency };
+    
     if (Object.keys(nestedFilter).length > 0) {
+
+        if (questionBy && questionBy.length > 0)
+            nestedFilter.MID = { $in: questionBy };
     
         logger('info', 'fetching members for question query ' + JSON.stringify(nestedFilter));
 
@@ -70,9 +64,20 @@ export async function index(
         const memberIDs = membersEligible.map(each => each.MID);
 
         if (memberIDs) filter.questionBy = { $in: memberIDs };
+    } else if (questionBy && questionBy.length > 0) {
+        filter.questionBy = { $in: questionBy };
     }
 
     logger('info', 'fetching questions for query ' + JSON.stringify(filter));
+
+    const pageLimit = limit && limit > 0 && limit <= 20 ? limit : 10;
+    const pageSkip = page ? (page - 1) * pageLimit : 0;
+
+    let sorting = {
+        date: -1
+    };
+
+    if(sort === 'oldest') sorting.date = 1;
 
     let questionsWithoutMembers = await db
         .collection(config.db.questions)

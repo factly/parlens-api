@@ -101,9 +101,13 @@ export function QuestionIndex() {
                 type: new GraphQLList(GraphQLInt),
                 description: 'List of party ID'
             },
-            geography: {
+            constituency: {
                 type: new GraphQLList(GraphQLInt),
-                description: 'List of geography ID'
+                description: 'List of constituencies ID'
+            },
+            state: {
+                type: new GraphQLList(GraphQLInt),
+                description: 'List of states ID'
             }
         },
         resolve(parent, args, context, info) {

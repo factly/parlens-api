@@ -22,7 +22,7 @@ const GeographyType = new GraphQLObjectType({
             type: GeographyType,
             description: 'geography state',
             resolve(parent, args, context, info) {
-                return context.loaders.parents.load(parent.parent);
+                return context.loaders.geographies.load(parent.parent);
             }
         },
         type: {

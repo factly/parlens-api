@@ -33,7 +33,7 @@ export default new GraphQLObjectType({
             type: new GraphQLList(MemberType),
             description: 'Question asked by',
             resolve(parent, args, context, info) {
-                return context.loaders.members.load(parent.questionBy);
+                return context.loaders.members.loadMany(parent.questionBy);
             }
         },
         answer: {

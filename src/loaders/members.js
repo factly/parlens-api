@@ -1,9 +1,8 @@
 export default async (keys, { db, config }) => {
-    const allMemberIDs = [].concat(...keys);
   
     const allMembers = await db
         .collection(config.db.members)
-        .find({ MID: { $in: allMemberIDs } })
+        .find({ MID: { $in: keys } })
         .toArray();
   
     const membersObject = allMembers.reduce(
@@ -11,5 +10,5 @@ export default async (keys, { db, config }) => {
         {}
     );
   
-    return keys.map( question => question.map( each => membersObject[each] ));
+    return keys.map( question => membersObject[question] );
 };

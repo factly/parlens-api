@@ -25,11 +25,26 @@ export async function index(
 ) {
     let filter = {};
     let nestedFilter = {};
+    let geography = []
     if (q) filter.subject = { $regex: q, $options: 'i' };
     if (house) filter.house = house;
     if (type) filter.type = type;
     if (ministry && ministry.length > 0) filter.ministry = { $in: ministry };
 
+    if(constituency && constituency.length > 0)
+        geography = geography.concat(constituency)
+
+    if(state && state.length > 0){
+        geography = geography.concat(state)
+
+        const constituenciesEligible = await db
+            .collection(config.db.geographies)
+            .find({parent: { $in: state }})
+            .project({ GID: 1 })
+            .toArray();
+
+        geography = geography.concat(constituenciesEligible.map(constituency => constituency.GID))
+    }
     
     if (gender) nestedFilter['gender'] = gender;
     if (marital_status && marital_status.length > 0)
@@ -45,9 +60,9 @@ export async function index(
         nestedFilter['daughters'] = { $in: daughters };
     if (terms) nestedFilter['terms'] = { $size: terms };
     if (party && party.length > 0) nestedFilter['terms.party'] = { $in: party };
-    if (constituency && constituency.length > 0)
-        nestedFilter['terms.geography'] = { $in: constituency };
-    
+    if (geography && geography.length > 0)
+        nestedFilter['terms.geography'] = { $in: geography };
+   
     if (Object.keys(nestedFilter).length > 0) {
 
         if (questionBy && questionBy.length > 0)

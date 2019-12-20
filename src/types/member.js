@@ -57,7 +57,15 @@ export default new GraphQLObjectType({
         },
         gender: {
             type: GraphQLString,
-            description: 'Member gender'
+            description: 'Member gender',
+            resolve(parent, args, context, info) {
+                const genderParser = {
+                    1: 'Female',
+                    2: 'Male',
+                    3: 'Other'
+                }
+                return genderParser[parent.gender]
+            }
         },
         dob: {
             type: GraphQLString,
@@ -69,7 +77,17 @@ export default new GraphQLObjectType({
         },
         maritalStatus: {
             type: GraphQLString,
-            description: 'Member marital status'
+            description: 'Member marital status',
+            resolve(parent, args, context, info) {
+                const maritalParser = {
+                    1: 'Married',
+                    2: 'Widow',
+                    3: 'Divorcee',
+                    4: 'Unmarried',
+                    5: 'Widower'
+                }
+                return maritalParser[parent.maritalStatus]
+            }
         },
         sons: {
             type: GraphQLInt,
@@ -89,7 +107,18 @@ export default new GraphQLObjectType({
         },
         education: {
             type: GraphQLString,
-            description: 'Member marital status'
+            description: 'Member marital status',
+            resolve(parent, args, context, info) {
+                const educationParser = {
+                    1: 'Doctorate',
+                    2: 'Post Graduate',
+                    3: 'Graduate',
+                    4: 'Intermediate',
+                    5: 'High School',
+                    6: 'Not Mentioned'
+                }
+                return educationParser[parent.education]
+            }
         },
         expertise: {
             type: new GraphQLList(GraphQLString),
@@ -97,7 +126,7 @@ export default new GraphQLObjectType({
         },
         profession: {
             type: new GraphQLList(GraphQLString),
-            description: 'Member sons'
+            description: 'Member profession'
         },
         terms: {
             type: new GraphQLList(TermType),

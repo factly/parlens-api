@@ -31,7 +31,7 @@ export async function states({ db, logger, config }) {
 
     const nodes = await db
         .collection(config.db.geographies)
-        .find({type: 'state'})
+        .find({ type: 'state' })
         .sort({ GID: 1 })
         .toArray();
 

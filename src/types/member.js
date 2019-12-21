@@ -63,8 +63,8 @@ export default new GraphQLObjectType({
                     1: 'Female',
                     2: 'Male',
                     3: 'Other'
-                }
-                return genderParser[parent.gender]
+                };
+                return genderParser[parent.gender];
             }
         },
         dob: {
@@ -85,8 +85,8 @@ export default new GraphQLObjectType({
                     3: 'Divorcee',
                     4: 'Unmarried',
                     5: 'Widower'
-                }
-                return maritalParser[parent.maritalStatus]
+                };
+                return maritalParser[parent.maritalStatus];
             }
         },
         sons: {
@@ -116,8 +116,8 @@ export default new GraphQLObjectType({
                     4: 'Intermediate',
                     5: 'High School',
                     6: 'Not Mentioned'
-                }
-                return educationParser[parent.education]
+                };
+                return educationParser[parent.education];
             }
         },
         expertise: {

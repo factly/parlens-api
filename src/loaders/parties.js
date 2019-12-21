@@ -1,5 +1,5 @@
-export default async (keys, { db, config }) => {
-    
+export default async (keys, { db, config, logger }) => {
+    logger('info', `fetching parties for ids ${keys}` );
     const allParties = await db
         .collection(config.db.parties)
         .find({ PID: { $in: keys } })

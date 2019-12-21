@@ -1,5 +1,5 @@
-export default async (keys, { db, config }) => {
-    
+export default async (keys, { db, config, logger }) => {
+    logger('info', `fetching houses for ids ${keys}` );
     const allHouses = await db
         .collection(config.db.houses)
         .find({ HID: { $in: keys } })

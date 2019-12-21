@@ -1,5 +1,5 @@
-export default async (keys, { db, config }) => {
-  
+export default async (keys, { db, config, logger }) => {
+    logger('info', `fetching members for ids ${keys}` );
     const allMembers = await db
         .collection(config.db.members)
         .find({ MID: { $in: keys } })

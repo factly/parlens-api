@@ -2,6 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import expressGraphQL from 'express-graphql';
+import { GraphQLError } from 'graphql';
 import { MongoClient } from 'mongodb';
 import uuidv1 from 'uuid/v1';
 import 'dotenv/config';
@@ -54,7 +55,11 @@ app.use(
                 ...context,
                 loaders: new loader(context).get()
             },
-            graphiql: env === 'development'
+            graphiql: env === 'development',
+            formatError: (error) => {
+                context.logger('error', error)
+                return new GraphQLError('Internal error');
+            }
         }
     })
 );

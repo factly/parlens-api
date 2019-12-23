@@ -69,7 +69,7 @@ export function QuestionIndex() {
                 type: GraphQLString,
                 description: 'dob'
             },
-            marital_status: {
+            maritalStatus: {
                 type: new GraphQLList(GraphQLInt),
                 description: 'merital status'
             },

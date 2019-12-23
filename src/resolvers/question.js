@@ -11,7 +11,7 @@ export async function index(
         questionBy,
         gender,
         dob,
-        marital_status,
+        maritalStatus,
         sons,
         daughters,
         education,
@@ -47,8 +47,8 @@ export async function index(
     }
     
     if (gender) nestedFilter['gender'] = { $in: gender };
-    if (marital_status && marital_status.length > 0)
-        nestedFilter['maritalStatus'] = { $in: marital_status };
+    if (maritalStatus && maritalStatus.length > 0)
+        nestedFilter['maritalStatus'] = { $in: maritalStatus };
     if (education && education.length > 0)
         nestedFilter['education'] = { $in: education };
     if (profession && profession.length > 0)

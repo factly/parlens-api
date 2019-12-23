@@ -130,7 +130,12 @@ export default new GraphQLObjectType({
         },
         terms: {
             type: new GraphQLList(TermType),
-            description: 'Member term list' 
+            description: 'Member term list',
+            resolve(parent, args, context, info) {
+                return parent.terms
+                    .filter(term => term.geography !== 'NA' && term.house !== 'NA' && term.party !== 'NA')
+                    .sort((a, b) => a.to - b.to)
+            }
         }
     })
 });

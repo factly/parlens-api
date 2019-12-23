@@ -4,6 +4,7 @@ export default {
         geographies: 'geography',
         parties: 'politicalPartiesUnique',
         members: 'cleanedMembers',
-        questions: 'cleanedQuestions'
+        questions: 'cleanedQuestions',
+        ministries: 'ministry',
     }
 };

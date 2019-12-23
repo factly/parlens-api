@@ -54,7 +54,7 @@ export function QuestionIndex() {
                 description: 'Type'
             },
             ministry: {
-                type: new GraphQLList(GraphQLString),
+                type: new GraphQLList(GraphQLInt),
                 description: 'Ministry'
             },
             questionBy: {

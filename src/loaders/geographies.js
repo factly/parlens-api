@@ -1,6 +1,6 @@
 export default async (keys, { db, config, logger }) => {
     
-    logger('info', `fetching geographies for ids ${keys}` );
+    logger('info', `loader fetching geographies for ids ${keys}` );
     
     const allGeographies = await db
         .collection(config.db.geographies)

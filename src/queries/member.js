@@ -49,7 +49,7 @@ export function MemberIndex() {
                 type: GraphQLString,
                 description: 'dob'
             },
-            marital_status: {
+            maritalStatus: {
                 type: new GraphQLList(GraphQLString),
                 description: 'merital status'
             },

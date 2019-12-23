@@ -56,10 +56,9 @@ app.use(
                 loaders: new loader(context).get()
             },
             graphiql: env === 'development',
-            formatError: (error) => {
-                context.logger('error', error)
-                return new GraphQLError('Internal error');
-            }
+            customFormatErrorFn: error => ({
+                message: error.message,
+            })
         }
     })
 );

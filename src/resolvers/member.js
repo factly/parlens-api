@@ -6,7 +6,7 @@ export async function index(
         q,
         gender,
         dob,
-        marital_status,
+        maritalStatus,
         sons,
         daughters,
         education,
@@ -23,8 +23,8 @@ export async function index(
     if (q) filter.name = { $regex: q, $options: 'i' };
     if (gender) filter.gender = gender;
     if (dob) filter.dob = dob;
-    if (marital_status && marital_status.length > 0)
-        filter.maritalStatus = { $in: marital_status };
+    if (maritalStatus && maritalStatus.length > 0)
+        filter.maritalStatus = { $in: maritalStatus };
     if (education && education.length > 0) filter.education = { $in: education };
     if (profession && profession.length > 0)
         filter.profession = { $in: profession };
@@ -63,8 +63,6 @@ export async function index(
 }
 
 export async function single({ db, logger, config }, { id }) {
-    logger('info', 'fetching member for ' + id);
-
     return await db
         .collection(config.db.members)
         .findOne({ MID: id });

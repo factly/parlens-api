@@ -45,9 +45,13 @@ export function MemberIndex() {
                 type: GraphQLString,
                 description: 'Gender'
             },
-            dob: {
-                type: GraphQLString,
-                description: 'dob'
+            age_min: {
+                type: GraphQLInt,
+                description: 'dob max'
+            },
+            age_max: {
+                type: GraphQLInt,
+                description: 'dob min'
             },
             maritalStatus: {
                 type: new GraphQLList(GraphQLString),

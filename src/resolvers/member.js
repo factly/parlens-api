@@ -1,3 +1,5 @@
+import moment from "moment";
+
 export async function index(
     { db, logger, config },
     {
@@ -5,7 +7,8 @@ export async function index(
         page,
         q,
         gender,
-        dob,
+        age_min,
+        age_max,
         maritalStatus,
         sons,
         daughters,
@@ -22,7 +25,14 @@ export async function index(
     let filter = {};
     if (q) filter.name = { $regex: q, $options: 'i' };
     if (gender) filter.gender = gender;
-    if (dob) filter.dob = dob;
+
+    if (age_min && age_max) filter.dob = { 
+        '$lte': moment().subtract('years', age_min).unix() * 1000, 
+        '$gte': moment().subtract('years', age_max).unix() * 1000
+    }
+    else if (age_min) filter.dob = {'$lte': moment().subtract('years', age_min).unix() * 1000};
+    else if (age_max) filter.dob = {'$gte': moment().subtract('years', age_max).unix() * 1000};
+
     if (maritalStatus && maritalStatus.length > 0)
         filter.maritalStatus = { $in: maritalStatus };
     if (education && education.length > 0) filter.education = { $in: education };
@@ -46,7 +56,7 @@ export async function index(
     const nodes = await db
         .collection(config.db.members)
         .find(filter)
-        .sort({ MID: -1 })
+        .sort({ dob: -1 })
         .skip(pageSkip)
         .limit(pageLimit)
         .toArray();

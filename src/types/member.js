@@ -3,6 +3,7 @@ import {
     GraphQLString,
     GraphQLInt,
     GraphQLList,
+    GraphQLFloat,
 } from 'graphql';
 
 import GeographyType from './geography';
@@ -68,7 +69,7 @@ export default new GraphQLObjectType({
             }
         },
         dob: {
-            type: GraphQLString,
+            type: GraphQLFloat,
             description: 'Member dob'
         },
         birthPlace: {

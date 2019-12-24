@@ -5,12 +5,10 @@ export default async (keys, { db, config, logger }) => {
         .find({ HID: { $in: keys } })
         .toArray();
     
-
     const housesObject = allHouses.reduce(
         (obj, item) => Object.assign(obj, { [item.HID]: item }),
         {}
     );
 
     return keys.map( house => housesObject[house]);
-
 };

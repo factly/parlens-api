@@ -3,8 +3,7 @@ export default async (keys, { db, config, logger }) => {
     const allParties = await db
         .collection(config.db.parties)
         .find({ PID: { $in: keys } })
-        .toArray();
-    
+        .toArray(); 
 
     const partiesObject = allParties.reduce(
         (obj, item) => Object.assign(obj, { [item.PID]: item }),
@@ -12,5 +11,4 @@ export default async (keys, { db, config, logger }) => {
     );
 
     return keys.map( party => partiesObject[party]);
-    
 };

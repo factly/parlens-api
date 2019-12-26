@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 export async function index(
     { db, logger, config },
     {
@@ -10,8 +12,8 @@ export async function index(
         ministry,
         questionBy,
         gender,
-        dobMax,
-        dobMin,
+        ageMax,
+        ageMin,
         maritalStatus,
         sons,
         daughters,
@@ -48,12 +50,12 @@ export async function index(
     }
     
     if (gender) nestedFilter['gender'] = { $in: gender };
-    if (dobMin && dobMax) nestedFilter.dob = { 
-        '$lte': dobMin, 
-        '$gte': dobMax
+    if (ageMin && ageMax) nestedFilter.dob = { 
+        '$lte': moment().subtract(ageMin, 'years').unix() * 1000, 
+        '$gte': moment().subtract(ageMax, 'years').unix() * 1000
     }
-    else if (dobMin) nestedFilter.dob = {'$lte': dobMin};
-    else if (dobMax) nestedFilter.dob = {'$gte': dobMax};
+    else if (ageMin) nestedFilter.dob = {'$lte': moment().subtract(ageMin, 'years').unix() * 1000};
+    else if (ageMax) nestedFilter.dob = {'$gte': moment().subtract(ageMax, 'years').unix() * 1000};
     if (maritalStatus && maritalStatus.length > 0)
         nestedFilter['maritalStatus'] = { $in: maritalStatus };
     if (education && education.length > 0)

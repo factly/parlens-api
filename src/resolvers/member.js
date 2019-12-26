@@ -1,4 +1,4 @@
-import moment from "moment";
+import moment from 'moment';
 
 export async function index(
     { db, logger, config },
@@ -7,8 +7,8 @@ export async function index(
         page,
         q,
         gender,
-        dobMin,
-        dobMax,
+        ageMin,
+        ageMax,
         maritalStatus,
         sons,
         daughters,
@@ -26,12 +26,12 @@ export async function index(
     if (q) filter.name = { $regex: q, $options: 'i' };
     if (gender) filter.gender = gender;
 
-    if (dobMin && dobMax) filter.dob = { 
-        '$lte': dobMin, 
-        '$gte': dobMax
+    if (ageMin && ageMax) filter.dob = { 
+        '$lte': moment().subtract(ageMin, 'years').unix() * 1000, 
+        '$gte': moment().subtract(ageMax, 'years').unix() * 1000
     }
-    else if (dobMin) filter.dob = {'$lte': dobMin};
-    else if (dobMax) filter.dob = {'$gte': dobMax};
+    else if (ageMin) filter.dob = {'$lte': moment().subtract(ageMin, 'years').unix() * 1000};
+    else if (ageMax) filter.dob = {'$gte': moment().subtract(ageMax, 'years').unix() * 1000};
 
     if (maritalStatus && maritalStatus.length > 0)
         filter.maritalStatus = { $in: maritalStatus };
@@ -47,8 +47,6 @@ export async function index(
         filter['terms.geography'] = { $in: geography };
     if (house && house.length > 0) filter['terms.house'] = { $in: house };
     if (session && session.length > 0) filter['terms.session'] = { $in: session };
-
-    console.log(filter)
 
     const pageLimit = limit && limit > 0 && limit <= 20 ? limit : 10;
     const pageSkip = page ? (page - 1) * pageLimit : 0;

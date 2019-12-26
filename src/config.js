@@ -5,6 +5,6 @@ export default {
         parties: 'politicalPartiesUnique',
         members: 'cleanedMembers',
         questions: 'cleanedQuestions',
-        ministries: 'ministry',
+        ministries: 'ministry'
     }
 };

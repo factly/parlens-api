@@ -16,7 +16,7 @@ export default class loaders {
             parties: new DataLoader(async keys => batchParties(keys, this._context)),
             geographies: new DataLoader(async keys => batchGeographies(keys, this._context)),
             houses: new DataLoader(async keys => batchHouses(keys, this._context)),
-            ministries: new DataLoader(async keys => batchMinistries(keys, this._context)),
+            ministries: new DataLoader(async keys => batchMinistries(keys, this._context))
         };
     }
 }

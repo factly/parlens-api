@@ -86,9 +86,13 @@ export function MemberIndex() {
                 type: new GraphQLList(GraphQLInt),
                 description: 'List of party ID'
             },
-            geography: {
+            constituency: {
                 type: new GraphQLList(GraphQLInt),
                 description: 'List of geography ID'
+            },
+            state: {
+                type: new GraphQLList(GraphQLInt),
+                description: 'List of state ID'
             },
             house: {
                 type: new GraphQLList(GraphQLString),

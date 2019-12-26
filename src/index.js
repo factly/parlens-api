@@ -47,8 +47,8 @@ app.use(
         const context = {
             logger: (level, msg) => logger.log(level, `${req.ip} ${req.headers['request-id']} ${msg}`),
             config,
-            db: await mongo,
-        }
+            db: await mongo
+        };
         return{
             schema: GraphQLSchema,
             context: {
@@ -57,9 +57,9 @@ app.use(
             },
             graphiql: env === 'development',
             customFormatErrorFn: error => ({
-                message: error.message,
+                message: error.message
             })
-        }
+        };
     })
 );
 

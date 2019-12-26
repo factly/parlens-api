@@ -4,7 +4,7 @@ import {
     GraphQLString,
     GraphQLNonNull,
     GraphQLObjectType,
-    GraphQLFloat
+    GraphQLFloat,
 } from 'graphql';
 // import the resolver
 import { index, single } from '../resolvers/question';

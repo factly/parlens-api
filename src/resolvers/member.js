@@ -17,21 +17,23 @@ export async function index(
         expertise,
         terms,
         party,
-        geography,
+        constituency,
+        state,
         house,
         session
     }
 ) {
     let filter = {};
+    let geography = [];
     if (q) filter.name = { $regex: q, $options: 'i' };
     if (gender) filter.gender = gender;
 
     if (ageMin && ageMax) filter.dob = { 
         '$lte': moment().subtract(ageMin, 'years').unix() * 1000, 
         '$gte': moment().subtract(ageMax, 'years').unix() * 1000
-    }
-    else if (ageMin) filter.dob = {'$lte': moment().subtract(ageMin, 'years').unix() * 1000};
-    else if (ageMax) filter.dob = {'$gte': moment().subtract(ageMax, 'years').unix() * 1000};
+    };
+    else if (ageMin) filter.dob = { '$lte': moment().subtract(ageMin, 'years').unix() * 1000 };
+    else if (ageMax) filter.dob = { '$gte': moment().subtract(ageMax, 'years').unix() * 1000 };
 
     if (maritalStatus && maritalStatus.length > 0)
         filter.maritalStatus = { $in: maritalStatus };
@@ -43,8 +45,22 @@ export async function index(
     if (daughters && daughters.length > 0) filter.daughters = { $in: daughters };
     if (terms) filter.terms = { $size: terms };
     if (party && party.length > 0) filter['terms.party'] = { $in: party };
-    if (geography && geography.length > 0)
-        filter['terms.geography'] = { $in: geography };
+    if (constituency && constituency.length > 0)
+        geography = geography.concat(constituency);
+    if(state && state.length > 0){
+        geography = geography.concat(state);
+
+        const stateConstituency = await db
+            .collection(config.db.geographies)
+            .find({ parent: { $in: state } })
+            .sort({ GID: 1 })
+            .project({ GID: 1 })
+            .toArray();
+
+        geography = geography.concat(stateConstituency.map(constituency => constituency.GID));
+    }
+    if(geography && geography.length > 0)
+        filter['terms.geography'] = { $in : geography }; 
     if (house && house.length > 0) filter['terms.house'] = { $in: house };
     if (session && session.length > 0) filter['terms.session'] = { $in: session };
 

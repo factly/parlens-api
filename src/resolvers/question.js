@@ -53,9 +53,9 @@ export async function index(
     if (ageMin && ageMax) nestedFilter.dob = { 
         '$lte': moment().subtract(ageMin, 'years').unix() * 1000, 
         '$gte': moment().subtract(ageMax, 'years').unix() * 1000
-    }
-    else if (ageMin) nestedFilter.dob = {'$lte': moment().subtract(ageMin, 'years').unix() * 1000};
-    else if (ageMax) nestedFilter.dob = {'$gte': moment().subtract(ageMax, 'years').unix() * 1000};
+    };
+    else if (ageMin) nestedFilter.dob = { '$lte': moment().subtract(ageMin, 'years').unix() * 1000 };
+    else if (ageMax) nestedFilter.dob = { '$gte': moment().subtract(ageMax, 'years').unix() * 1000 };
     if (maritalStatus && maritalStatus.length > 0)
         nestedFilter['maritalStatus'] = { $in: maritalStatus };
     if (education && education.length > 0)
@@ -71,8 +71,6 @@ export async function index(
     if (party && party.length > 0) nestedFilter['terms.party'] = { $in: party };
     if (geography && geography.length > 0)
         nestedFilter['terms.geography'] = { $in: geography };
-
-    console.log(nestedFilter);
    
     if (Object.keys(nestedFilter).length > 0) {
 

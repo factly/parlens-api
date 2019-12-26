@@ -135,7 +135,7 @@ export default new GraphQLObjectType({
             resolve(parent, args, context, info) {
                 return parent.terms
                     .filter(term => term.geography !== 'NA' && term.house !== 'NA' && term.party !== 'NA')
-                    .sort((a, b) => a.to - b.to)
+                    .sort((a, b) => a.to - b.to);
             }
         }
     })

@@ -7,8 +7,8 @@ export async function index(
         page,
         q,
         gender,
-        age_min,
-        age_max,
+        dobMin,
+        dobMax,
         maritalStatus,
         sons,
         daughters,
@@ -26,12 +26,12 @@ export async function index(
     if (q) filter.name = { $regex: q, $options: 'i' };
     if (gender) filter.gender = gender;
 
-    if (age_min && age_max) filter.dob = { 
-        '$lte': age_min, 
-        '$gte': age_max
+    if (dobMin && dobMax) filter.dob = { 
+        '$lte': dobMin, 
+        '$gte': dobMax
     }
-    else if (age_min) filter.dob = {'$lte': age_min};
-    else if (age_max) filter.dob = {'$gte': age_max};
+    else if (dobMin) filter.dob = {'$lte': dobMin};
+    else if (dobMax) filter.dob = {'$gte': dobMax};
 
     if (maritalStatus && maritalStatus.length > 0)
         filter.maritalStatus = { $in: maritalStatus };

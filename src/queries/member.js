@@ -46,11 +46,11 @@ export function MemberIndex() {
                 type: GraphQLString,
                 description: 'Gender'
             },
-            age_min: {
+            dobMin: {
                 type: GraphQLFloat,
                 description: 'dob max'
             },
-            age_max: {
+            dobMax: {
                 type: GraphQLFloat,
                 description: 'dob min'
             },

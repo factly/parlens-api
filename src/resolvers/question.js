@@ -10,8 +10,8 @@ export async function index(
         ministry,
         questionBy,
         gender,
-        age_min,
-        age_max,
+        dobMax,
+        dobMin,
         maritalStatus,
         sons,
         daughters,
@@ -48,12 +48,12 @@ export async function index(
     }
     
     if (gender) nestedFilter['gender'] = { $in: gender };
-    if (age_min && age_max) nestedFilter.dob = { 
-        '$lte': age_min, 
-        '$gte': age_max
+    if (dobMin && dobMax) nestedFilter.dob = { 
+        '$lte': dobMin, 
+        '$gte': dobMax
     }
-    else if (age_min) nestedFilter.dob = {'$lte': age_min};
-    else if (age_max) nestedFilter.dob = {'$gte': age_max};
+    else if (dobMin) nestedFilter.dob = {'$lte': dobMin};
+    else if (dobMax) nestedFilter.dob = {'$gte': dobMax};
     if (maritalStatus && maritalStatus.length > 0)
         nestedFilter['maritalStatus'] = { $in: maritalStatus };
     if (education && education.length > 0)

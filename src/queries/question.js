@@ -66,11 +66,11 @@ export function QuestionIndex() {
                 type: new GraphQLList(GraphQLInt),
                 description: 'Gender'
             }, 
-            age_min: {
+            dobMin: {
                 type: GraphQLFloat,
                 description: 'dob max'
             },
-            age_max: {
+            dobMax: {
                 type: GraphQLFloat,
                 description: 'dob min'
             },

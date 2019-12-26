@@ -10,7 +10,8 @@ export async function index(
         ministry,
         questionBy,
         gender,
-        dob,
+        age_min,
+        age_max,
         maritalStatus,
         sons,
         daughters,
@@ -47,6 +48,12 @@ export async function index(
     }
     
     if (gender) nestedFilter['gender'] = { $in: gender };
+    if (age_min && age_max) nestedFilter.dob = { 
+        '$lte': age_min, 
+        '$gte': age_max
+    }
+    else if (age_min) nestedFilter.dob = {'$lte': age_min};
+    else if (age_max) nestedFilter.dob = {'$gte': age_max};
     if (maritalStatus && maritalStatus.length > 0)
         nestedFilter['maritalStatus'] = { $in: maritalStatus };
     if (education && education.length > 0)
@@ -62,6 +69,8 @@ export async function index(
     if (party && party.length > 0) nestedFilter['terms.party'] = { $in: party };
     if (geography && geography.length > 0)
         nestedFilter['terms.geography'] = { $in: geography };
+
+    console.log(nestedFilter);
    
     if (Object.keys(nestedFilter).length > 0) {
 

@@ -4,6 +4,7 @@ import {
     GraphQLString,
     GraphQLNonNull,
     GraphQLObjectType,
+    GraphQLFloat,
 } from 'graphql';
 // import the resolver
 import { index, single } from '../resolvers/member';
@@ -46,11 +47,11 @@ export function MemberIndex() {
                 description: 'Gender'
             },
             age_min: {
-                type: GraphQLInt,
+                type: GraphQLFloat,
                 description: 'dob max'
             },
             age_max: {
-                type: GraphQLInt,
+                type: GraphQLFloat,
                 description: 'dob min'
             },
             maritalStatus: {

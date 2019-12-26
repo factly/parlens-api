@@ -27,11 +27,11 @@ export async function index(
     if (gender) filter.gender = gender;
 
     if (age_min && age_max) filter.dob = { 
-        '$lte': moment().subtract('years', age_min).unix() * 1000, 
-        '$gte': moment().subtract('years', age_max).unix() * 1000
+        '$lte': age_min, 
+        '$gte': age_max
     }
-    else if (age_min) filter.dob = {'$lte': moment().subtract('years', age_min).unix() * 1000};
-    else if (age_max) filter.dob = {'$gte': moment().subtract('years', age_max).unix() * 1000};
+    else if (age_min) filter.dob = {'$lte': age_min};
+    else if (age_max) filter.dob = {'$gte': age_max};
 
     if (maritalStatus && maritalStatus.length > 0)
         filter.maritalStatus = { $in: maritalStatus };
@@ -47,6 +47,8 @@ export async function index(
         filter['terms.geography'] = { $in: geography };
     if (house && house.length > 0) filter['terms.house'] = { $in: house };
     if (session && session.length > 0) filter['terms.session'] = { $in: session };
+
+    console.log(filter)
 
     const pageLimit = limit && limit > 0 && limit <= 20 ? limit : 10;
     const pageSkip = page ? (page - 1) * pageLimit : 0;

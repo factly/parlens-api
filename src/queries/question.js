@@ -4,6 +4,7 @@ import {
     GraphQLString,
     GraphQLNonNull,
     GraphQLObjectType,
+    GraphQLFloat
 } from 'graphql';
 // import the resolver
 import { index, single } from '../resolvers/question';
@@ -64,10 +65,14 @@ export function QuestionIndex() {
             gender: {
                 type: new GraphQLList(GraphQLInt),
                 description: 'Gender'
+            }, 
+            age_min: {
+                type: GraphQLFloat,
+                description: 'dob max'
             },
-            dob: {
-                type: GraphQLString,
-                description: 'dob'
+            age_max: {
+                type: GraphQLFloat,
+                description: 'dob min'
             },
             maritalStatus: {
                 type: new GraphQLList(GraphQLInt),

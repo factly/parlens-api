@@ -95,7 +95,7 @@ export function MemberIndex() {
                 description: 'List of state ID'
             },
             house: {
-                type: new GraphQLList(GraphQLString),
+                type: new GraphQLList(GraphQLInt),
                 description: 'House'
             },
             session: {

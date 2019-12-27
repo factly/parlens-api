@@ -46,11 +46,11 @@ export function QuestionIndex() {
                 type: GraphQLString,
                 description: 'Question Search Word'
             },
-            house: {
-                type: GraphQLString,
+            questionHouse: {
+                type: GraphQLInt,
                 description: 'House'
             },
-            type: {
+            questionType: {
                 type: GraphQLString,
                 description: 'Type'
             },
@@ -113,6 +113,14 @@ export function QuestionIndex() {
             state: {
                 type: new GraphQLList(GraphQLInt),
                 description: 'List of states ID'
+            },
+            house: {
+                type: new GraphQLList(GraphQLInt),
+                description: 'List of constituencies ID'
+            },
+            session: {
+                type: new GraphQLList(GraphQLInt),
+                description: 'Session'
             }
         },
         resolve(parent, args, context, info) {

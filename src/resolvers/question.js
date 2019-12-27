@@ -7,7 +7,7 @@ export async function index(
         page,
         sort,
         q,
-        house,
+        questionHouse,
         type,
         ministry,
         questionBy,
@@ -23,15 +23,17 @@ export async function index(
         terms,
         party,
         constituency,
-        state
+        state,
+        house,
+        session
     }
 ) {
     let filter = {};
     let nestedFilter = {};
     let geography = [];
     if (q) filter.subject = { $regex: q, $options: 'i' };
-    if (house) filter.house = house;
-    if (type) filter.type = type;
+    if (questionHouse) filter.house = questionHouse;
+    if (questionType) filter.type = questionType;
     if (ministry && ministry.length > 0) filter.ministry = { $in: ministry };
 
     if(constituency && constituency.length > 0)
@@ -69,6 +71,9 @@ export async function index(
         nestedFilter['daughters'] = { $in: daughters };
     if (terms) nestedFilter['terms'] = { $size: terms };
     if (party && party.length > 0) nestedFilter['terms.party'] = { $in: party };
+    if (house && house.length > 0) nestedFilter['terms.house'] = { $in: house };
+    if (session && session.length > 0) nestedFilter['session.party'] = { $in: session };
+    
     if (geography && geography.length > 0)
         nestedFilter['terms.geography'] = { $in: geography };
    

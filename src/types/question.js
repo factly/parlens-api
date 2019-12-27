@@ -7,6 +7,7 @@ import {
 
 import MemberType from './member';
 import MinistryType from './ministry';
+import HouseType from "./house";
 
 export default new GraphQLObjectType({
     name: 'question',
@@ -41,8 +42,11 @@ export default new GraphQLObjectType({
             description: 'Question answer'
         },
         house: {
-            type: GraphQLString,
-            description: 'Question house'
+            type: HouseType,
+            description: 'Question house',
+            resolve(parent, args, context, info) {
+                return context.loaders.houses.load(parent.house);
+            }
         },
         ministry: {
             type: MinistryType,

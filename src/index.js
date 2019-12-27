@@ -45,7 +45,7 @@ app.use(
     '/graphql',
     expressGraphQL(async req => { 
         const context = {
-            logger: (level, msg) => logger.log(level, `${req.ip} ${req.headers['request-id']} ${msg}`),
+            logger: (level, msg) => logger.log(level, `[IP:${req.ip}] [request-id:${req.headers['request-id']}] ${msg}`),
             config,
             db: await mongo
         };

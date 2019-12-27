@@ -8,7 +8,7 @@ export async function index(
         sort,
         q,
         questionHouse,
-        type,
+        questionType,
         ministry,
         questionBy,
         gender,

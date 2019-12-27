@@ -47,7 +47,7 @@ export function QuestionIndex() {
                 description: 'Question Search Word'
             },
             questionHouse: {
-                type: GraphQLInt,
+                type: new GraphQLList(GraphQLInt),
                 description: 'House'
             },
             questionType: {

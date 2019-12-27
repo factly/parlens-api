@@ -32,7 +32,7 @@ export async function index(
     let nestedFilter = {};
     let geography = [];
     if (q) filter.subject = { $regex: q, $options: 'i' };
-    if (questionHouse) filter.house = questionHouse;
+    if (questionHouse) filter.house = { $in: questionHouse };
     if (questionType) filter.type = questionType;
     if (ministry && ministry.length > 0) filter.ministry = { $in: ministry };
 

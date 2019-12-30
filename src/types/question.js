@@ -58,6 +58,14 @@ export default new GraphQLObjectType({
         date: {
             type: GraphQLString,
             description: 'Question asked date'
-        }
+        },
+        hindiPdf: {
+            type: GraphQLString,
+            description: 'Question Hindi PDF link'
+        },
+        englishPdf: {
+            type: GraphQLString,
+            description: 'Question English PDF link'
+        },
     })
 });

@@ -26,7 +26,7 @@ export async function index(
     let filter = {};
     let geography = [];
     if (q) filter.name = { $regex: q, $options: 'i' };
-    if (gender) filter.gender = gender;
+    if (gender) filter.gender = { $in: gender };
 
     if (ageMin && ageMax) filter.dob = { 
         '$lte': moment().subtract(ageMin, 'years').unix() * 1000, 

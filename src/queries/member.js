@@ -43,7 +43,7 @@ export function MemberIndex() {
                 description: 'Member Name'
             },
             gender: {
-                type: GraphQLString,
+                type: new GraphQLList(GraphQLInt),
                 description: 'Gender'
             },
             ageMin: {
@@ -55,7 +55,7 @@ export function MemberIndex() {
                 description: 'dob min'
             },
             maritalStatus: {
-                type: new GraphQLList(GraphQLString),
+                type: new GraphQLList(GraphQLInt),
                 description: 'merital status'
             },
             sons: {
@@ -67,7 +67,7 @@ export function MemberIndex() {
                 description: 'daughters'
             },
             education: {
-                type: new GraphQLList(GraphQLString),
+                type: new GraphQLList(GraphQLInt),
                 description: 'education'
             },
             profession: {

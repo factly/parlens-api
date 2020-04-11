@@ -1,0 +1,40 @@
+{
+  "parser": "babel-eslint",
+  "rules": {
+    "indent": [
+        2
+    ],
+    "quotes": [
+        2,
+        "single"
+    ],
+    "linebreak-style": [
+        2,
+        "unix"
+    ],
+    "semi": [
+        2,
+        "always"
+    ],
+    "no-console": 1,
+    "comma-dangle": ["error", {
+        "arrays": "always-multiline",
+        "imports": "always-multiline",
+        "exports": "always-multiline",
+        "functions": "never"
+    }],
+    "object-curly-spacing": ["error", "always"],
+    "max-len": ["error", {
+        "code": 300,
+        "ignoreUrls": true,
+        "ignoreComments": false,
+        "ignoreRegExpLiterals": true,
+        "ignoreStrings": true,
+        "ignoreTemplateLiterals": true
+    }],
+    "no-use-before-define": ["error", {
+        "functions": false,
+        "classes": true
+    }]
+  }
+}

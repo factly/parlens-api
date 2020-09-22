@@ -8,6 +8,7 @@ import {
 import MemberType from './member';
 import MinistryType from './ministry';
 import HouseType from "./house";
+import moment from 'moment';
 
 export default new GraphQLObjectType({
     name: 'question',
@@ -57,7 +58,10 @@ export default new GraphQLObjectType({
         },
         date: {
             type: GraphQLString,
-            description: 'Question asked date'
+            description: 'Question asked date',
+            resolve(parent, args, context, info) {
+                return moment(parent.date, 'YYYY-MM-DD').valueOf();
+            }
         },
         hindiPdf: {
             type: GraphQLString,

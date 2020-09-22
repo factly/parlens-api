@@ -65,10 +65,7 @@ export default new GraphQLObjectType({
                     2: 'Male',
                     3: 'Other'
                 };
-                if(genderParser[parent.gender])
-                    return genderParser[parent.gender];
-                else
-                    return "Not Available'"
+                return genderParser[parent.gender] ? genderParser[parent.gender] : "Not Available";
             }
         },
         dob: {
@@ -90,7 +87,7 @@ export default new GraphQLObjectType({
                     4: 'Unmarried',
                     5: 'Widower'
                 };
-                return maritalParser[parent.maritalStatus];
+                return maritalParser[parent.maritalStatus] ? maritalParser[parent.maritalStatus] : "Not Available";
             }
         },
         sons: {
@@ -121,7 +118,7 @@ export default new GraphQLObjectType({
                     5: 'High School',
                     6: 'Not Mentioned'
                 };
-                return educationParser[parent.education];
+                return educationParser[parent.education] ? educationParser[parent.education] : "Not Available";
             }
         },
         expertise: {

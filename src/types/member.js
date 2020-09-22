@@ -65,7 +65,10 @@ export default new GraphQLObjectType({
                     2: 'Male',
                     3: 'Other'
                 };
-                return genderParser[parent.gender];
+                if(genderParser[parent.gender])
+                    return genderParser[parent.gender];
+                else
+                    return "Not Available'"
             }
         },
         dob: {
